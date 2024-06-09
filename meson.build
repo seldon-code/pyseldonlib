@@ -11,8 +11,8 @@ seldon_dep = seldon_subproj.get_variable('seldon_static_dep')
 
 deps += [seldon_dep]
 
-py_dep = import('python').find_installation('python', modules: ['numpy']).dependency()
-deps += py_dep 
+py = import('python').find_installation('python')
+deps += py.dependency() 
 
 # todo: might require numpy dependency
 
