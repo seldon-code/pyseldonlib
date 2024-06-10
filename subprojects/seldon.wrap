@@ -1,5 +1,5 @@
 [wrap-git]
 directory = seldon
 url = https://github.com/User-DK/seldon.git
-revision = head
+revision = develop
 depth = 1

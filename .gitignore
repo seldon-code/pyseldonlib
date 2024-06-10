@@ -33,6 +33,7 @@
 
 #subprojects
 /subprojects/seldon/
+/trial/
 
 #vscode
 .vscode/
