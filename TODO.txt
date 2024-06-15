@@ -1,0 +1,21 @@
+meson.build:30: WARNING: include_directories sandbox violation!
+The project is trying to access the directory 'subprojects/seldon/include' which belongs to a different
+subproject. This is a problem as it hardcodes the relative paths of these two projects.
+This makes it impossible to compile the project in any other directory layout and also
+prevents the subproject from changing its own directory layout.
+
+Instead of poking directly at the internals the subproject should be executed and
+it should set a variable that the caller can then use. Something like:
+
+# In subproject
+some_dep = declare_dependency(include_directories: include_directories('include'))
+
+# In subproject wrap file
+[provide]
+some = some_dep
+
+# In parent project
+some_dep = dependency('some')
+executable(..., dependencies: [some_dep])
+
+This warning will become a hard error in a future Meson release.

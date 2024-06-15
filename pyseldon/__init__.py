@@ -1,1 +1,1 @@
-from seldoncore import pyseldon
+from pyseldon import seldoncore

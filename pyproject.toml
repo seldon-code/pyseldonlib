@@ -1,7 +1,7 @@
 [project]
-name = "pybind11_demo"
+name = "pyseldon"
 version = "1.0"
-description="Demo Python Bindings"
+description=""
 authors = [
     {name = "Amrita Goswami", email = "amrita16thaug646@gmail.com"},
     {name = "Moritz Sallermann", email = "moritzsallermann@gmail.com"},
@@ -19,3 +19,6 @@ license = {text = "GPL v3"}  # just mention the license text to not clutter the 
 [build-system]
 requires = ["pybind11","meson-python"]
 build-backend= "mesonpy"
+
+[tool.meson-python.args]
+install = ['--skip-subprojects']
