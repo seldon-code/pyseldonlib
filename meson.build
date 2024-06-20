@@ -1,8 +1,8 @@
 project('pyseldon', 'cpp', 
     default_options: ['cpp_std=c++20'])
 
-args = ['-fPIC']
-deps = []
+_args = ['-fPIC']
+_deps = []
 
 
 cppc = meson.get_compiler('cpp')
@@ -12,20 +12,20 @@ seldon_subproj = subproject('seldon', default_options: ['default_library=static'
                                                         'build_exe=false'])
 seldon_dep = seldon_subproj.get_variable('seldon_static_dep')
 
-deps += [seldon_dep]
+_deps += [seldon_dep]
 
 py = import('python').find_installation('python')
-deps += py.dependency() 
+_deps += py.dependency() 
 
 # todo: might require numpy dependency
 fmt_dep = dependency('fmt')
-deps+= fmt_dep
+_deps+= fmt_dep
 
 pyb11_dep = [
   py.dependency(),
   dependency('pybind11')
 ]
-deps += [pyb11_dep]
+_deps += [pyb11_dep]
 
 incdir = include_directories('subprojects/seldon/include')
 
@@ -36,8 +36,8 @@ py.extension_module(
     'python_bindings/bindings.cpp'
   ],
   include_directories: incdir,
-  dependencies: deps,
-  cpp_args : args,
+  dependencies: _deps,
+  cpp_args : _args,
   install: true,
   subdir: 'pyseldon/'
 )
