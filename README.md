@@ -26,5 +26,5 @@ pip install .
 ### Run the tests
 Use `pytest` to run the tests:
 ```bash
-pytest tests
+pytest tests/test.py
 ```
