@@ -37,3 +37,8 @@
 
 #vscode
 .vscode/
+
+notes.txt
+TODO.txt
+tests/__pycache__/
+.pytest*
