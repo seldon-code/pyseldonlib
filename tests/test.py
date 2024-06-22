@@ -44,5 +44,22 @@ def test_run_simulation(capsys):
     if os.path.exists(output_dir):
         shutil.rmtree(output_dir)
 
+
+def test_settings():
+    degroot_settings = pd.seldoncore.DeGrootSettings()
+    output_settings = pd.seldoncore.OutputSettings()
+    deffuant_settings = pd.seldoncore.DeffuantSettings()
+    activitydriven_settings = pd.seldoncore.ActivityDrivenSettings()
+    activitydriveninertial_settings = pd.seldoncore.ActivityDrivenInertialSettings()
+    initial_network_settings = pd.seldoncore.InitialNetworkSettings()
+
+    assert degroot_settings is not None
+    assert output_settings is not None
+    assert deffuant_settings is not None
+    assert activitydriven_settings is not None
+    assert activitydriveninertial_settings is not None
+    assert initial_network_settings is not None
+    assert activitydriveninertial_settings.covariance_factor == 0.0
+
 if __name__ == "__main__":
     pytest.main([__file__])
