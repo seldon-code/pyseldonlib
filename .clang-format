@@ -1,16 +1,14 @@
 ---
-#official clang-format configuration file for pybind11 from https://github.com/pybind/pybind11/blob/master/.clang-format
+#from https://github.com/pybind/pybind11/blob/master/.clang-format
 # See all possible options and defaults with:
 # clang-format --style=llvm --dump-config
-BasedOnStyle: LLVM
 AccessModifierOffset: -4
 AllowShortLambdasOnASingleLine: true
 AlwaysBreakTemplateDeclarations: Yes
 BinPackArguments: false
 BinPackParameters: false
 BreakBeforeBinaryOperators: All
-BreakConstructorInitializers: BeforeColon
-ColumnLimit: 99
+ColumnLimit: 150
 CommentPragmas: 'NOLINT:.*|^ IWYU pragma:'
 IncludeBlocks: Regroup
 IndentCaseLabels: true
@@ -20,7 +18,7 @@ Language: Cpp
 SpaceAfterCStyleCast: true
 Standard: Cpp11
 StatementMacros: ['PyObject_HEAD']
-TabWidth: 4
+TabWidth: 2
 IncludeCategories:
   - Regex:           '<pybind11/.*'
     Priority:        -1

@@ -1,3 +1,15 @@
+#subprojects
+/subprojects/seldon/
+
+#vscode
+.vscode/
+
+notes.txt
+TODO.txt
+tests/__pycache__/
+tests/outputs/
+.pytest*
+
 # Prerequisites
 *.d
 
@@ -30,16 +42,3 @@
 *.exe
 *.out
 *.app
-
-#subprojects
-/subprojects/seldon/
-/trial/
-
-#vscode
-.vscode/
-
-notes.txt
-TODO.txt
-tests/__pycache__/
-tests/outputs/
-.pytest*
