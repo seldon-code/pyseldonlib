@@ -1,5 +1,5 @@
 project('pyseldon', 'cpp', 
-    default_options: ['cpp_std=c++20'])
+    default_options: ['cpp_std=c++20', 'warning_level=everything'])
 
 _args = ['-fPIC']
 _deps = []
@@ -7,7 +7,7 @@ _deps = []
 
 cppc = meson.get_compiler('cpp')
 
-# todo change the repository name in wrap
+# TODO(USER-DK)- change the repo name in git wrap
 seldon_subproj = subproject('seldon', default_options: ['default_library=static','build_tests=false', 
                                                         'build_exe=false'])
 seldon_dep = seldon_subproj.get_variable('seldon_static_dep')
@@ -27,7 +27,7 @@ pyb11_dep = [
 ]
 _deps += [pyb11_dep]
 
-incdir = include_directories('subprojects/seldon/include')
+incdir = include_directories('subprojects/')
 
 # ask: name of the module
 py.extension_module(

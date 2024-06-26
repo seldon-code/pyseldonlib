@@ -1,12 +1,12 @@
-#include "config_parser.hpp"
-#include "model.hpp"
-#include "model_factory.hpp"
-#include "models/ActivityDrivenModel.hpp"
-#include "models/DeGroot.hpp"
-#include "models/DeffuantModel.hpp"
-#include "models/InertialModel.hpp"
-#include "network.hpp"
-#include "simulation.hpp"
+#include "seldon/include/config_parser.hpp"
+#include "seldon/include/model.hpp"
+#include "seldon/include/model_factory.hpp"
+#include "seldon/include/models/ActivityDrivenModel.hpp"
+#include "seldon/include/models/DeGroot.hpp"
+#include "seldon/include/models/DeffuantModel.hpp"
+#include "seldon/include/models/InertialModel.hpp"
+#include "seldon/include/network.hpp"
+#include "seldon/include/simulation.hpp"
 
 #include <cstddef>
 #include <optional>
@@ -564,7 +564,7 @@ PYBIND11_MODULE(seldoncore, m) {
                  py::print("Which can be changed using the SimulationOptions instance");
                  return simulation_options;
              }),
-             "model_string"_a = "",
+             "model_string"_a = "DeGroot",
              "rng_seed"_a = std::random_device()(),
              "output_settings"_a = Seldon::Config::OutputSettings{},
              "model_settings"_a = Seldon::Config::DeGrootSettings{},
