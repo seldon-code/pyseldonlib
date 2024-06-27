@@ -77,7 +77,6 @@ def test_simulation_with_simulationOptions():
     output_settings = pd.seldoncore.OutputSettings()
     initial_network_settings = pd.seldoncore.InitialNetworkSettings()
     simulation_options = pd.seldoncore.SimulationOptions()
-    simulation_options.rng_seed = 1
     simulation_options.output_settings = output_settings
     simulation_options.model_settings = degroot_settings
     simulation_options.network_settings = initial_network_settings

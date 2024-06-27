@@ -9,6 +9,7 @@ TODO.txt
 tests/__pycache__/
 tests/outputs/
 .pytest*
+output/
 
 # Prerequisites
 *.d
