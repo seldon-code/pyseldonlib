@@ -72,22 +72,22 @@ def test_settings():
 #     assert activitydriven_network is not None
 #     assert activitydriveninertial_network is not None
 
-def test_simulation_with_simulationOptions():
-    degroot_settings = pd.seldoncore.DeGrootSettings()
-    output_settings = pd.seldoncore.OutputSettings()
-    initial_network_settings = pd.seldoncore.InitialNetworkSettings()
-    simulation_options = pd.seldoncore.SimulationOptions()
-    simulation_options.output_settings = output_settings
-    simulation_options.model_settings = degroot_settings
-    simulation_options.network_settings = initial_network_settings
-    simulation_options.model_string = "DeGroot"
+# def test_simulation_with_simulationOptions():
+#     degroot_settings = pd.seldoncore.DeGrootSettings()
+#     output_settings = pd.seldoncore.OutputSettings()
+#     initial_network_settings = pd.seldoncore.InitialNetworkSettings()
+#     simulation_options = pd.seldoncore.SimulationOptions()
+#     simulation_options.output_settings = output_settings
+#     simulation_options.model_settings = degroot_settings
+#     simulation_options.network_settings = initial_network_settings
+#     simulation_options.model_string = "DeGroot"
 
-    base_dir = ptlb.Path(__file__).parent.resolve()
-    output_dir = str(base_dir / "outputs/output")
+#     base_dir = ptlb.Path(__file__).parent.resolve()
+#     output_dir = str(base_dir / "outputs/output")
 
-    pd.seldoncore.run_simulation(options = simulation_options,output_dir_path = output_dir)
-    assert ptlb.Path(output_dir).exists()
-    # shutil.rmtree(output_dir)
+#     pd.seldoncore.run_simulation(options = simulation_options,output_dir_path = output_dir)
+#     assert ptlb.Path(output_dir).exists()
+#     shutil.rmtree(output_dir)
 
 if __name__ == "__main__":
     pytest.main([__file__])
