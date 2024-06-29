@@ -1,5 +1,5 @@
 project('pyseldon', 'cpp', 
-    default_options: ['cpp_std=c++20', 'warning_level=everything'])
+    default_options: ['cpp_std=c++20', 'warning_level=3'])
 
 _args = ['-fPIC']
 _deps = []
@@ -27,15 +27,13 @@ pyb11_dep = [
 ]
 _deps += [pyb11_dep]
 
-incdir = include_directories('subprojects/')
-
 # ask: name of the module
 py.extension_module(
   'seldoncore',
   sources : [
     'python_bindings/bindings.cpp'
   ],
-  include_directories: incdir,
+  # include_directories: incdir,
   dependencies: _deps,
   cpp_args : _args,
   install: true,
