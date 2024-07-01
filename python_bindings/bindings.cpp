@@ -21,6 +21,7 @@
 #include <optional>
 #include <random>
 #include <variant>
+#include <set>
 
 // pybind11 headers
 #include <pybind11/operators.h>
@@ -78,22 +79,7 @@ void run_simulation(const std::optional<std::string> &config_file_path,
 }
 
 template <typename AgentT, typename WeightT = double>
-void generate_networks_bindings(py::module &m, std::string network_model) {
-    std::string network_classname;
-    if (network_model == "DeGroot") {
-        network_classname = "DeGrootNetwork";
-    } else if (network_model == "Deffuant") {
-        network_classname = "DeffuantNetwork";
-    } else if (network_model == "ActivityDriven") {
-        network_classname = "ActivityDrivenNetwork";
-    } else if (network_model == "ActivityDrivenInertial") {
-        network_classname = "InertialNetwork";
-    } else if (network_model == "DeffuantVector") {
-        network_classname = "DeffuantVectorNetwork";
-    } else if (network_model == "None") {
-        network_classname = "Network";
-    }
-
+void generate_networks_bindings(py::module &m, std::string network_classname) {
     py::class_<Seldon::Network<AgentT, WeightT>>(m, network_classname.c_str())
         .def(py::init<>())
         .def(py::init<const std::size_t>())
@@ -143,24 +129,6 @@ void generate_networks_bindings(py::module &m, std::string network_model) {
         .def("remove_double_counting", &Seldon::Network<AgentT, WeightT>::remove_double_counting)
         .def("clear", &Seldon::Network<AgentT, WeightT>::clear);
 }
-
-// network generating functions
-// template <typename AgentType>
-// void generate_network_generation_bindings(py::module &m, std::string network_model) {
-// m.def(
-//             "generate_n_connections_degroot",
-//             [](std::size_t n_agents, std::size_t n_connections, bool self_interaction, std::size_t seed) {
-//                 std::mt19937 gen(seed);
-//                 return Seldon::NetworkGeneration::generate_n_connections<Seldon::DeGrootModel::AgentT>(
-//                     n_agents, n_connections, self_interaction, gen);
-//             },
-//             "n_agents"_a,
-//             "n_connections"_a,
-//             "self_interaction"_a = false,
-//             "seed"_a = 0);
-// m.def("generate_fully_connected" + network_model,
-//       static_cast<Seldon::Network<AgentType> (*)(std::size_t)>(&Seldon::NetworkGeneration::generate_fully_connected<AgentType>),
-//       py::arg("n_agents"), py::arg("weight") = 0.0);
 
 // m.def("generate_fully_connected",
 //       static_cast<Seldon::Network<AgentType> (*)(std::size_t, std::mt19937
@@ -524,30 +492,31 @@ PYBIND11_MODULE(seldoncore, m) {
         .def_readwrite("reluctance_mean", &Seldon::Config::ActivityDrivenInertialSettings::reluctance_mean)
         .def_readwrite("reluctance_sigma", &Seldon::Config::ActivityDrivenInertialSettings::reluctance_sigma)
         .def_readwrite("reluctance_eps", &Seldon::Config::ActivityDrivenInertialSettings::reluctance_eps)
-        .def_readwrite("covariance_factor", &Seldon::Config::ActivityDrivenInertialSettings::covariance_factor);
+        .def_readwrite("covariance_factor", &Seldon::Config::ActivityDrivenInertialSettings::covariance_factor)
+        def_readwrite("friction_coefficient", &Seldon::Config::ActivityDrivenInertialSettings::friction_coefficient);
 
     // InitialNetwork setting instance to be passed in the simulation options
     py::class_<Seldon::Config::InitialNetworkSettings>(m, "InitialNetworkSettings")
-        .def(py::init([](std::optional<std::string> file, size_t n_agents = 200, size_t n_connections = 10) {
+        .def(py::init([](std::optional<std::string> file, size_t number_of_agents = 200, size_t connections_per_agent = 10) {
                  Seldon::Config::InitialNetworkSettings initial_network_settings;
                  py::print("Using Initial Network Settings");
                  py::print(py::str("file            : {} (String)").format(file));
-                 py::print(py::str("n_agents        : {} (Int)").format(n_agents));
-                 py::print(py::str("n_connections   : {} (Int)").format(n_connections));
+                 py::print(py::str("number_of_agents        : {} (Int)").format(number_of_agents));
+                 py::print(py::str("connections_per_agent   : {} (Int)").format(connections_per_agent));
                  py::print("Which can be changed using the InitialNetworkSettings instance");
                  if (file.has_value()) {
                      initial_network_settings.file = file;
                  }
-                 initial_network_settings.n_agents = n_agents;
-                 initial_network_settings.n_connections = n_connections;
+                 initial_network_settings.n_agents = number_of_agents;
+                 initial_network_settings.n_connections = connections_per_agent;
                  return initial_network_settings;
              }),
              "file"_a = std::optional<std::string>{},
-             "n_agents"_a = 200,
-             "n_connections"_a = 10)
+             "number_of_agents"_a = 200,
+             "connections_per_agent"_a = 10)
         .def_readwrite("file", &Seldon::Config::InitialNetworkSettings::file)
-        .def_readwrite("n_agents", &Seldon::Config::InitialNetworkSettings::n_agents)
-        .def_readwrite("n_connections", &Seldon::Config::InitialNetworkSettings::n_connections);
+        .def_readwrite("number_of_agents", &Seldon::Config::InitialNetworkSettings::n_agents)
+        .def_readwrite("connections_per_agent", &Seldon::Config::InitialNetworkSettings::n_connections);
 
     py::class_<Seldon::Config::SimulationOptions>(m, "SimulationOptions")
         .def(py::init([](std::string model_string,
@@ -596,12 +565,11 @@ PYBIND11_MODULE(seldoncore, m) {
         .def_readwrite("network_settings", &Seldon::Config::SimulationOptions::network_settings);
     //--------------------------------------------------------------------------
 
-    generate_networks_bindings<Seldon::DeGrootModel::AgentT>(m, "DeGroot");
-    generate_networks_bindings<Seldon::DeffuantModel::AgentT>(m, "Deffuant");
-    generate_networks_bindings<Seldon::DeffuantModelVector::AgentT>(m, "DeffuantVector");
-    generate_networks_bindings<Seldon::ActivityDrivenModel::AgentT>(m, "ActivityDriven");
-    generate_networks_bindings<Seldon::InertialModel::AgentT>(m, "ActivityDrivenInertial");
-    generate_networks_bindings<double>(m, "None");
+    generate_networks_bindings<Seldon::DeGrootModel::AgentT>(m, "SimpleAgentNetwork");
+    generate_networks_bindings<Seldon::DeffuantModelVector::AgentT>(m, "DeffuantVectorNetwork");
+    generate_networks_bindings<Seldon::ActivityDrivenModel::AgentT>(m, "ActivityDrivenNetwork");
+    generate_networks_bindings<Seldon::InertialModel::AgentT>(m, "InertialNetwork");
+    generate_networks_bindings<double>(m, "Network");
 
     // generate_network_generation_bindings<Seldon::DeGrootModel::AgentT>(m);
     // generate_network_generation_bindings<Seldon::DeffuantModel::AgentT>(m);
@@ -612,6 +580,17 @@ PYBIND11_MODULE(seldoncore, m) {
         .def("iteration", &Seldon::DeGrootModel::iteration)
         .def("finished", &Seldon::DeGrootModel::finished);
 
+m.def(
+            "generate_n_connections",
+            [](std::size_t n_agents, std::size_t n_connections, bool self_interaction, std::size_t seed) {
+                std::mt19937 gen(seed);
+                return Seldon::NetworkGeneration::generate_n_connections<double>(
+                    n_agents, n_connections, self_interaction, gen);
+            },
+            "n_agents"_a,
+            "n_connections"_a,
+            "self_interaction"_a = false,
+            "seed"_a = 0);
     m.def(
             "generate_n_connections_degroot",
             [](std::size_t n_agents, std::size_t n_connections, bool self_interaction, std::size_t seed) {
@@ -671,6 +650,20 @@ PYBIND11_MODULE(seldoncore, m) {
             "n_connections"_a,
             "self_interaction"_a = false,
             "seed"_a = 0);
+
+    m.def("generate_fully_connected",
+          [](size_t n_agents, std::optional<typename Seldon::Network<Seldon::DeGrootModel::AgentT>::WeightT> weight, std::optional<size_t> seed){
+            if(seed.has_value()){
+                std::mt19937 gen(seed.value());
+              return Seldon::NetworkGeneration::generate_fully_connected<double>(n_agents, gen);
+            }
+            else if(weight.has_value()){
+              return Seldon::NetworkGeneration::generate_fully_connected<double>(n_agents, weight.value());
+            }
+            else{
+              return Seldon::NetworkGeneration::generate_fully_connected<double>(n_agents, 0.0);
+            }},
+          "n_agents"_a , "weight"_a, "seed"_a);
 
 
     m.def("generate_fully_connected_degroot",

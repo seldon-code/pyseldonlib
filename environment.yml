@@ -16,3 +16,7 @@ dependencies:
   - tomlplusplus
   - catch2 
   - pkg-config
+  # - pip
+  #   - sphinx
+  #   - sphinx-design
+  #   - sphinxcontrib-napoleon
