@@ -20,8 +20,8 @@
 #include <memory>
 #include <optional>
 #include <random>
-#include <variant>
 #include <set>
+#include <variant>
 
 // pybind11 headers
 #include <pybind11/operators.h>
@@ -39,7 +39,9 @@ void run_simulation(const std::optional<std::string> &config_file_path,
                     const std::optional<Seldon::Config::SimulationOptions> &options,
                     const std::optional<std::string> agent_file,
                     const std::optional<std::string> network_file,
-                    const std::optional<std::string> output_dir_path_cli) {
+                    const std::optional<std::string> output_dir_path_cli,
+                    py::list *initial_agents = nullptr,
+                    py::list *final_agents = nullptr) {
 
     fs::path output_dir_path = output_dir_path_cli.value_or(fs::path("./output"));
     fs::create_directories(output_dir_path);
@@ -56,27 +58,135 @@ void run_simulation(const std::optional<std::string> &config_file_path,
     Seldon::Config::validate_settings(simulation_options);
     Seldon::Config::print_settings(simulation_options);
 
-    std::unique_ptr<Seldon::SimulationInterface> simulation;
-
     if (simulation_options.model == Seldon::Config::Model::DeGroot) {
-        simulation = std::make_unique<Seldon::Simulation<Seldon::DeGrootModel::AgentT>>(simulation_options, network_file, agent_file);
+        auto simulation = Seldon::Simulation<Seldon::DeGrootModel::AgentT>(simulation_options, network_file, agent_file);
+        if (initial_agents) {
+            for (auto agent : simulation.network.agents) {
+                initial_agents->append(agent.data.opinion);
+            }
+        }
+        simulation.run(output_dir_path);
+
+        if (final_agents) {
+            for (auto agent : simulation.network.agents) {
+                final_agents->append(agent.data.opinion);
+            }
+        }
     } else if (simulation_options.model == Seldon::Config::Model::ActivityDrivenModel) {
-        simulation = std::make_unique<Seldon::Simulation<Seldon::ActivityDrivenModel::AgentT>>(simulation_options, network_file, agent_file);
+        auto simulation = Seldon::Simulation<Seldon::ActivityDrivenModel::AgentT>(simulation_options, network_file, agent_file);
+        if (initial_agents) {
+            for (auto agent : simulation.network.agents) {
+                py::list agent_data;
+                agent_data.append(agent.data.opinion);
+                agent_data.append(agent.data.activity);
+                agent_data.append(agent.data.reluctance);
+                initial_agents->append(agent_data);
+            }
+        }
+        simulation.run(output_dir_path);
+
+        if (final_agents) {
+            for (auto agent : simulation.network.agents) {
+                py::list agent_data;
+                agent_data.append(agent.data.opinion);
+                agent_data.append(agent.data.activity);
+                agent_data.append(agent.data.reluctance);
+                final_agents->append(agent_data);
+            }
+        }
+
     } else if (simulation_options.model == Seldon::Config::Model::ActivityDrivenInertial) {
-        simulation = std::make_unique<Seldon::Simulation<Seldon::InertialModel::AgentT>>(simulation_options, network_file, agent_file);
+        auto simulation = Seldon::Simulation<Seldon::InertialModel::AgentT>(simulation_options, network_file, agent_file);
+        if (initial_agents) {
+            for (auto agent : simulation.network.agents) {
+                py::list agent_data;
+                agent_data.append(agent.data.opinion);
+                agent_data.append(agent.data.activity);
+                agent_data.append(agent.data.reluctance);
+                agent_data.append(agent.data.velocity);
+                initial_agents->append(agent_data);
+            }
+        }
+
+        simulation.run(output_dir_path);
+
+        if (final_agents) {
+            for (auto agent : simulation.network.agents) {
+                py::list agent_data;
+                agent_data.append(agent.data.opinion);
+                agent_data.append(agent.data.activity);
+                agent_data.append(agent.data.reluctance);
+                agent_data.append(agent.data.velocity);
+                final_agents->append(agent_data);
+            }
+        }
     } else if (simulation_options.model == Seldon::Config::Model::DeffuantModel) {
         auto model_settings = std::get<Seldon::Config::DeffuantSettings>(simulation_options.model_settings);
         if (model_settings.use_binary_vector) {
-            simulation = std::make_unique<Seldon::Simulation<Seldon::DeffuantModelVector::AgentT>>(simulation_options, network_file, agent_file);
+            auto simulation = Seldon::Simulation<Seldon::DeffuantModelVector::AgentT>(simulation_options, network_file, agent_file);
+            if (initial_agents) {
+                for (auto agent : simulation.network.agents) {
+                    initial_agents->append(agent.data.opinion);
+                }
+            }
+
+            simulation.run(output_dir_path);
+
+            if (final_agents) {
+                for (auto agent : simulation.network.agents) {
+                    final_agents->append(agent.data.opinion);
+                }
+            }
         } else {
-            simulation = std::make_unique<Seldon::Simulation<Seldon::DeffuantModel::AgentT>>(simulation_options, network_file, agent_file);
+            auto simulation = Seldon::Simulation<Seldon::DeffuantModel::AgentT>(simulation_options, network_file, agent_file);
+            if (initial_agents) {
+                for (auto agent : simulation.network.agents) {
+                    initial_agents->append(agent.data.opinion);
+                }
+            }
+
+            simulation.run(output_dir_path);
+
+            if (final_agents) {
+                for (auto agent : simulation.network.agents) {
+                    final_agents->append(agent.data.opinion);
+                }
+            }
         }
     } else {
         throw std::runtime_error("Model has not been created");
     }
-
-    simulation->run(output_dir_path);
 }
+
+// Seldon::SimulationInterface *create_simulation(
+//                                                const Seldon::Config::SimulationOptions &options,
+//                                                const std::optional<std::string> agent_file,
+//                                                const std::optional<std::string> network_file) {
+
+//     Seldon::Config::validate_settings(options);
+//     Seldon::Config::print_settings(options);
+
+//     Seldon::SimulationInterface *simulation;
+
+//     if (options.model == Seldon::Config::Model::DeGroot) {
+//         simulation = new Seldon::Simulation<Seldon::DeGrootModel::AgentT>(options, network_file, agent_file);
+
+//     } else if (options.model == Seldon::Config::Model::ActivityDrivenModel) {
+//         simulation = new Seldon::Simulation<Seldon::ActivityDrivenModel::AgentT>(options, network_file, agent_file);
+//     } else if (options.model == Seldon::Config::Model::ActivityDrivenInertial) {
+//         simulation = new Seldon::Simulation<Seldon::InertialModel::AgentT>(options, network_file, agent_file);
+//     } else if (options.model == Seldon::Config::Model::DeffuantModel) {
+//         auto model_settings = std::get<Seldon::Config::DeffuantSettings>(options.model_settings);
+//         if (model_settings.use_binary_vector) {
+//             simulation = new Seldon::Simulation<Seldon::DeffuantModelVector::AgentT>(options, network_file, agent_file);
+//         } else {
+//             simulation = new Seldon::Simulation<Seldon::DeffuantModel::AgentT>(options, network_file, agent_file);
+//         }
+//     } else {
+//         throw std::runtime_error("Model has not been created");
+//     }
+//     return simulation;
+// }
 
 template <typename AgentT, typename WeightT = double>
 void generate_networks_bindings(py::module &m, std::string network_classname) {
@@ -165,14 +275,18 @@ PYBIND11_MODULE(seldoncore, m) {
            const std::optional<Seldon::Config::SimulationOptions> &options,
            const std::optional<std::string> agent_file_path,
            const std::optional<std::string> network_file_path,
-           const std::optional<std::string> output_dir_path) {
-            return run_simulation(config_file_path, options, agent_file_path, network_file_path, output_dir_path);
+           const std::optional<std::string> output_dir_path,
+           py::list* initial_agents,
+           py::list* final_agents) {
+            return run_simulation(config_file_path, options, agent_file_path, network_file_path, output_dir_path, initial_agents, final_agents);
         },
         "config_file_path"_a = std::optional<std::string>{},
         "options"_a = std::optional<Seldon::Config::SimulationOptions>{},
         "agent_file_path"_a = std::optional<std::string>{},
         "network_file_path"_a = std::optional<std::string>{},
-        "output_dir_path"_a = std::optional<std::string>{});
+        "output_dir_path"_a = std::optional<std::string>{},
+        "initial_agents"_a = nullptr,
+        "final_agents"_a = nullptr);
 
     //--------------------------------------------------------------------
     // output settings instance to be passed in the simulation options
@@ -493,7 +607,7 @@ PYBIND11_MODULE(seldoncore, m) {
         .def_readwrite("reluctance_sigma", &Seldon::Config::ActivityDrivenInertialSettings::reluctance_sigma)
         .def_readwrite("reluctance_eps", &Seldon::Config::ActivityDrivenInertialSettings::reluctance_eps)
         .def_readwrite("covariance_factor", &Seldon::Config::ActivityDrivenInertialSettings::covariance_factor)
-        def_readwrite("friction_coefficient", &Seldon::Config::ActivityDrivenInertialSettings::friction_coefficient);
+        .def_readwrite("friction_coefficient", &Seldon::Config::ActivityDrivenInertialSettings::friction_coefficient);
 
     // InitialNetwork setting instance to be passed in the simulation options
     py::class_<Seldon::Config::InitialNetworkSettings>(m, "InitialNetworkSettings")
@@ -580,240 +694,235 @@ PYBIND11_MODULE(seldoncore, m) {
         .def("iteration", &Seldon::DeGrootModel::iteration)
         .def("finished", &Seldon::DeGrootModel::finished);
 
-m.def(
-            "generate_n_connections",
-            [](std::size_t n_agents, std::size_t n_connections, bool self_interaction, std::size_t seed) {
-                std::mt19937 gen(seed);
-                return Seldon::NetworkGeneration::generate_n_connections<double>(
-                    n_agents, n_connections, self_interaction, gen);
-            },
-            "n_agents"_a,
-            "n_connections"_a,
-            "self_interaction"_a = false,
-            "seed"_a = 0);
     m.def(
-            "generate_n_connections_degroot",
-            [](std::size_t n_agents, std::size_t n_connections, bool self_interaction, std::size_t seed) {
-                std::mt19937 gen(seed);
-                return Seldon::NetworkGeneration::generate_n_connections<Seldon::DeGrootModel::AgentT>(
-                    n_agents, n_connections, self_interaction, gen);
-            },
-            "n_agents"_a,
-            "n_connections"_a,
-            "self_interaction"_a = false,
-            "seed"_a = 0);
-    
+        "generate_n_connections",
+        [](std::size_t n_agents, std::size_t n_connections, bool self_interaction, std::size_t seed) {
+            std::mt19937 gen(seed);
+            return Seldon::NetworkGeneration::generate_n_connections<double>(n_agents, n_connections, self_interaction, gen);
+        },
+        "n_agents"_a,
+        "n_connections"_a,
+        "self_interaction"_a = false,
+        "seed"_a = 0);
     m.def(
-            "generate_n_connections_deffuant",
-            [](std::size_t n_agents, std::size_t n_connections, bool self_interaction, std::size_t seed) {
-                std::mt19937 gen(seed);
-                return Seldon::NetworkGeneration::generate_n_connections<Seldon::DeffuantModel::AgentT>(
-                    n_agents, n_connections, self_interaction, gen);
-            },
-            "n_agents"_a,
-            "n_connections"_a,
-            "self_interaction"_a = false,
-            "seed"_a = 0);
-    
-    m.def(
-            "generate_n_connections_deffuant_vector",
-            [](std::size_t n_agents, std::size_t n_connections, bool self_interaction, std::size_t seed) {
-                std::mt19937 gen(seed);
-                return Seldon::NetworkGeneration::generate_n_connections<Seldon::DeffuantModelVector::AgentT>(
-                    n_agents, n_connections, self_interaction, gen);
-            },
-            "n_agents"_a,
-            "n_connections"_a,
-            "self_interaction"_a = false,
-            "seed"_a = 0);
+        "generate_n_connections_degroot",
+        [](std::size_t n_agents, std::size_t n_connections, bool self_interaction, std::size_t seed) {
+            std::mt19937 gen(seed);
+            return Seldon::NetworkGeneration::generate_n_connections<Seldon::DeGrootModel::AgentT>(n_agents, n_connections, self_interaction, gen);
+        },
+        "n_agents"_a,
+        "n_connections"_a,
+        "self_interaction"_a = false,
+        "seed"_a = 0);
 
     m.def(
-            "generate_n_connections_activity_driven",
-            [](std::size_t n_agents, std::size_t n_connections, bool self_interaction, std::size_t seed) {
-                std::mt19937 gen(seed);
-                return Seldon::NetworkGeneration::generate_n_connections<Seldon::ActivityDrivenModel::AgentT>(
-                    n_agents, n_connections, self_interaction, gen);
-            },
-            "n_agents"_a,
-            "n_connections"_a,
-            "self_interaction"_a = false,
-            "seed"_a = 0);
+        "generate_n_connections_deffuant",
+        [](std::size_t n_agents, std::size_t n_connections, bool self_interaction, std::size_t seed) {
+            std::mt19937 gen(seed);
+            return Seldon::NetworkGeneration::generate_n_connections<Seldon::DeffuantModel::AgentT>(n_agents, n_connections, self_interaction, gen);
+        },
+        "n_agents"_a,
+        "n_connections"_a,
+        "self_interaction"_a = false,
+        "seed"_a = 0);
 
     m.def(
-            "generate_n_connections_activity_driven_inertial",
-            [](std::size_t n_agents, std::size_t n_connections, bool self_interaction, std::size_t seed) {
-                std::mt19937 gen(seed);
-                return Seldon::NetworkGeneration::generate_n_connections<Seldon::InertialModel::AgentT>(
-                    n_agents, n_connections, self_interaction, gen);
-            },
-            "n_agents"_a,
-            "n_connections"_a,
-            "self_interaction"_a = false,
-            "seed"_a = 0);
+        "generate_n_connections_deffuant_vector",
+        [](std::size_t n_agents, std::size_t n_connections, bool self_interaction, std::size_t seed) {
+            std::mt19937 gen(seed);
+            return Seldon::NetworkGeneration::generate_n_connections<Seldon::DeffuantModelVector::AgentT>(
+                n_agents, n_connections, self_interaction, gen);
+        },
+        "n_agents"_a,
+        "n_connections"_a,
+        "self_interaction"_a = false,
+        "seed"_a = 0);
 
-    m.def("generate_fully_connected",
-          [](size_t n_agents, std::optional<typename Seldon::Network<Seldon::DeGrootModel::AgentT>::WeightT> weight, std::optional<size_t> seed){
-            if(seed.has_value()){
+    m.def(
+        "generate_n_connections_activity_driven",
+        [](std::size_t n_agents, std::size_t n_connections, bool self_interaction, std::size_t seed) {
+            std::mt19937 gen(seed);
+            return Seldon::NetworkGeneration::generate_n_connections<Seldon::ActivityDrivenModel::AgentT>(
+                n_agents, n_connections, self_interaction, gen);
+        },
+        "n_agents"_a,
+        "n_connections"_a,
+        "self_interaction"_a = false,
+        "seed"_a = 0);
+
+    m.def(
+        "generate_n_connections_activity_driven_inertial",
+        [](std::size_t n_agents, std::size_t n_connections, bool self_interaction, std::size_t seed) {
+            std::mt19937 gen(seed);
+            return Seldon::NetworkGeneration::generate_n_connections<Seldon::InertialModel::AgentT>(n_agents, n_connections, self_interaction, gen);
+        },
+        "n_agents"_a,
+        "n_connections"_a,
+        "self_interaction"_a = false,
+        "seed"_a = 0);
+
+    m.def(
+        "generate_fully_connected",
+        [](size_t n_agents, std::optional<typename Seldon::Network<Seldon::DeGrootModel::AgentT>::WeightT> weight, std::optional<size_t> seed) {
+            if (seed.has_value()) {
                 std::mt19937 gen(seed.value());
-              return Seldon::NetworkGeneration::generate_fully_connected<double>(n_agents, gen);
+                return Seldon::NetworkGeneration::generate_fully_connected<double>(n_agents, gen);
+            } else if (weight.has_value()) {
+                return Seldon::NetworkGeneration::generate_fully_connected<double>(n_agents, weight.value());
+            } else {
+                return Seldon::NetworkGeneration::generate_fully_connected<double>(n_agents, 0.0);
             }
-            else if(weight.has_value()){
-              return Seldon::NetworkGeneration::generate_fully_connected<double>(n_agents, weight.value());
-            }
-            else{
-              return Seldon::NetworkGeneration::generate_fully_connected<double>(n_agents, 0.0);
-            }},
-          "n_agents"_a , "weight"_a, "seed"_a);
+        },
+        "n_agents"_a,
+        "weight"_a,
+        "seed"_a);
 
-
-    m.def("generate_fully_connected_degroot",
-          [](size_t n_agents, std::optional<typename Seldon::Network<Seldon::DeGrootModel::AgentT>::WeightT> weight, std::optional<size_t> seed){
-            if(seed.has_value()){
+    m.def(
+        "generate_fully_connected_degroot",
+        [](size_t n_agents, std::optional<typename Seldon::Network<Seldon::DeGrootModel::AgentT>::WeightT> weight, std::optional<size_t> seed) {
+            if (seed.has_value()) {
                 std::mt19937 gen(seed.value());
-              return Seldon::NetworkGeneration::generate_fully_connected<Seldon::DeGrootModel::AgentT>(n_agents, gen);
+                return Seldon::NetworkGeneration::generate_fully_connected<Seldon::DeGrootModel::AgentT>(n_agents, gen);
+            } else if (weight.has_value()) {
+                return Seldon::NetworkGeneration::generate_fully_connected<Seldon::DeGrootModel::AgentT>(n_agents, weight.value());
+            } else {
+                return Seldon::NetworkGeneration::generate_fully_connected<Seldon::DeGrootModel::AgentT>(n_agents, 0.0);
             }
-            else if(weight.has_value()){
-              return Seldon::NetworkGeneration::generate_fully_connected<Seldon::DeGrootModel::AgentT>(n_agents, weight.value());
-            }
-            else{
-              return Seldon::NetworkGeneration::generate_fully_connected<Seldon::DeGrootModel::AgentT>(n_agents, 0.0);
-            }},
-          "n_agents"_a , "weight"_a, "seed"_a);
+        },
+        "n_agents"_a,
+        "weight"_a,
+        "seed"_a);
 
-
-        m.def("generate_fully_connected_deffuant",
-          [](size_t n_agents, std::optional<typename Seldon::Network<Seldon::DeffuantModel::AgentT>::WeightT> weight, std::optional<size_t> seed){
-            if(seed.has_value()){
+    m.def(
+        "generate_fully_connected_deffuant",
+        [](size_t n_agents, std::optional<typename Seldon::Network<Seldon::DeffuantModel::AgentT>::WeightT> weight, std::optional<size_t> seed) {
+            if (seed.has_value()) {
                 std::mt19937 gen(seed.value());
-              return Seldon::NetworkGeneration::generate_fully_connected<Seldon::DeffuantModel::AgentT>(n_agents, gen);
+                return Seldon::NetworkGeneration::generate_fully_connected<Seldon::DeffuantModel::AgentT>(n_agents, gen);
+            } else if (weight.has_value()) {
+                return Seldon::NetworkGeneration::generate_fully_connected<Seldon::DeffuantModel::AgentT>(n_agents, weight.value());
+            } else {
+                return Seldon::NetworkGeneration::generate_fully_connected<Seldon::DeffuantModel::AgentT>(n_agents, 0.0);
             }
-            else if(weight.has_value()){
-              return Seldon::NetworkGeneration::generate_fully_connected<Seldon::DeffuantModel::AgentT>(n_agents, weight.value());
-            }
-            else{
-              return Seldon::NetworkGeneration::generate_fully_connected<Seldon::DeffuantModel::AgentT>(n_agents, 0.0);
-            }},
-          "n_agents"_a , "weight"_a, "seed"_a);
+        },
+        "n_agents"_a,
+        "weight"_a,
+        "seed"_a);
 
-
-
-        m.def("generate_fully_connected_deffuant_vector",
-          [](size_t n_agents, std::optional<typename Seldon::Network<Seldon::DeffuantModelVector::AgentT>::WeightT> weight, std::optional<size_t> seed){
-            if(seed.has_value()){
+    m.def(
+        "generate_fully_connected_deffuant_vector",
+        [](size_t n_agents,
+           std::optional<typename Seldon::Network<Seldon::DeffuantModelVector::AgentT>::WeightT> weight,
+           std::optional<size_t> seed) {
+            if (seed.has_value()) {
                 std::mt19937 gen(seed.value());
-              return Seldon::NetworkGeneration::generate_fully_connected<Seldon::DeffuantModelVector::AgentT>(n_agents, gen);
+                return Seldon::NetworkGeneration::generate_fully_connected<Seldon::DeffuantModelVector::AgentT>(n_agents, gen);
+            } else if (weight.has_value()) {
+                return Seldon::NetworkGeneration::generate_fully_connected<Seldon::DeffuantModelVector::AgentT>(n_agents, weight.value());
+            } else {
+                return Seldon::NetworkGeneration::generate_fully_connected<Seldon::DeffuantModelVector::AgentT>(n_agents, 0.0);
             }
-            else if(weight.has_value()){
-              return Seldon::NetworkGeneration::generate_fully_connected<Seldon::DeffuantModelVector::AgentT>(n_agents, weight.value());
-            }
-            else{
-              return Seldon::NetworkGeneration::generate_fully_connected<Seldon::DeffuantModelVector::AgentT>(n_agents, 0.0);
-            }},
-          "n_agents"_a , "weight"_a, "seed"_a);
-        
+        },
+        "n_agents"_a,
+        "weight"_a,
+        "seed"_a);
 
-        m.def("generate_fully_connected_activity_driven",
-          [](size_t n_agents, std::optional<typename Seldon::Network<Seldon::ActivityDrivenModel::AgentT>::WeightT> weight, std::optional<size_t> seed){
-            if(seed.has_value()){
+    m.def(
+        "generate_fully_connected_activity_driven",
+        [](size_t n_agents,
+           std::optional<typename Seldon::Network<Seldon::ActivityDrivenModel::AgentT>::WeightT> weight,
+           std::optional<size_t> seed) {
+            if (seed.has_value()) {
                 std::mt19937 gen(seed.value());
-              return Seldon::NetworkGeneration::generate_fully_connected<Seldon::ActivityDrivenModel::AgentT>(n_agents, gen);
+                return Seldon::NetworkGeneration::generate_fully_connected<Seldon::ActivityDrivenModel::AgentT>(n_agents, gen);
+            } else if (weight.has_value()) {
+                return Seldon::NetworkGeneration::generate_fully_connected<Seldon::ActivityDrivenModel::AgentT>(n_agents, weight.value());
+            } else {
+                return Seldon::NetworkGeneration::generate_fully_connected<Seldon::ActivityDrivenModel::AgentT>(n_agents, 0.0);
             }
-            else if(weight.has_value()){
-              return Seldon::NetworkGeneration::generate_fully_connected<Seldon::ActivityDrivenModel::AgentT>(n_agents, weight.value());
-            }
-            else{
-              return Seldon::NetworkGeneration::generate_fully_connected<Seldon::ActivityDrivenModel::AgentT>(n_agents, 0.0);
-            }},
-          "n_agents"_a , "weight"_a, "seed"_a);
+        },
+        "n_agents"_a,
+        "weight"_a,
+        "seed"_a);
 
-        
-        m.def("generate_fully_connected_activity_driven_inertial",
-          [](size_t n_agents, std::optional<typename Seldon::Network<Seldon::InertialModel::AgentT>::WeightT> weight, std::optional<size_t> seed){
-            if(seed.has_value()){
+    m.def(
+        "generate_fully_connected_activity_driven_inertial",
+        [](size_t n_agents, std::optional<typename Seldon::Network<Seldon::InertialModel::AgentT>::WeightT> weight, std::optional<size_t> seed) {
+            if (seed.has_value()) {
                 std::mt19937 gen(seed.value());
-              return Seldon::NetworkGeneration::generate_fully_connected<Seldon::InertialModel::AgentT>(n_agents, gen);
+                return Seldon::NetworkGeneration::generate_fully_connected<Seldon::InertialModel::AgentT>(n_agents, gen);
+            } else if (weight.has_value()) {
+                return Seldon::NetworkGeneration::generate_fully_connected<Seldon::InertialModel::AgentT>(n_agents, weight.value());
+            } else {
+                return Seldon::NetworkGeneration::generate_fully_connected<Seldon::InertialModel::AgentT>(n_agents, 0.0);
             }
-            else if(weight.has_value()){
-              return Seldon::NetworkGeneration::generate_fully_connected<Seldon::InertialModel::AgentT>(n_agents, weight.value());
-            }
-            else{
-              return Seldon::NetworkGeneration::generate_fully_connected<Seldon::InertialModel::AgentT>(n_agents, 0.0);
-            }},
-          "n_agents"_a , "weight"_a, "seed"_a);
-    
+        },
+        "n_agents"_a,
+        "weight"_a,
+        "seed"_a);
 
-        m.def("generate_from_file_degroot", []( const std::string & file ){
-              return Seldon::NetworkGeneration::generate_from_file<Seldon::DeGrootModel::AgentT>(file);
-        }, "file"_a);
+    m.def(
+        "generate_from_file_degroot",
+        [](const std::string &file) { return Seldon::NetworkGeneration::generate_from_file<Seldon::DeGrootModel::AgentT>(file); },
+        "file"_a);
 
-        m.def("generate_from_file_deffuant", []( const std::string & file ){
-              return Seldon::NetworkGeneration::generate_from_file<Seldon::DeffuantModel::AgentT>(file);
-        }, "file"_a);
+    m.def(
+        "generate_from_file_deffuant",
+        [](const std::string &file) { return Seldon::NetworkGeneration::generate_from_file<Seldon::DeffuantModel::AgentT>(file); },
+        "file"_a);
 
-        m.def("generate_from_file_deffuant_vector", []( const std::string & file ){
-              return Seldon::NetworkGeneration::generate_from_file<Seldon::DeffuantModelVector::AgentT>(file);
-        }, "file"_a);
+    m.def(
+        "generate_from_file_deffuant_vector",
+        [](const std::string &file) { return Seldon::NetworkGeneration::generate_from_file<Seldon::DeffuantModelVector::AgentT>(file); },
+        "file"_a);
 
-        m.def("generate_from_file_activity_driven", []( const std::string & file ){
-              return Seldon::NetworkGeneration::generate_from_file<Seldon::ActivityDrivenModel::AgentT>(file);
-        }, "file"_a);
+    m.def(
+        "generate_from_file_activity_driven",
+        [](const std::string &file) { return Seldon::NetworkGeneration::generate_from_file<Seldon::ActivityDrivenModel::AgentT>(file); },
+        "file"_a);
 
-        m.def("generate_from_file_activity_driven_inertial", []( const std::string & file ){
-              return Seldon::NetworkGeneration::generate_from_file<Seldon::InertialModel::AgentT>(file);
-        }, "file"_a);
+    m.def(
+        "generate_from_file_activity_driven_inertial",
+        [](const std::string &file) { return Seldon::NetworkGeneration::generate_from_file<Seldon::InertialModel::AgentT>(file); },
+        "file"_a);
 
+    m.def(
+        "generate_square_lattice_degroot",
+        [](size_t n_edge, typename Seldon::Network<Seldon::DeGrootModel::AgentT>::WeightT weight = 0.0) {
+            return Seldon::NetworkGeneration::generate_square_lattice<Seldon::DeGrootModel::AgentT>(n_edge, weight);
+        },
+        "n_edge"_a,
+        "weight"_a);
 
-        m.def("generate_square_lattice_degroot", [](size_t n_edge, typename Seldon::Network<Seldon::DeGrootModel::AgentT>::WeightT weight =0.0){
-                return Seldon::NetworkGeneration::generate_square_lattice<Seldon::DeGrootModel::AgentT>(n_edge, weight);
-        }, "n_edge"_a, "weight"_a);
+    m.def(
+        "generate_square_lattice_deffuant",
+        [](size_t n_edge, typename Seldon::Network<Seldon::DeffuantModel::AgentT>::WeightT weight = 0.0) {
+            return Seldon::NetworkGeneration::generate_square_lattice<Seldon::DeffuantModel::AgentT>(n_edge, weight);
+        },
+        "n_edge"_a,
+        "weight"_a);
 
-        m.def("generate_square_lattice_deffuant", [](size_t n_edge, typename Seldon::Network<Seldon::DeffuantModel::AgentT>::WeightT weight=0.0){
-                return Seldon::NetworkGeneration::generate_square_lattice<Seldon::DeffuantModel::AgentT>(n_edge, weight);
-        }, "n_edge"_a, "weight"_a);
+    m.def(
+        "generate_square_lattice_deffuant_vector",
+        [](size_t n_edge, typename Seldon::Network<Seldon::DeffuantModelVector::AgentT>::WeightT weight = 0.0) {
+            return Seldon::NetworkGeneration::generate_square_lattice<Seldon::DeffuantModelVector::AgentT>(n_edge, weight);
+        },
+        "n_edge"_a,
+        "weight"_a);
 
-        m.def("generate_square_lattice_deffuant_vector", [](size_t n_edge, typename Seldon::Network<Seldon::DeffuantModelVector::AgentT>::WeightT weight=0.0){
-                return Seldon::NetworkGeneration::generate_square_lattice<Seldon::DeffuantModelVector::AgentT>(n_edge, weight);
-        }, "n_edge"_a, "weight"_a);
+    m.def(
+        "generate_square_lattice_activity_driven",
+        [](size_t n_edge, typename Seldon::Network<Seldon::ActivityDrivenModel::AgentT>::WeightT weight = 0.0) {
+            return Seldon::NetworkGeneration::generate_square_lattice<Seldon::ActivityDrivenModel::AgentT>(n_edge, weight);
+        },
+        "n_edge"_a,
+        "weight"_a);
 
-        m.def("generate_square_lattice_activity_driven", [](size_t n_edge, typename Seldon::Network<Seldon::ActivityDrivenModel::AgentT>::WeightT weight=0.0){
-                return Seldon::NetworkGeneration::generate_square_lattice<Seldon::ActivityDrivenModel::AgentT>(n_edge, weight);
-        }, "n_edge"_a, "weight"_a);
-
-        m.def("generate_square_lattice_activity_driven_inertial", [](size_t n_edge, typename Seldon::Network<Seldon::InertialModel::AgentT>::WeightT weight=0.0){
-                return Seldon::NetworkGeneration::generate_square_lattice<Seldon::InertialModel::AgentT>(n_edge, weight);
-        }, "n_edge"_a, "weight"_a);
-        
-
-
-
-    // m.def("generate_fully_connected",
-    //       static_cast<Seldon::Network<AgentType> (*)(std::size_t)>(&Seldon::NetworkGeneration::generate_fully_connected<AgentType>),
-    //       py::arg("n_agents"), py::arg("weight") = 0.0);
-
-    // m.def("generate_fully_connected",
-    //       static_cast<Seldon::Network<AgentType> (*)(std::size_t, std::mt19937
-    //       &)>(&Seldon::NetworkGeneration::generate_fully_connected<AgentType>));
-
-
-    // m.def("generate_square_lattice", &Seldon::NetworkGeneration::generate_square_lattice<AgentType>,
-    //       py::arg("n_edge"), py::arg("weight") = 0.0);
-
-    // network bindings creation
-
-    // generate_network_generation_bindings<Seldon::DeGroot::AgentT>(m);
-    // py::class_<Seldon::DeGrootModel>(m, "DeGrootModel")
-    //     .def(py::init<const Seldon::Config::DeGrootSettings&, Seldon::DeGrootModel::NetworkT&>(),
-    //          py::arg("settings"), py::arg("network"))
-    //     .def("iteration", &Seldon::DeGrootModel::iteration)
-    //     .def("finished", &Seldon::DeGrootModel::finished);
-
-    // py::class_<Seldon::ActivityAgentData>(m, "ActivityAgentData")
-    //     .def(py::init<>())
-    //     .def_readwrite("opinion", &Seldon::ActivityAgentData::opinion)
-    //     .def_readwrite("activity", &Seldon::ActivityAgentData::activity)
-    //     .def_readwrite("reluctance", &Seldon::ActivityAgentData::reluctance);
-
-    // py::class_<Seldon::ActivityAgent>(m, "ActivityAgent")
-    //     .def(py::init<>())
-    //     .def_readonly("data", &Seldon::ActivityAgent::data);
+    m.def(
+        "generate_square_lattice_activity_driven_inertial",
+        [](size_t n_edge, typename Seldon::Network<Seldon::InertialModel::AgentT>::WeightT weight = 0.0) {
+            return Seldon::NetworkGeneration::generate_square_lattice<Seldon::InertialModel::AgentT>(n_edge, weight);
+        },
+        "n_edge"_a,
+        "weight"_a);
 }

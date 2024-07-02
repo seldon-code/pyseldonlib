@@ -47,9 +47,6 @@ def test_activity_driven():
     shutil.rmtree(output_dir)
 
 
-
-
-
 if __name__ == "__main__":
     pytest.main([__file__])
 

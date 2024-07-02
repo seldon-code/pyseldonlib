@@ -21,3 +21,7 @@ tests/test_deGroot.py:1: in <module>
 E   ImportError: generic_type: type "DeffuantNetwork" is already registered!
 
 the above error occurs because of both degroot and deffuant uses simpleagent for the network generation because of which python finds it difficult to distinguish amongst them
+
+
+##
+Today made some modifications for network.hpp and agent.hpp and added some base classes to be asseccible from bindings
