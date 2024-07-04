@@ -276,8 +276,8 @@ PYBIND11_MODULE(seldoncore, m) {
            const std::optional<std::string> agent_file_path,
            const std::optional<std::string> network_file_path,
            const std::optional<std::string> output_dir_path,
-           py::list* initial_agents,
-           py::list* final_agents) {
+           py::list *initial_agents,
+           py::list *final_agents) {
             return run_simulation(config_file_path, options, agent_file_path, network_file_path, output_dir_path, initial_agents, final_agents);
         },
         "config_file_path"_a = std::optional<std::string>{},
@@ -298,8 +298,12 @@ PYBIND11_MODULE(seldoncore, m) {
                          size_t start_output,
                          size_t start_numbering_from) {
                  Seldon::Config::OutputSettings output_settings;
-                 output_settings.n_output_agents = n_output_agents.value_or(0);
-                 output_settings.n_output_network = n_output_network.value_or(0);
+                 if (n_output_agents.has_value()) {
+                     output_settings.n_output_agents = n_output_agents.value();
+                 }
+                 if (n_output_network.has_value()) {
+                     output_settings.n_output_network = n_output_network.value();
+                 }
                  output_settings.print_progress = print_progress;
                  output_settings.output_initial = output_initial;
                  output_settings.start_output = start_output;
@@ -315,12 +319,12 @@ PYBIND11_MODULE(seldoncore, m) {
                  py::print("Which can be changed using the OutputSettings Instance");
                  return output_settings;
              }),
-             py::arg("n_output_agents") = std::optional<size_t>{},
-             py::arg("n_output_network") = std::optional<size_t>{},
-             py::arg("print_progress") = false,
-             py::arg("output_initial") = true,
-             py::arg("start_output") = 1,
-             py::arg("start_numbering_from") = 0)
+             "n_output_agents"_a = std::optional<size_t>{},
+             "n_output_network"_a = std::optional<size_t>{},
+             "print_progress"_a = false,
+             "output_initial"_a = true,
+             "start_output"_a = 1,
+             "start_numbering_from"_a = 0)
         .def_readwrite("n_output_agents", &Seldon::Config::OutputSettings::n_output_agents)
         .def_readwrite("n_output_network", &Seldon::Config::OutputSettings::n_output_network)
         .def_readwrite("print_progress", &Seldon::Config::OutputSettings::print_progress)
@@ -330,42 +334,47 @@ PYBIND11_MODULE(seldoncore, m) {
 
     // degroot setting instance to be passed in the simulation options
     py::class_<Seldon::Config::DeGrootSettings>(m, "DeGrootSettings")
-        .def(py::init([](int max_iterations, double convergence_tol) {
+        .def(py::init([](std::optional<int> max_iterations, double convergence_tol) {
                  Seldon::Config::DeGrootSettings degroot_settings;
-                 degroot_settings.max_iterations = max_iterations;
+                 if (max_iterations.has_value()) {
+                     degroot_settings.max_iterations = max_iterations.value();
+                 }
                  degroot_settings.convergence_tol = convergence_tol;
                  py::print("Using DeGroot Settings");
-                 py::print(py::str("max_iterations    : {} (Int)").format(max_iterations)); //($)
+                 py::print(py::str("max_iterations    : {} (Int) (None means infinite)").format(max_iterations)); //($)
                  py::print(py::str("convergence_tol  : {}").format(convergence_tol));
                  py::print("Which can be changed using the DeGrootSettings instance");
                  return degroot_settings;
              }),
-             "max_iterations"_a = 10,
+             "max_iterations"_a = std::optional<int>{},
              "convergence_tol"_a = 1e-6)
         .def_readwrite("max_iterations", &Seldon::Config::DeGrootSettings::max_iterations)
         .def_readwrite("convergence_tol", &Seldon::Config::DeGrootSettings::convergence_tol);
 
     // deffuant setting instance to be passed in the simulation options
     py::class_<Seldon::Config::DeffuantSettings>(m, "DeffuantSettings")
-        .def(py::init([](int max_iterations, double homophily_threshold, double mu, bool use_network, bool use_binary_vector, size_t dim) {
-                 Seldon::Config::DeffuantSettings deffuant_settings;
-                 deffuant_settings.max_iterations = max_iterations;
-                 deffuant_settings.homophily_threshold = homophily_threshold;
-                 deffuant_settings.mu = mu;
-                 deffuant_settings.use_network = use_network;
-                 deffuant_settings.use_binary_vector = use_binary_vector;
-                 deffuant_settings.dim = dim;
-                 py::print("Using Deffuant Settings");
-                 py::print(py::str("max_iterations     : {} (Int)").format(max_iterations)); //($)
-                 py::print(py::str("homophily_threshold: {}").format(homophily_threshold));
-                 py::print(py::str("mu                 : {}").format(mu));
-                 py::print(py::str("use_network        : {}").format(use_network));
-                 py::print(py::str("use_binary_vector  : {}").format(use_binary_vector));
-                 py::print(py::str("dim                : {}").format(dim));
-                 py::print("Which can be changed using the DeffuantSettings instance");
-                 return deffuant_settings;
-             }),
-             "max_iterations"_a = 10,
+        .def(py::init(
+                 [](std::optional<int> max_iterations, double homophily_threshold, double mu, bool use_network, bool use_binary_vector, size_t dim) {
+                     Seldon::Config::DeffuantSettings deffuant_settings;
+                     if (max_iterations.has_value()) {
+                         deffuant_settings.max_iterations = max_iterations.value();
+                     }
+                     deffuant_settings.homophily_threshold = homophily_threshold;
+                     deffuant_settings.mu = mu;
+                     deffuant_settings.use_network = use_network;
+                     deffuant_settings.use_binary_vector = use_binary_vector;
+                     deffuant_settings.dim = dim;
+                     py::print("Using Deffuant Settings");
+                     py::print(py::str("max_iterations     : {} (Int) (None means infinite)").format(max_iterations)); //($)
+                     py::print(py::str("homophily_threshold: {}").format(homophily_threshold));
+                     py::print(py::str("mu                 : {}").format(mu));
+                     py::print(py::str("use_network        : {}").format(use_network));
+                     py::print(py::str("use_binary_vector  : {}").format(use_binary_vector));
+                     py::print(py::str("dim                : {}").format(dim));
+                     py::print("Which can be changed using the DeffuantSettings instance");
+                     return deffuant_settings;
+                 }),
+             "max_iterations"_a = std::optional<int>{},
              "homophily_threshold"_a = 0.2,
              "mu"_a = 0.5,
              "use_network"_a = false,
@@ -380,7 +389,7 @@ PYBIND11_MODULE(seldoncore, m) {
 
     // ActivityDriven setting instance to be passed in the simulation options
     py::class_<Seldon::Config::ActivityDrivenSettings>(m, "ActivityDrivenSettings")
-        .def(py::init([](int max_iterations,
+        .def(py::init([](std::optional<int> max_iterations,
                          double dt,
                          int m,
                          double eps,
@@ -403,7 +412,7 @@ PYBIND11_MODULE(seldoncore, m) {
                          double covariance_factor) {
                  Seldon::Config::ActivityDrivenSettings activity_driven_settings;
                  py::print("Using Activity Driven Settings");
-                 py::print(py::str("max_iterations    : {}").format(max_iterations));
+                 py::print(py::str("max_iterations    : {} (None means infinite)").format(max_iterations));
                  py::print(py::str("dt                : {}").format(dt));
                  py::print(py::str("m                 : {}").format(m));
                  py::print(py::str("eps               : {}").format(eps));
@@ -425,7 +434,9 @@ PYBIND11_MODULE(seldoncore, m) {
                  py::print(py::str("reluctance_eps    : {}").format(reluctance_eps));
                  py::print(py::str("covariance_factor : {}").format(covariance_factor));
                  py::print("Which can be changed using the ActivityDrivenSettings instance");
-                 activity_driven_settings.max_iterations = max_iterations;
+                 if (max_iterations.has_value()) {
+                     activity_driven_settings.max_iterations = max_iterations.value();
+                 }
                  activity_driven_settings.dt = dt;
                  activity_driven_settings.m = m;
                  activity_driven_settings.eps = eps;
@@ -448,7 +459,7 @@ PYBIND11_MODULE(seldoncore, m) {
                  activity_driven_settings.covariance_factor = covariance_factor;
                  return activity_driven_settings;
              }),
-             "max_iterations"_a = 10,
+             "max_iterations"_a = std::optional<int>{},
              "dt"_a = 0.01,
              "m"_a = 10,
              "eps"_a = 0.01,
@@ -493,7 +504,7 @@ PYBIND11_MODULE(seldoncore, m) {
 
     // ActivityDrivenInertial setting instance to be passed in the simulation options
     py::class_<Seldon::Config::ActivityDrivenInertialSettings>(m, "ActivityDrivenInertialSettings")
-        .def(py::init([](int max_iterations,
+        .def(py::init([](std::optional<int> max_iterations,
                          double dt,
                          int m,
                          double eps,
@@ -516,7 +527,7 @@ PYBIND11_MODULE(seldoncore, m) {
                          double covariance_factor,
                          double friction_coefficient) {
                  Seldon::Config::ActivityDrivenInertialSettings activity_driven_inertial_settings;
-                 py::print(py::str("max_iterations       : {}").format(max_iterations));
+                 py::print(py::str("max_iterations       : {} (None means infinite)").format(max_iterations));
                  py::print(py::str("dt                   : {}").format(dt));
                  py::print(py::str("m                    : {}").format(m));
                  py::print(py::str("eps                  : {}").format(eps));
@@ -539,7 +550,9 @@ PYBIND11_MODULE(seldoncore, m) {
                  py::print(py::str("covariance_factor    : {}").format(covariance_factor));
                  py::print(py::str("friction_coefficient :").format(friction_coefficient));
                  py::print("Which can be changed using the ActivityDrivenInertialSettings instance");
-                 activity_driven_inertial_settings.max_iterations = max_iterations;
+                 if (max_iterations.has_value()) {
+                     activity_driven_inertial_settings.max_iterations = max_iterations.value();
+                 }
                  activity_driven_inertial_settings.dt = dt;
                  activity_driven_inertial_settings.m = m;
                  activity_driven_inertial_settings.eps = eps;
@@ -563,7 +576,7 @@ PYBIND11_MODULE(seldoncore, m) {
                  activity_driven_inertial_settings.friction_coefficient = friction_coefficient;
                  return activity_driven_inertial_settings;
              }),
-             "max_iterations"_a = 10,
+             "max_iterations"_a = std::optional<int>{},
              "dt"_a = 0.01,
              "m"_a = 10,
              "eps"_a = 0.01,
@@ -677,22 +690,15 @@ PYBIND11_MODULE(seldoncore, m) {
         .def_readwrite("output_settings", &Seldon::Config::SimulationOptions::output_settings)
         .def_readwrite("model_settings", &Seldon::Config::SimulationOptions::model_settings)
         .def_readwrite("network_settings", &Seldon::Config::SimulationOptions::network_settings);
-    //--------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------------------------------------
 
-    generate_networks_bindings<Seldon::DeGrootModel::AgentT>(m, "SimpleAgentNetwork");
+    generate_networks_bindings<Seldon::SimpleAgent>(m, "SimpleAgentNetwork");
     generate_networks_bindings<Seldon::DeffuantModelVector::AgentT>(m, "DeffuantVectorNetwork");
     generate_networks_bindings<Seldon::ActivityDrivenModel::AgentT>(m, "ActivityDrivenNetwork");
     generate_networks_bindings<Seldon::InertialModel::AgentT>(m, "InertialNetwork");
     generate_networks_bindings<double>(m, "Network");
 
-    // generate_network_generation_bindings<Seldon::DeGrootModel::AgentT>(m);
-    // generate_network_generation_bindings<Seldon::DeffuantModel::AgentT>(m);
-
-    //
-    py::class_<Seldon::DeGrootModel>(m, "DeGrootModel")
-        .def(py::init<const Seldon::Config::DeGrootSettings &, Seldon::DeGrootModel::NetworkT &>(), py::arg("settings"), py::arg("network"))
-        .def("iteration", &Seldon::DeGrootModel::iteration)
-        .def("finished", &Seldon::DeGrootModel::finished);
+    //--------------------------------------------------------------------------------------------------------------------
 
     m.def(
         "generate_n_connections",
@@ -925,4 +931,6 @@ PYBIND11_MODULE(seldoncore, m) {
         },
         "n_edge"_a,
         "weight"_a);
+
+    m.def("parse_config_file", &Seldon::Config::parse_config_file, "file"_a);
 }

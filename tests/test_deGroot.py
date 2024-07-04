@@ -8,7 +8,7 @@ def test_deGroot():
   weight_list = [[0.2, 0.8], [0.2, 0.8]]
 
   settings = pd.DeGrootSettings()
-  settings.max_iterations = 100
+  settings.max_iterations = None
   settings.convergence_tol=1e-6
 
   network = pd.SimpleAgentNetwork(neighbour_list = neighbour_list, weight_list = weight_list, direction = "Incoming")

@@ -1,13 +1,8 @@
-# Configuration file for the Sphinx documentation builder.
-#
-# For the full list of built-in configuration values, see the documentation:
-# https://www.sphinx-doc.org/en/master/usage/configuration.html
-
-# -- Project information -----------------------------------------------------
+from datetime import date
 
 project = 'Pyseldon'
 copyright = '2024, Amrita Goswami, Rohit Goswami, Moritz Sallermann'
-author = 'Amrita Goswami, Rohit Goswami, Moritz Sallermann, Daivik Karbhari'
+author = 'Amrita Goswami, Moritz Sallermann, Rohit Goswami, Daivik Karbhari'
 release = '1.0'
 
 # -- General configuration ---------------------------------------------------
@@ -19,14 +14,12 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinx.ext.coverage',
     'sphinx.ext.githubpages',
+    'myst_parser',
 ]
 
 autosummary_generate = True
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
-
-extensions+= ["myst_parser"]
-
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -34,3 +27,24 @@ extensions+= ["myst_parser"]
 
 html_theme = 'sphinx_book_theme'
 html_static_path = ['_static']
+
+html_theme_options = {
+    "repository_url": "https://github.com/User-DK/pyseldon/tree/develop", #to do change url
+    "use_repository_button": True,
+}
+
+myst_enable_extensions = [
+    "amsmath",
+    "attrs_inline",
+    "colon_fence",
+    "deflist",
+    "dollarmath",
+    "fieldlist",
+    "html_admonition",
+    "html_image",
+    "replacements",
+    "smartquotes",
+    "strikethrough",
+    "substitution",
+    "tasklist",
+]
