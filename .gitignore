@@ -43,3 +43,6 @@ output/
 *.exe
 *.out
 *.app
+
+
+doc/_build/
