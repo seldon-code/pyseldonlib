@@ -45,4 +45,6 @@ output/
 *.app
 
 
+# docs
 doc/_build/
+doc/apidocs/
