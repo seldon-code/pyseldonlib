@@ -46,5 +46,5 @@ output/
 
 
 # docs
-doc/_build/
+doc/source/_build/
 doc/apidocs/
