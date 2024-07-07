@@ -41,7 +41,8 @@ py.extension_module(
 )
 
 py.install_sources(
-  [
+  [ 'pyseldon/core.py',
+    'pyseldon/simulation.py',
     'pyseldon/__init__.py',
   ],
   pure: false, # install next to compiled extension
