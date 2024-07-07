@@ -48,3 +48,6 @@ output/
 # docs
 doc/source/_build/
 doc/apidocs/
+
+#pycache
+*__pycache__/
