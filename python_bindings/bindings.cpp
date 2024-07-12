@@ -188,6 +188,22 @@ void run_simulation(const std::optional<std::string> &config_file_path,
 //     return simulation;
 // }
 
+// py::class_<Seldon::Simulation<Seldon::SimpleAgent>(m, "SimulationDeGroot")
+//     .def(py::init<>([](const Seldon::Config::SimulationOptions &options,
+//                        const std::optional<std::string> &agent_file,
+//                        const std::optional<std::string> &network_file) {
+//             Seldon::Config::validate_settings(options);
+//             Seldon::Config::print_settings(options)
+//              return new Seldon::Simulation<Seldon::SimpleAgent>(options, network_file, agent_file);
+//          }),
+//          "options"_a,
+//          "agent_file"_a = std::optional<std::string>{},
+//          "network_file"_a = std::optional<std::string>{})
+//     .def("run", &Seldon::Simulation<Seldon::SimpleAgent>::run)
+//     .def_readwrite("network", &Seldon::Simulation<Seldon::SimpleAgent>::network)
+//     .def_readwrite("network_agents", &Seldon::Simulation<Seldon::SimpleAgent>::network.agents.data)
+//     .def_readwrite("network_agents_opinions", &Seldon::Simulation<Seldon::SimpleAgent>::network.agents.data.opinion);
+    
 template <typename AgentT, typename WeightT = double>
 void generate_networks_bindings(py::module &m, std::string network_classname) {
     py::class_<Seldon::Network<AgentT, WeightT>>(m, network_classname.c_str())

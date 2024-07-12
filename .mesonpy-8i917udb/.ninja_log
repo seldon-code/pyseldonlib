@@ -1,0 +1,10 @@
+# ninja log v6
+1	1896	1720366065996175916	subprojects/seldon/libseldon.so.p/src_models_DeffuantModel.cpp.o	4b6f97e3c105096e
+0	2388	1720366065996175916	subprojects/seldon/libseldon.so.p/src_models_DeGroot.cpp.o	8d9b754f514fa75f
+1	2795	1720366065996175916	subprojects/seldon/libseldon.so.p/src_models_DeffuantModelVector.cpp.o	3428f5fa4d7ad316
+1	2925	1720366065996175916	subprojects/seldon/libseldon.so.p/src_models_ActivityDrivenModel.cpp.o	162932f29b1e932e
+1	3971	1720366065996175916	subprojects/seldon/libseldon.so.p/src_models_InertialModel.cpp.o	d0b5c1a1e2722742
+0	6890	1720366065996175916	subprojects/seldon/libseldon.so.p/src_config_parser.cpp.o	6f8a001fdb6520b1
+2	9302	1720366065996175916	subprojects/seldon/libseldon.so.p/src_util_tomlplusplus.cpp.o	f7b1c6b040ebfeca
+9302	9317	1720367976296917469	subprojects/seldon/libseldon.a	88cacdbeb9d29135
+9303	9404	1720367976300250795	subprojects/seldon/libseldon.so	f6053ac8be82e6b9
