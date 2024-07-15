@@ -22,6 +22,7 @@
 #include <random>
 #include <set>
 #include <variant>
+#include <vector>
 
 // pybind11 headers
 #include <pybind11/operators.h>
@@ -60,201 +61,86 @@ void run_simulation(const std::optional<std::string> &config_file_path,
 
     if (simulation_options.model == Seldon::Config::Model::DeGroot) {
         auto simulation = Seldon::Simulation<Seldon::DeGrootModel::AgentT>(simulation_options, network_file, agent_file);
-        if (initial_agents) {
-            for (auto agent : simulation.network.agents) {
-                initial_agents->append(agent.data.opinion);
-            }
-        }
         simulation.run(output_dir_path);
-
-        if (final_agents) {
-            for (auto agent : simulation.network.agents) {
-                final_agents->append(agent.data.opinion);
-            }
-        }
     } else if (simulation_options.model == Seldon::Config::Model::ActivityDrivenModel) {
         auto simulation = Seldon::Simulation<Seldon::ActivityDrivenModel::AgentT>(simulation_options, network_file, agent_file);
-        if (initial_agents) {
-            for (auto agent : simulation.network.agents) {
-                py::list agent_data;
-                agent_data.append(agent.data.opinion);
-                agent_data.append(agent.data.activity);
-                agent_data.append(agent.data.reluctance);
-                initial_agents->append(agent_data);
-            }
-        }
-        simulation.run(output_dir_path);
 
-        if (final_agents) {
-            for (auto agent : simulation.network.agents) {
-                py::list agent_data;
-                agent_data.append(agent.data.opinion);
-                agent_data.append(agent.data.activity);
-                agent_data.append(agent.data.reluctance);
-                final_agents->append(agent_data);
-            }
-        }
+        simulation.run(output_dir_path);
 
     } else if (simulation_options.model == Seldon::Config::Model::ActivityDrivenInertial) {
         auto simulation = Seldon::Simulation<Seldon::InertialModel::AgentT>(simulation_options, network_file, agent_file);
-        if (initial_agents) {
-            for (auto agent : simulation.network.agents) {
-                py::list agent_data;
-                agent_data.append(agent.data.opinion);
-                agent_data.append(agent.data.activity);
-                agent_data.append(agent.data.reluctance);
-                agent_data.append(agent.data.velocity);
-                initial_agents->append(agent_data);
-            }
-        }
 
         simulation.run(output_dir_path);
 
-        if (final_agents) {
-            for (auto agent : simulation.network.agents) {
-                py::list agent_data;
-                agent_data.append(agent.data.opinion);
-                agent_data.append(agent.data.activity);
-                agent_data.append(agent.data.reluctance);
-                agent_data.append(agent.data.velocity);
-                final_agents->append(agent_data);
-            }
-        }
     } else if (simulation_options.model == Seldon::Config::Model::DeffuantModel) {
         auto model_settings = std::get<Seldon::Config::DeffuantSettings>(simulation_options.model_settings);
         if (model_settings.use_binary_vector) {
             auto simulation = Seldon::Simulation<Seldon::DeffuantModelVector::AgentT>(simulation_options, network_file, agent_file);
-            if (initial_agents) {
-                for (auto agent : simulation.network.agents) {
-                    initial_agents->append(agent.data.opinion);
-                }
-            }
 
             simulation.run(output_dir_path);
 
-            if (final_agents) {
-                for (auto agent : simulation.network.agents) {
-                    final_agents->append(agent.data.opinion);
-                }
-            }
         } else {
             auto simulation = Seldon::Simulation<Seldon::DeffuantModel::AgentT>(simulation_options, network_file, agent_file);
-            if (initial_agents) {
-                for (auto agent : simulation.network.agents) {
-                    initial_agents->append(agent.data.opinion);
-                }
-            }
 
             simulation.run(output_dir_path);
-
-            if (final_agents) {
-                for (auto agent : simulation.network.agents) {
-                    final_agents->append(agent.data.opinion);
-                }
-            }
         }
     } else {
         throw std::runtime_error("Model has not been created");
     }
 }
-
-// Seldon::SimulationInterface *create_simulation(
-//                                                const Seldon::Config::SimulationOptions &options,
-//                                                const std::optional<std::string> agent_file,
-//                                                const std::optional<std::string> network_file) {
-
-//     Seldon::Config::validate_settings(options);
-//     Seldon::Config::print_settings(options);
-
-//     Seldon::SimulationInterface *simulation;
-
-//     if (options.model == Seldon::Config::Model::DeGroot) {
-//         simulation = new Seldon::Simulation<Seldon::DeGrootModel::AgentT>(options, network_file, agent_file);
-
-//     } else if (options.model == Seldon::Config::Model::ActivityDrivenModel) {
-//         simulation = new Seldon::Simulation<Seldon::ActivityDrivenModel::AgentT>(options, network_file, agent_file);
-//     } else if (options.model == Seldon::Config::Model::ActivityDrivenInertial) {
-//         simulation = new Seldon::Simulation<Seldon::InertialModel::AgentT>(options, network_file, agent_file);
-//     } else if (options.model == Seldon::Config::Model::DeffuantModel) {
-//         auto model_settings = std::get<Seldon::Config::DeffuantSettings>(options.model_settings);
-//         if (model_settings.use_binary_vector) {
-//             simulation = new Seldon::Simulation<Seldon::DeffuantModelVector::AgentT>(options, network_file, agent_file);
-//         } else {
-//             simulation = new Seldon::Simulation<Seldon::DeffuantModel::AgentT>(options, network_file, agent_file);
-//         }
-//     } else {
-//         throw std::runtime_error("Model has not been created");
-//     }
-//     return simulation;
+// template <typename AgentT, typename WeightT = double>
+// void generate_networks_bindings(py::module &m, std::string network_classname) {
+//     py::class_<Seldon::Network<AgentT, WeightT>>(m, network_classname.c_str())
+//         .def(py::init<>())
+//         .def(py::init<const std::size_t>())
+//         .def(py::init<const std::vector<AgentT> &>())
+//         .def(
+//             py::init<>(
+//                 [](std::vector<std::vector<size_t>> &&neighbour_list, std::vector<std::vector<WeightT>> &&weight_list, const std::string
+//                 &direction) {
+//                     typename Seldon::Network<AgentT, WeightT>::EdgeDirection edge_direction;
+//                     if (direction == "Incoming") {
+//                         edge_direction = Seldon::Network<AgentT, WeightT>::EdgeDirection::Incoming;
+//                     } else {
+//                         edge_direction = Seldon::Network<AgentT, WeightT>::EdgeDirection::Outgoing;
+//                     }
+//                     return Seldon::Network<AgentT, WeightT>(std::move(neighbour_list), std::move(weight_list), edge_direction);
+//                 }),
+//             "neighbour_list"_a,
+//             "weight_list"_a,
+//             "direction"_a = "Incoming")
+//         .def("n_agents", &Seldon::Network<AgentT, WeightT>::n_agents)
+//         .def("n_edges", &Seldon::Network<AgentT, WeightT>::n_edges)
+//         .def("direction", &Seldon::Network<AgentT, WeightT>::direction)
+//         .def("strongly_connected_components",
+//              &Seldon::Network<AgentT, WeightT>::
+//                  strongly_connected_components) //
+//                  https://stackoverflow.com/questions/64632424/interpreting-static-cast-static-castvoid-petint-syntax
+//                                                 // // https://pybind11.readthedocs.io/en/stable/classes.html#overloaded-methods
+//         .def("get_neighbours",
+//              static_cast<std::span<const size_t> (Seldon::Network<AgentT, WeightT>::*)(std::size_t) const>(
+//                  &Seldon::Network<AgentT, WeightT>::get_neighbours))
+//         .def("get_neighbours",
+//              static_cast<std::span<size_t> (Seldon::Network<AgentT, WeightT>::*)(std::size_t)>(&Seldon::Network<AgentT, WeightT>::get_neighbours))
+//         .def("get_weights",
+//              static_cast<std::span<const double> (Seldon::Network<AgentT, WeightT>::*)(std::size_t) const>(
+//                  &Seldon::Network<AgentT, WeightT>::get_weights))
+//         .def("get_weights",
+//              static_cast<std::span<double> (Seldon::Network<AgentT, WeightT>::*)(std::size_t)>(&Seldon::Network<AgentT, WeightT>::get_weights))
+//         .def("set_weights", &Seldon::Network<AgentT, WeightT>::set_weights)
+//         .def("set_neighbours_and_weights",
+//              static_cast<void (Seldon::Network<AgentT, WeightT>::*)(std::size_t, std::span<const size_t>, const WeightT &)>(
+//                  &Seldon::Network<AgentT, WeightT>::set_neighbours_and_weights))
+//         .def("set_neighbours_and_weights",
+//              static_cast<void (Seldon::Network<AgentT, WeightT>::*)(std::size_t, std::span<const size_t>, std::span<const WeightT>)>(
+//                  &Seldon::Network<AgentT, WeightT>::set_neighbours_and_weights))
+//         .def("push_back_neighbour_and_weight", &Seldon::Network<AgentT, WeightT>::push_back_neighbour_and_weight) // takes in (size_T, size_t,
+//         double) .def("transpose", &Seldon::Network<AgentT, WeightT>::transpose) .def("toggle_incoming_outgoing", &Seldon::Network<AgentT,
+//         WeightT>::toggle_incoming_outgoing) .def("switch_direction_flag", &Seldon::Network<AgentT, WeightT>::switch_direction_flag)
+//         .def("remove_double_counting", &Seldon::Network<AgentT, WeightT>::remove_double_counting)
+//         .def("clear", &Seldon::Network<AgentT, WeightT>::clear)
+//         .def("agent", &Seldon::Network<AgentT, WeightT>::agents);
 // }
-
-// py::class_<Seldon::Simulation<Seldon::SimpleAgent>(m, "SimulationDeGroot")
-//     .def(py::init<>([](const Seldon::Config::SimulationOptions &options,
-//                        const std::optional<std::string> &agent_file,
-//                        const std::optional<std::string> &network_file) {
-//             Seldon::Config::validate_settings(options);
-//             Seldon::Config::print_settings(options)
-//              return new Seldon::Simulation<Seldon::SimpleAgent>(options, network_file, agent_file);
-//          }),
-//          "options"_a,
-//          "agent_file"_a = std::optional<std::string>{},
-//          "network_file"_a = std::optional<std::string>{})
-//     .def("run", &Seldon::Simulation<Seldon::SimpleAgent>::run)
-//     .def_readwrite("network", &Seldon::Simulation<Seldon::SimpleAgent>::network)
-//     .def_readwrite("network_agents", &Seldon::Simulation<Seldon::SimpleAgent>::network.agents.data)
-//     .def_readwrite("network_agents_opinions", &Seldon::Simulation<Seldon::SimpleAgent>::network.agents.data.opinion);
-    
-template <typename AgentT, typename WeightT = double>
-void generate_networks_bindings(py::module &m, std::string network_classname) {
-    py::class_<Seldon::Network<AgentT, WeightT>>(m, network_classname.c_str())
-        .def(py::init<>())
-        .def(py::init<const std::size_t>())
-        .def(py::init<const std::vector<AgentT> &>())
-        .def(
-            py::init<>(
-                [](std::vector<std::vector<size_t>> &&neighbour_list, std::vector<std::vector<WeightT>> &&weight_list, const std::string &direction) {
-                    typename Seldon::Network<AgentT, WeightT>::EdgeDirection edge_direction;
-                    if (direction == "Incoming") {
-                        edge_direction = Seldon::Network<AgentT, WeightT>::EdgeDirection::Incoming;
-                    } else {
-                        edge_direction = Seldon::Network<AgentT, WeightT>::EdgeDirection::Outgoing;
-                    }
-                    return Seldon::Network<AgentT, WeightT>(std::move(neighbour_list), std::move(weight_list), edge_direction);
-                }),
-            "neighbour_list"_a,
-            "weight_list"_a,
-            "direction"_a = "Incoming")
-        .def("n_agents", &Seldon::Network<AgentT, WeightT>::n_agents)
-        .def("n_edges", &Seldon::Network<AgentT, WeightT>::n_edges)
-        .def("direction", &Seldon::Network<AgentT, WeightT>::direction)
-        .def("strongly_connected_components",
-             &Seldon::Network<AgentT, WeightT>::
-                 strongly_connected_components) // https://stackoverflow.com/questions/64632424/interpreting-static-cast-static-castvoid-petint-syntax
-                                                // // https://pybind11.readthedocs.io/en/stable/classes.html#overloaded-methods
-        .def("get_neighbours",
-             static_cast<std::span<const size_t> (Seldon::Network<AgentT, WeightT>::*)(std::size_t) const>(
-                 &Seldon::Network<AgentT, WeightT>::get_neighbours))
-        .def("get_neighbours",
-             static_cast<std::span<size_t> (Seldon::Network<AgentT, WeightT>::*)(std::size_t)>(&Seldon::Network<AgentT, WeightT>::get_neighbours))
-        .def("get_weights",
-             static_cast<std::span<const double> (Seldon::Network<AgentT, WeightT>::*)(std::size_t) const>(
-                 &Seldon::Network<AgentT, WeightT>::get_weights))
-        .def("get_weights",
-             static_cast<std::span<double> (Seldon::Network<AgentT, WeightT>::*)(std::size_t)>(&Seldon::Network<AgentT, WeightT>::get_weights))
-        .def("set_weights", &Seldon::Network<AgentT, WeightT>::set_weights)
-        .def("set_neighbours_and_weights",
-             static_cast<void (Seldon::Network<AgentT, WeightT>::*)(std::size_t, std::span<const size_t>, const WeightT &)>(
-                 &Seldon::Network<AgentT, WeightT>::set_neighbours_and_weights))
-        .def("set_neighbours_and_weights",
-             static_cast<void (Seldon::Network<AgentT, WeightT>::*)(std::size_t, std::span<const size_t>, std::span<const WeightT>)>(
-                 &Seldon::Network<AgentT, WeightT>::set_neighbours_and_weights))
-        .def("push_back_neighbour_and_weight", &Seldon::Network<AgentT, WeightT>::push_back_neighbour_and_weight) // takes in (size_T, size_t, double)
-        .def("transpose", &Seldon::Network<AgentT, WeightT>::transpose)
-        .def("toggle_incoming_outgoing", &Seldon::Network<AgentT, WeightT>::toggle_incoming_outgoing)
-        .def("switch_direction_flag", &Seldon::Network<AgentT, WeightT>::switch_direction_flag)
-        .def("remove_double_counting", &Seldon::Network<AgentT, WeightT>::remove_double_counting)
-        .def("clear", &Seldon::Network<AgentT, WeightT>::clear);
-}
 
 // m.def("generate_fully_connected",
 //       static_cast<Seldon::Network<AgentType> (*)(std::size_t, std::mt19937
@@ -303,6 +189,57 @@ PYBIND11_MODULE(seldoncore, m) {
         "output_dir_path"_a = std::optional<std::string>{},
         "initial_agents"_a = nullptr,
         "final_agents"_a = nullptr);
+
+    py::class_<Seldon::SimpleAgentData>(m, "SimpleAgentData").def(py::init<>()).def_readwrite("opinion", &Seldon::SimpleAgentData::opinion);
+
+    py::class_<Seldon::DiscreteVectorAgentData>(m, "DiscreteVectorAgentData")
+        .def(py::init<>())
+        .def_readwrite("opinion", &Seldon::DiscreteVectorAgentData::opinion);
+
+    py::class_<Seldon::ActivityAgentData>(m, "ActivityAgentData")
+        .def(py::init<>())
+        .def_readwrite("opinion", &Seldon::ActivityAgentData::opinion)
+        .def_readwrite("activity", &Seldon::ActivityAgentData::activity)
+        .def_readwrite("reluctance", &Seldon::ActivityAgentData::reluctance);
+
+    py::class_<Seldon::InertialAgentData>(m, "InertialAgentData")
+        .def(py::init<>())
+        .def_readwrite("opinion", &Seldon::InertialAgentData::opinion)
+        .def_readwrite("activity", &Seldon::InertialAgentData::activity)
+        .def_readwrite("reluctance", &Seldon::InertialAgentData::reluctance)
+        .def_readwrite("vellocity", &Seldon::InertialAgentData::velocity);
+
+    py::class_<Seldon::Agent<Seldon::SimpleAgentData>>(m, "SimpleAgent")
+        .def(py::init<>())
+        .def(py::init<Seldon::SimpleAgentData>())
+        .def_readwrite("data", &Seldon::Agent<Seldon::SimpleAgentData>::data);
+
+    py::class_<Seldon::Agent<Seldon::DiscreteVectorAgentData>>(m, "DiscreteVectorAgent")
+        .def(py::init<>())
+        .def(py::init<Seldon::DiscreteVectorAgentData>())
+        .def_readwrite("data", &Seldon::Agent<Seldon::DiscreteVectorAgentData>::data);
+
+    py::class_<Seldon::Agent<Seldon::ActivityAgentData>>(m, "ActivityAgent")
+        .def(py::init<>())
+        .def(py::init<Seldon::ActivityAgentData>())
+        .def_readwrite("data", &Seldon::Agent<Seldon::ActivityAgentData>::data);
+
+    py::class_<Seldon::Simulation<Seldon::SimpleAgent>>(m, "SimulationDeGroot")
+        .def(py::init<>([](const Seldon::Config::SimulationOptions &options,
+                           const std::optional<std::string> &agent_file,
+                           const std::optional<std::string> &network_file) {
+                 Seldon::Config::validate_settings(options);
+                 Seldon::Config::print_settings(options);
+                 return new Seldon::Simulation<Seldon::SimpleAgent>(options, network_file, agent_file);
+             }),
+             "options"_a,
+             "agent_file"_a = std::optional<std::string>{},
+             "network_file"_a = std::optional<std::string>{})
+        .def("run", &Seldon::Simulation<Seldon::SimpleAgent>::run, "output_dir_path"_a = fs::path("./output"))
+        .def_readwrite("network", &Seldon::Simulation<Seldon::SimpleAgent>::network);
+
+    // .def_readwrite("network_agents", &Seldon::Simulation<Seldon::SimpleAgent>::network.agents.data)
+    // .def_readwrite("network_agents_opinions", &Seldon::Simulation<Seldon::SimpleAgent>::network.agents.data.opinion);
 
     //--------------------------------------------------------------------
     // output settings instance to be passed in the simulation options
@@ -706,13 +643,60 @@ PYBIND11_MODULE(seldoncore, m) {
         .def_readwrite("output_settings", &Seldon::Config::SimulationOptions::output_settings)
         .def_readwrite("model_settings", &Seldon::Config::SimulationOptions::model_settings)
         .def_readwrite("network_settings", &Seldon::Config::SimulationOptions::network_settings);
-    //-------------------------------------------------------------------------------------------------------------------
 
-    generate_networks_bindings<Seldon::SimpleAgent>(m, "SimpleAgentNetwork");
-    generate_networks_bindings<Seldon::DeffuantModelVector::AgentT>(m, "DeffuantVectorNetwork");
-    generate_networks_bindings<Seldon::ActivityDrivenModel::AgentT>(m, "ActivityDrivenNetwork");
-    generate_networks_bindings<Seldon::InertialModel::AgentT>(m, "InertialNetwork");
-    generate_networks_bindings<double>(m, "Network");
+    py::class_<Seldon::Network<Seldon::SimpleAgent>>(m, "SimpleAgentNetwork")
+        .def(py::init<>())
+        .def(py::init<const std::size_t>())
+        .def(py::init<const std::vector<Seldon::SimpleAgent> &>())
+        .def(py::init<>(
+                 [](std::vector<std::vector<size_t>> &&neighbour_list, std::vector<std::vector<double>> &&weight_list, const std::string &direction) {
+                     typename Seldon::Network<Seldon::SimpleAgent>::EdgeDirection edge_direction;
+                     if (direction == "Incoming") {
+                         edge_direction = Seldon::Network<Seldon::SimpleAgent>::EdgeDirection::Incoming;
+                     } else {
+                         edge_direction = Seldon::Network<Seldon::SimpleAgent>::EdgeDirection::Outgoing;
+                     }
+                     return Seldon::Network<Seldon::SimpleAgent>(std::move(neighbour_list), std::move(weight_list), edge_direction);
+                 }),
+             "neighbour_list"_a,
+             "weight_list"_a,
+             "direction"_a = "Incoming")
+        .def("n_agents", &Seldon::Network<Seldon::SimpleAgent>::n_agents)
+        .def("n_edges", &Seldon::Network<Seldon::SimpleAgent>::n_edges)
+        .def("direction", &Seldon::Network<Seldon::SimpleAgent>::direction)
+        .def("strongly_connected_components",
+             &Seldon::Network<Seldon::SimpleAgent>::
+                 strongly_connected_components) // https://stackoverflow.com/questions/64632424/interpreting-static-cast-static-castvoid-petint-syntax
+                                                // // https://pybind11.readthedocs.io/en/stable/classes.html#overloaded-methods
+        .def("get_neighbours",
+             static_cast<std::span<const size_t> (Seldon::Network<Seldon::SimpleAgent>::*)(std::size_t) const>(
+                 &Seldon::Network<Seldon::SimpleAgent>::get_neighbours))
+        .def("get_neighbours",
+             static_cast<std::span<size_t> (Seldon::Network<Seldon::SimpleAgent>::*)(std::size_t)>(
+                 &Seldon::Network<Seldon::SimpleAgent>::get_neighbours))
+        .def("get_weights",
+             static_cast<std::span<const double> (Seldon::Network<Seldon::SimpleAgent>::*)(std::size_t) const>(
+                 &Seldon::Network<Seldon::SimpleAgent>::get_weights))
+        .def(
+            "get_weights",
+            static_cast<std::span<double> (Seldon::Network<Seldon::SimpleAgent>::*)(std::size_t)>(&Seldon::Network<Seldon::SimpleAgent>::get_weights))
+        .def("set_weights", &Seldon::Network<Seldon::SimpleAgent>::set_weights)
+        .def("set_neighbours_and_weights",
+             static_cast<void (Seldon::Network<Seldon::SimpleAgent>::*)(std::size_t, std::span<const size_t>, const double &)>(
+                 &Seldon::Network<Seldon::SimpleAgent>::set_neighbours_and_weights))
+        .def("set_neighbours_and_weights",
+             static_cast<void (Seldon::Network<Seldon::SimpleAgent>::*)(std::size_t, std::span<const size_t>, std::span<const double>)>(
+                 &Seldon::Network<Seldon::SimpleAgent>::set_neighbours_and_weights))
+        .def("push_back_neighbour_and_weight",
+             &Seldon::Network<Seldon::SimpleAgent>::push_back_neighbour_and_weight) // takes in (size_T, size_t, double)
+        .def("transpose", &Seldon::Network<Seldon::SimpleAgent>::transpose)
+        .def("toggle_incoming_outgoing", &Seldon::Network<Seldon::SimpleAgent>::toggle_incoming_outgoing)
+        .def("switch_direction_flag", &Seldon::Network<Seldon::SimpleAgent>::switch_direction_flag)
+        .def("remove_double_counting", &Seldon::Network<Seldon::SimpleAgent>::remove_double_counting)
+        .def("clear", &Seldon::Network<Seldon::SimpleAgent>::clear)
+        .def_readwrite("agent", &Seldon::Network<Seldon::SimpleAgent>::agents);
+
+    // generate_networks_bindings<double>(m, "Network");
 
     //--------------------------------------------------------------------------------------------------------------------
 

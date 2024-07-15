@@ -1,2 +1,0 @@
-/home/parrot_user/Desktop/pyseldon/.mesonpy-8i917udb/meson-private/__CMake_compiler_info__/CMakeFiles/edit_cache.dir
-/home/parrot_user/Desktop/pyseldon/.mesonpy-8i917udb/meson-private/__CMake_compiler_info__/CMakeFiles/rebuild_cache.dir

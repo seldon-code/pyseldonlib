@@ -1,8 +1,0 @@
-[options]
-buildtype = release
-b_ndebug = if-release
-b_vscrt = md
-
-[properties]
-native_file = ['/home/parrot_user/Desktop/pyseldon/.mesonpy-8i917udb/meson-python-native-file.ini']
-

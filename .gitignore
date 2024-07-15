@@ -51,3 +51,6 @@ doc/apidocs/
 
 #pycache
 *__pycache__/
+
+#mesonpython
+.mesonpy*

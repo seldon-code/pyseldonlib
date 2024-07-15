@@ -52,7 +52,12 @@ myst_enable_extensions = [
 
 # -- autodoc2 options --------------------------------------------------------
 autodoc2_render_plugin = "myst"
-autodoc2_packages = ["../pyseldon"]
+autodoc2_packages = [
+    {
+        "path": "../src",
+        "auto_mode": False,
+    },
+]
 
 # # -- sphinx_favicon options -----------------------------------------------
 # favicons = [

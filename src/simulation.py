@@ -40,3 +40,8 @@ def run_simulation_from_options(options, agent_file_path = None, network_file_pa
         The path to the output file.
     """
     seldoncore.run_simulation(options = options, config_file_path = None,  agent_file_path = agent_file_path, network_file_path = network_file_path, output_dir_path = output_dir_path, initial_agents = initial_agents, final_agents = final_agents)
+
+class simulation:
+    """The simulation class."""
+    def __init__(self, config_file_path = None, agent_file_path = None, network_file_path = None, output_dir_path = None, initial_agents = [], final_agents = []):
+        """The simulation class constructor"""
