@@ -4,12 +4,22 @@
 #vscode
 .vscode/
 
+# docs
+doc/source/_build/
+doc/apidocs/
+
+#pycache
+*__pycache__/
+
+#mesonpython
+.mesonpy*
 notes.txt
 TODO.txt
 tests/__pycache__/
 tests/outputs/
 .pytest*
 output/
+build/
 
 # Prerequisites
 *.d
@@ -44,13 +54,3 @@ output/
 *.out
 *.app
 
-
-# docs
-doc/source/_build/
-doc/apidocs/
-
-#pycache
-*__pycache__/
-
-#mesonpython
-.mesonpy*

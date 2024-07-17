@@ -12,7 +12,7 @@ import pathlib
 
 # print(final_agents)
 
-sim_options = pyseldon.seldoncore.SimulationOptions(model_string = "DeGroot", model_settings = pyseldon.seldoncore.DeGrootSettings(max_iterations = 20))
+sim_options = pyseldon.seldoncore.SimulationOptions(model_string = "ActivityDrivenInertial", model_settings = pyseldon.seldoncore.ActivityDrivenInertialSettings(max_iterations = 20), output_settings = pyseldon.seldoncore.OutputSettings(n_output_agents= 200,n_output_network = 5))
 # simulation = pyseldon.seldoncore.SimulationDeGroot(sim_options)
 # agent = simulation.network.agent[1].data.opinion
 
@@ -22,8 +22,8 @@ sim_options = pyseldon.seldoncore.SimulationOptions(model_string = "DeGroot", mo
 # print(dir(simulation))
 # simulation.run(str(pathlib.Path(__file__).parent.resolve() / "output/"))
 
-print(type(pyseldon.seldoncore.SimulationOptions()))
-
+# print(type(pyseldon.seldoncore.create_output_settings()))
+# print(type(pyseldon.seldoncore.create_output_settings(1,2, True, True,0,0)))
 
 pyseldon.seldoncore.run_simulation(options = sim_options)
 
