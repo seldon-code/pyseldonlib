@@ -1,4 +1,5 @@
 import pyseldon.seldoncore as pd
+import pytest
 
 def test_degroot_settings():
     settings = pd.DeGrootSettings()

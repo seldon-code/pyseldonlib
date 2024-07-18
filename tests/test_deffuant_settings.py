@@ -1,4 +1,5 @@
 import pyseldon.seldoncore as pd
+import pytest
 
 def test_deffuant_settings():
   settings = pd.DeffuantSettings()

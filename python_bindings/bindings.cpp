@@ -34,6 +34,9 @@
 #include <pybind11/stl.h>
 #include <pybind11/stl/filesystem.h>
 
+//adding it here because the linker is not able to dynamically identify this template class iteration method
+extern template class Seldon::ActivityDrivenModelAbstract<Seldon::ActivityAgent>;
+
 using namespace std::string_literals;
 using namespace pybind11::literals;
 namespace py = pybind11;
@@ -115,20 +118,6 @@ PYBIND11_MODULE(seldoncore, m) {
         .def(py::init<Seldon::SimpleAgentData>())
         .def_readwrite("data", &Seldon::Agent<Seldon::SimpleAgentData>::data);
 
-    py::class_<Seldon::Simulation<Seldon::SimpleAgent>>(m, "SimulationSimpleAgent")
-        .def(py::init<>([](const Seldon::Config::SimulationOptions &options,
-                           const std::optional<std::string> &agent_file,
-                           const std::optional<std::string> &network_file) {
-                 Seldon::Config::validate_settings(options);
-                 Seldon::Config::print_settings(options);
-                 return new Seldon::Simulation<Seldon::SimpleAgent>(options, network_file, agent_file);
-             }),
-             "options"_a,
-             "agent_file"_a = std::optional<std::string>{},
-             "network_file"_a = std::optional<std::string>{})
-        .def("run", &Seldon::Simulation<Seldon::SimpleAgent>::run, "output_dir_path"_a = fs::path("./output"))
-        .def_readwrite("network", &Seldon::Simulation<Seldon::SimpleAgent>::network);
-
     //------------------------------------------------------------------------------------------------------------------------------------------
 
     py::class_<Seldon::DiscreteVectorAgentData>(m, "DiscreteVectorAgentData")
@@ -139,20 +128,6 @@ PYBIND11_MODULE(seldoncore, m) {
         .def(py::init<>())
         .def(py::init<Seldon::DiscreteVectorAgentData>())
         .def_readwrite("data", &Seldon::Agent<Seldon::DiscreteVectorAgentData>::data);
-
-    py::class_<Seldon::Simulation<Seldon::DiscreteVectorAgent>>(m, "SimulationDiscreteVectorAgent")
-        .def(py::init<>([](const Seldon::Config::SimulationOptions &options,
-                           const std::optional<std::string> &agent_file,
-                           const std::optional<std::string> &network_file) {
-                 Seldon::Config::validate_settings(options);
-                 Seldon::Config::print_settings(options);
-                 return new Seldon::Simulation<Seldon::DiscreteVectorAgent>(options, network_file, agent_file);
-             }),
-             "options"_a,
-             "agent_file"_a = std::optional<std::string>{},
-             "network_file"_a = std::optional<std::string>{})
-        .def("run", &Seldon::Simulation<Seldon::DiscreteVectorAgent>::run, "output_dir_path"_a = fs::path("./output"))
-        .def_readwrite("network", &Seldon::Simulation<Seldon::DiscreteVectorAgent>::network);
 
     //------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -166,20 +141,6 @@ PYBIND11_MODULE(seldoncore, m) {
         .def(py::init<>())
         .def(py::init<Seldon::ActivityAgentData>())
         .def_readwrite("data", &Seldon::Agent<Seldon::ActivityAgentData>::data);
-
-    py::class_<Seldon::Simulation<Seldon::ActivityAgent>>(m, "SimulationActivityAgent")
-        .def(py::init<>([](const Seldon::Config::SimulationOptions &options,
-                           const std::optional<std::string> &agent_file,
-                           const std::optional<std::string> &network_file) {
-                 Seldon::Config::validate_settings(options);
-                 Seldon::Config::print_settings(options);
-                 return new Seldon::Simulation<Seldon::ActivityAgent>(options, network_file, agent_file);
-             }),
-             "options"_a,
-             "agent_file"_a = std::optional<std::string>{},
-             "network_file"_a = std::optional<std::string>{})
-        .def("run", &Seldon::Simulation<Seldon::ActivityAgent>::run, "output_dir_path"_a = fs::path("./output"))
-        .def_readwrite("network", &Seldon::Simulation<Seldon::ActivityAgent>::network);
 
     //------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -195,6 +156,56 @@ PYBIND11_MODULE(seldoncore, m) {
         .def(py::init<Seldon::InertialAgentData>())
         .def_readwrite("data", &Seldon::Agent<Seldon::InertialAgentData>::data);
 
+    //------------------------------------------------------------------------------------------------------------------------------------------
+
+    py::class_<Seldon::Simulation<Seldon::SimpleAgent>>(m, "SimulationSimpleAgent")
+        .def(py::init<>([](const Seldon::Config::SimulationOptions &options,
+                           const std::optional<std::string> &agent_file,
+                           const std::optional<std::string> &network_file) {
+                 Seldon::Config::validate_settings(options);
+                 Seldon::Config::print_settings(options);
+                 return new Seldon::Simulation<Seldon::SimpleAgent>(options, network_file, agent_file);
+             }),
+             "options"_a,
+             "agent_file"_a = std::optional<std::string>{},
+             "network_file"_a = std::optional<std::string>{})
+        .def("run", &Seldon::Simulation<Seldon::SimpleAgent>::run, "output_dir_path"_a = fs::path("./output"))
+        .def_readwrite("network", &Seldon::Simulation<Seldon::SimpleAgent>::network);
+
+    //---------------------------------------------------------------------------------------------------------------------------------------
+
+    py::class_<Seldon::Simulation<Seldon::DiscreteVectorAgent>>(m, "SimulationDiscreteVector")
+        .def(py::init<>([](const Seldon::Config::SimulationOptions &options,
+                           const std::optional<std::string> &agent_file,
+                           const std::optional<std::string> &network_file) {
+                 Seldon::Config::validate_settings(options);
+                 Seldon::Config::print_settings(options);
+                 return new Seldon::Simulation<Seldon::DiscreteVectorAgent>(options, network_file, agent_file);
+             }),
+             "options"_a,
+             "agent_file"_a = std::optional<std::string>{},
+             "network_file"_a = std::optional<std::string>{})
+        .def("run", &Seldon::Simulation<Seldon::DiscreteVectorAgent>::run, "output_dir_path"_a = fs::path("./output"))
+        .def_readwrite("network", &Seldon::Simulation<Seldon::DiscreteVectorAgent>::network);
+
+    //---------------------------------------------------------------------------------------------------------------------------------------
+
+    py::class_<Seldon::Simulation<Seldon::ActivityAgent>>(m, "SimulationActivityAgent")
+        .def(py::init<>([](const Seldon::Config::SimulationOptions &options,
+                           const std::optional<std::string> &agent_file,
+                           const std::optional<std::string> &network_file) {
+                 Seldon::Config::validate_settings(options);
+                 Seldon::Config::print_settings(options);
+                 return new Seldon::Simulation<Seldon::ActivityAgent>(options, network_file, agent_file);
+             }),
+             "options"_a,
+             "agent_file"_a = std::optional<std::string>{},
+             "network_file"_a = std::optional<std::string>{})
+        .def("run", &Seldon::Simulation<Seldon::ActivityAgent>::run, "output_dir_path"_a = fs::path("./output"))
+        .def_readwrite("network", &Seldon::Simulation<Seldon::ActivityAgent>::network);
+
+    //---------------------------------------------------------------------------------------------------------------------------------------
+
     py::class_<Seldon::Simulation<Seldon::InertialAgent>>(m, "SimulationInertialAgent")
         .def(py::init<>([](const Seldon::Config::SimulationOptions &options,
                            const std::optional<std::string> &agent_file,
@@ -209,7 +220,6 @@ PYBIND11_MODULE(seldoncore, m) {
         .def("run", &Seldon::Simulation<Seldon::InertialAgent>::run, "output_dir_path"_a = fs::path("./output"))
         .def_readwrite("network", &Seldon::Simulation<Seldon::InertialAgent>::network);
 
-    //------------------------------------------------------------------------------------------------------------------------------------------
     //------------------------------------------------------------------------------------------------------------------------------------------
 
     py::class_<Seldon::Config::OutputSettings>(m, "OutputSettings")
@@ -756,6 +766,7 @@ PYBIND11_MODULE(seldoncore, m) {
         "n_connections"_a,
         "self_interaction"_a = false,
         "seed"_a = 0);
+
     m.def(
         "generate_n_connections_degroot",
         [](std::size_t n_agents, std::size_t n_connections, bool self_interaction, std::size_t seed) {
@@ -958,5 +969,4 @@ PYBIND11_MODULE(seldoncore, m) {
     m.def("agents_to_file", &Seldon::agents_to_file<Seldon::InertialAgent>, "network"_a, "file_path"_a);
 
     //--------------------------------------------------------------------------------------------------------------------
-    
 }

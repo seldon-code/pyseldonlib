@@ -1,4 +1,5 @@
 import pyseldon.seldoncore as pd
+import pytest
 
 def test_activity_driven_inertial_settings():
     settings = pd.ActivityDrivenInertialSettings()

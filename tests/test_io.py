@@ -1,4 +1,5 @@
 import pyseldon.seldoncore as pd
+import pytest
 
 network = pd.generate_fully_connected_activity_driven(n_agents=100, weight = None, seed = None)
 

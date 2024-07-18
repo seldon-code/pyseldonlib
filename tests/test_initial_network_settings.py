@@ -1,5 +1,6 @@
 import pyseldon.seldoncore as pd
 import pathlib as ptlb
+import pytest
 
 def test_initial_network_settings_readwrite():
   network_settings = pd.InitialNetworkSettings()

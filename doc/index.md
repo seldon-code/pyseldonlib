@@ -15,7 +15,7 @@ myst:
     version: "1.0"
 ---
 
-```{figure} source/_static/res/logo_text.png
+```{figure} source/_static/res/pyseldon1.png
 ---
 align: center
 width: 500px

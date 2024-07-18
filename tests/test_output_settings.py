@@ -1,4 +1,5 @@
 import pyseldon.seldoncore as pd
+import pytest
 
 def test_output_settings():
     settings = pd.OutputSettings()
