@@ -45,7 +45,6 @@ def run_simulation_from_options(
     )
 
 
-
 class Simulation:
     """The Simulation class provides functions to run the simulation using the simulation options object, agent file, and network file."""
     def __init__(self, model_string="DeGroot", agent_file_path=None, network_file_path=None):
