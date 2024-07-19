@@ -1,8 +1,10 @@
 import pathlib as ptlb
+
 # import os
 import pytest
 import pyseldon as pd
 import shutil
+
 
 def test_run_simulation(capsys):
     # Set up the paths
@@ -13,7 +15,7 @@ def test_run_simulation(capsys):
     output_dir1 = str(base_dir / "outputs/outputfile")
     output_dir2 = str(base_dir / "outputs/opwithnetwork")
     output_dir = str(base_dir / "outputs/output")
-    
+
     if ptlb.Path(output_dir1).exists():
         shutil.rmtree(output_dir1)
     if ptlb.Path(output_dir2).exists():
@@ -21,13 +23,19 @@ def test_run_simulation(capsys):
 
     # Test with output directory and config
     with capsys.disabled():
-        pd.seldoncore.run_simulation(config_file_path = config_file,output_dir_path = output_dir1)
+        pd.seldoncore.run_simulation(
+            config_file_path=config_file, output_dir_path=output_dir1
+        )
     assert ptlb.Path(output_dir1).exists()
     assert ptlb.Path(output_dir1).is_dir()
 
     # Test with network file
     with capsys.disabled():
-        pd.seldoncore.run_simulation(config_file_path = config_file, network_file_path = network_file, output_dir_path = output_dir2)
+        pd.seldoncore.run_simulation(
+            config_file_path=config_file,
+            network_file_path=network_file,
+            output_dir_path=output_dir2,
+        )
     assert ptlb.Path(output_dir2).exists()
     assert ptlb.Path(output_dir2).is_dir()
 
@@ -35,15 +43,18 @@ def test_run_simulation(capsys):
     invalid_network_file = str(ptlb.Path(base_dir, "tests/network/net.txt"))
     with pytest.raises(RuntimeError):
         with capsys.disabled():
-            pd.seldoncore.run_simulation(config_file_path = config_file,network_file_path = invalid_network_file)
+            pd.seldoncore.run_simulation(
+                config_file_path=config_file, network_file_path=invalid_network_file
+            )
 
     # Test with invalid config file
     with pytest.raises(RuntimeError):
         with capsys.disabled():
-            pd.seldoncore.run_simulation(config_file_path = invalid_config_file)
+            pd.seldoncore.run_simulation(config_file_path=invalid_config_file)
 
     if ptlb.Path(output_dir).exists():
         shutil.rmtree(output_dir)
+
 
 def test_settings():
     degroot_settings = pd.seldoncore.DeGrootSettings()
@@ -61,12 +72,13 @@ def test_settings():
     assert initial_network_settings is not None
     assert activitydriveninertial_settings.covariance_factor == 0.0
 
+
 # def test_network():
 #     degroot_network = pd.seldoncore.DeGrootNetwork()
 #     deffuant_network = pd.seldoncore.DeffuantNetwork()
 #     activitydriven_network = pd.seldoncore.ActivityDrivenNetwork()
 #     activitydriveninertial_network = pd.seldoncore.InertialNetwork()
-    
+
 #     assert degroot_network is not None
 #     assert deffuant_network is not None
 #     assert activitydriven_network is not None

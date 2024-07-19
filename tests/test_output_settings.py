@@ -1,6 +1,7 @@
 import pyseldon.seldoncore as pd
 import pytest
 
+
 def test_output_settings():
     settings = pd.OutputSettings()
     assert settings.n_output_agents is None

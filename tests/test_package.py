@@ -14,7 +14,7 @@ import pathlib
 # agent = simulation.network.agent
 
 # simulation.run()
-# for i in agent: 
+# for i in agent:
 #   print(i.data.opinion)
 # print(dir(simulation))
 
@@ -22,4 +22,3 @@ import pathlib
 
 # agent = simulation.network.agent[5].data.opinion
 # print(agent)
-
