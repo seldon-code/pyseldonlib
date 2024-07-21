@@ -83,7 +83,7 @@ def test_lattice_deffuant_model_16X16_agents():
         assert simulation.network.agent[i].data.opinion == pytest.approx(-avg_opinion)
 
 
-#Test the multi-dimensional Deffuant vector model, with 3-dimensional binary opinions, for two agents
+# Test the multi-dimensional Deffuant vector model, with 3-dimensional binary opinions, for two agents
 def test_deffuant_vector_model():
     proj_root = Path.cwd()
     input_file = str(proj_root / "tests" / "res" / "deffuant_vector_2agents.toml")
@@ -93,9 +93,9 @@ def test_deffuant_vector_model():
 
     output_dir_path = str(proj_root / "tests" / "output_deffuant_vector")
 
-    #agents are too far apart, we dont expect any change with the iterations
-    agent1_init = [ 0, 1, 0 ]
-    agent2_init = [ 1, 0, 1 ]
+    # agents are too far apart, we dont expect any change with the iterations
+    agent1_init = [0, 1, 0]
+    agent2_init = [1, 0, 1]
 
     simulation.network.agent[0].data.opinion = agent1_init
     simulation.network.agent[1].data.opinion = agent2_init
@@ -107,15 +107,18 @@ def test_deffuant_vector_model():
 
     # agents are close enough, they should converge
     # dim-1 or 2 opinions should be the same
-    agent1_init = [ 0, 1, 1 ]
-    agent2_init = [ 1, 1, 1 ]
+    agent1_init = [0, 1, 1]
+    agent2_init = [1, 1, 1]
 
     simulation.network.agent[0].data.opinion = agent1_init
     simulation.network.agent[1].data.opinion = agent2_init
 
-    simulation.run( output_dir_path );
+    simulation.run(output_dir_path)
 
-    assert simulation.network.agent[0].data.opinion == simulation.network.agent[1].data.opinion 
+    assert (
+        simulation.network.agent[0].data.opinion
+        == simulation.network.agent[1].data.opinion
+    )
 
 
 if __name__ == "__main__":

@@ -23,10 +23,15 @@
 #include <cstddef>
 #include <memory>
 #include <optional>
-#include <random>
 #include <set>
 #include <variant>
 #include <vector>
+#include <algorithm>
+#include <queue>
+#include <random>
+#include <span>
+#include <stdexcept>
+#include <utility>
 
 // pybind11 headers
 #include <pybind11/operators.h>
@@ -969,4 +974,28 @@ PYBIND11_MODULE(seldoncore, m) {
     m.def("agents_to_file", &Seldon::agents_to_file<Seldon::InertialAgent>, "network"_a, "file_path"_a);
 
     //--------------------------------------------------------------------------------------------------------------------
-}
+    py::class_<Seldon::power_law_distribution<double>>(m, "Power_Law_Distribution")
+        .def(py::init<double , double>(), "eps"_a, "gamma"_a)
+        .def("__call__", &Seldon::power_law_distribution<double>::template operator()<std::mt19937>, "gen"_a)
+        .def("pdf", &Seldon::power_law_distribution<double>::pdf, "x"_a)
+        .def("inverse_cdf", &Seldon::power_law_distribution<double>::inverse_cdf, "x"_a)
+        .def("mean", &Seldon::power_law_distribution<double>::mean);
+
+    py::class_<Seldon::truncated_normal_distribution<double>>(m, "Truncated_Normal_Distribution")
+        .def(py::init<double , double, double>(),"mean"_a, "sigma"_a, "eps"_a)
+        .def("__call__", &Seldon::truncated_normal_distribution<double>::template operator()<std::mt19937>, "gen"_a)
+        .def("pdf", &Seldon::truncated_normal_distribution<double>::pdf, "x"_a)
+        .def("inverse_cdf", &Seldon::truncated_normal_distribution<double>::inverse_cdf, "y"_a);
+    
+     py::class_<Seldon::bivariate_normal_distribution<double>>(m, "Bivariate_Normal_Distribution")
+        .def(py::init<double>(),"covariance"_a)
+        .def("__call__", &Seldon::bivariate_normal_distribution<double>::template operator()<std::mt19937> , "gen"_a);
+    
+    // py::class_<Seldon::bivariate_gaussian_copula<double, std::uniform_real_distribution<double> , std::uniform_real_distribution<double>>> (m, "Bivariate_Gaussian_Copula")
+    //     .def(py::init<double, std::uniform_real_distribution<double> , std::uniform_real_distribution<double>>(), "covariance"_a, "dist1"_a, "dist2"_a )
+    //     .def("__call__", &Seldon::bivariate_gaussian_copula<double, std::uniform_real_distribution<double> , std::uniform_real_distribution<double>>::template operator()<std::mt19937> , "gen"_a);
+
+    m.def("hamming_distance", &Seldon::hamming_distance<double> , "v1"_a , "v2"_a );
+
+}       
+
