@@ -2,21 +2,11 @@ import pytest
 import pyseldon.seldoncore as pd
 
 # Test data similar to the C++ version
-neighbour_list = [
-    [1],
-    [2, 3],
-    [0],
-    [4],
-    [5],
-    [4],
-    [4, 7],
-    [5, 8],
-    [9],
-    [6, 7]
-]
+neighbour_list = [[1], [2, 3], [0], [4], [5], [4], [4, 7], [5, 8], [9], [6, 7]]
 
 # Expected SCCs
 expected_scc = [{5, 4}, {3}, {2, 1, 0}, {9, 8, 7, 6}]
+
 
 def test_tarjan_scc():
     # Run Tarjan's algorithm

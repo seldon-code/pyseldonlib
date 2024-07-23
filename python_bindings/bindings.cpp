@@ -20,18 +20,18 @@
 #include "util/misc.hpp"
 #include "util/tomlplusplus.hpp"
 
+#include <algorithm>
 #include <cstddef>
 #include <memory>
 #include <optional>
-#include <set>
-#include <variant>
-#include <vector>
-#include <algorithm>
 #include <queue>
 #include <random>
+#include <set>
 #include <span>
 #include <stdexcept>
 #include <utility>
+#include <variant>
+#include <vector>
 
 // pybind11 headers
 #include <pybind11/operators.h>
@@ -39,7 +39,7 @@
 #include <pybind11/stl.h>
 #include <pybind11/stl/filesystem.h>
 
-//adding it here because the linker is not able to dynamically identify this template class iteration method
+// adding it here because the linker is not able to dynamically identify this template class iteration method
 extern template class Seldon::ActivityDrivenModelAbstract<Seldon::ActivityAgent>;
 
 using namespace std::string_literals;
@@ -549,7 +549,7 @@ PYBIND11_MODULE(seldoncore, m) {
         .def_readwrite("model_settings", &Seldon::Config::SimulationOptions::model_settings)
         .def_readwrite("network_settings", &Seldon::Config::SimulationOptions::network_settings);
 
-        py::class_<Seldon::Network<double>>(m, "Network")
+    py::class_<Seldon::Network<double>>(m, "Network")
         .def(py::init<>())
         .def(py::init<const std::size_t>())
         .def(py::init<const std::vector<double> &>())
@@ -573,25 +573,42 @@ PYBIND11_MODULE(seldoncore, m) {
              &Seldon::Network<double>::
                  strongly_connected_components) // https://stackoverflow.com/questions/64632424/interpreting-static-cast-static-castvoid-petint-syntax
                                                 // // https://pybind11.readthedocs.io/en/stable/classes.html#overloaded-methods
-                .def("get_neighbours",
-             [](Seldon::Network<double>& self, std::size_t index) {
+        .def("get_neighbours",
+             [](Seldon::Network<double> &self, std::size_t index) {
                  auto span = self.get_neighbours(index);
                  return std::vector<size_t>(span.begin(), span.end());
              })
         .def("get_weights",
-        [](Seldon::Network<double>& self, std::size_t index) {
+             [](Seldon::Network<double> &self, std::size_t index) {
                  auto span = self.get_weights(index);
                  return std::vector<double>(span.begin(), span.end());
              })
-        .def("set_weights", [](Seldon::Network<double>& self, std::size_t agent_idx, const std::vector<double>& weights) {
-            self.set_weights(agent_idx, std::span<const double>(weights));
-        }, "agent_idx"_a, "weights"_a)
-        .def("set_neighbours_and_weights", [](Seldon::Network<double>& self, std::size_t agent_idx, const std::vector<std::size_t>& buffer_neighbours, const std::vector<double>& buffer_weights) {
-            self.set_neighbours_and_weights(agent_idx, std::span<const std::size_t>(buffer_neighbours), std::span<const double>(buffer_weights));
-        }, "agent_idx"_a, "buffer_neighbours"_a, "buffer_weights"_a)
-        .def("set_neighbours_and_weights", [](Seldon::Network<double>& self, std::size_t agent_idx, const std::vector<std::size_t>& buffer_neighbours, const double& weight) {
-            self.set_neighbours_and_weights(agent_idx, std::span<const std::size_t>(buffer_neighbours), weight);
-        }, "agent_idx"_a, "buffer_neighbours"_a, "weight"_a)
+        .def(
+            "set_weights",
+            [](Seldon::Network<double> &self, std::size_t agent_idx, const std::vector<double> &weights) {
+                self.set_weights(agent_idx, std::span<const double>(weights));
+            },
+            "agent_idx"_a,
+            "weights"_a)
+        .def(
+            "set_neighbours_and_weights",
+            [](Seldon::Network<double> &self,
+               std::size_t agent_idx,
+               const std::vector<std::size_t> &buffer_neighbours,
+               const std::vector<double> &buffer_weights) {
+                self.set_neighbours_and_weights(agent_idx, std::span<const std::size_t>(buffer_neighbours), std::span<const double>(buffer_weights));
+            },
+            "agent_idx"_a,
+            "buffer_neighbours"_a,
+            "buffer_weights"_a)
+        .def(
+            "set_neighbours_and_weights",
+            [](Seldon::Network<double> &self, std::size_t agent_idx, const std::vector<std::size_t> &buffer_neighbours, const double &weight) {
+                self.set_neighbours_and_weights(agent_idx, std::span<const std::size_t>(buffer_neighbours), weight);
+            },
+            "agent_idx"_a,
+            "buffer_neighbours"_a,
+            "weight"_a)
         .def("push_back_neighbour_and_weight",
              &Seldon::Network<double>::push_back_neighbour_and_weight) // takes in (size_T, size_t, double)
         .def("transpose", &Seldon::Network<double>::transpose)
@@ -626,24 +643,42 @@ PYBIND11_MODULE(seldoncore, m) {
                  strongly_connected_components) // https://stackoverflow.com/questions/64632424/interpreting-static-cast-static-castvoid-petint-syntax
                                                 // // https://pybind11.readthedocs.io/en/stable/classes.html#overloaded-methods
         .def("get_neighbours",
-             [](Seldon::Network<Seldon::SimpleAgent>& self, std::size_t index) {
+             [](Seldon::Network<Seldon::SimpleAgent> &self, std::size_t index) {
                  auto span = self.get_neighbours(index);
                  return std::vector<size_t>(span.begin(), span.end());
              })
         .def("get_weights",
-        [](Seldon::Network<Seldon::SimpleAgent>& self, std::size_t index) {
+             [](Seldon::Network<Seldon::SimpleAgent> &self, std::size_t index) {
                  auto span = self.get_weights(index);
                  return std::vector<double>(span.begin(), span.end());
              })
-        .def("set_weights", [](Seldon::Network<Seldon::SimpleAgent>& self, std::size_t agent_idx, const std::vector<double>& weights) {
-            self.set_weights(agent_idx, std::span<const double>(weights));
-        }, "agent_idx"_a, "weights"_a)
-        .def("set_neighbours_and_weights", [](Seldon::Network<Seldon::SimpleAgent>& self, std::size_t agent_idx, const std::vector<std::size_t>& buffer_neighbours, const std::vector<double>& buffer_weights) {
-            self.set_neighbours_and_weights(agent_idx, std::span<const std::size_t>(buffer_neighbours), std::span<const double>(buffer_weights));
-        }, "agent_idx"_a, "buffer_neighbours"_a, "buffer_weights"_a)
-        .def("set_neighbours_and_weights", [](Seldon::Network<Seldon::SimpleAgent>& self, std::size_t agent_idx, const std::vector<std::size_t>& buffer_neighbours, const double& weight) {
-            self.set_neighbours_and_weights(agent_idx, std::span<const std::size_t>(buffer_neighbours), weight);
-        }, "agent_idx"_a, "buffer_neighbours"_a, "weight"_a)
+        .def(
+            "set_weights",
+            [](Seldon::Network<Seldon::SimpleAgent> &self, std::size_t agent_idx, const std::vector<double> &weights) {
+                self.set_weights(agent_idx, std::span<const double>(weights));
+            },
+            "agent_idx"_a,
+            "weights"_a)
+        .def(
+            "set_neighbours_and_weights",
+            [](Seldon::Network<Seldon::SimpleAgent> &self,
+               std::size_t agent_idx,
+               const std::vector<std::size_t> &buffer_neighbours,
+               const std::vector<double> &buffer_weights) {
+                self.set_neighbours_and_weights(agent_idx, std::span<const std::size_t>(buffer_neighbours), std::span<const double>(buffer_weights));
+            },
+            "agent_idx"_a,
+            "buffer_neighbours"_a,
+            "buffer_weights"_a)
+        .def(
+            "set_neighbours_and_weights",
+            [](Seldon::Network<Seldon::SimpleAgent> &self,
+               std::size_t agent_idx,
+               const std::vector<std::size_t> &buffer_neighbours,
+               const double &weight) { self.set_neighbours_and_weights(agent_idx, std::span<const std::size_t>(buffer_neighbours), weight); },
+            "agent_idx"_a,
+            "buffer_neighbours"_a,
+            "weight"_a)
         .def("push_back_neighbour_and_weight",
              &Seldon::Network<Seldon::SimpleAgent>::push_back_neighbour_and_weight) // takes in (size_T, size_t, double)
         .def("transpose", &Seldon::Network<Seldon::SimpleAgent>::transpose)
@@ -678,24 +713,42 @@ PYBIND11_MODULE(seldoncore, m) {
                  strongly_connected_components) // https://stackoverflow.com/questions/64632424/interpreting-static-cast-static-castvoid-petint-syntax
                                                 // // https://pybind11.readthedocs.io/en/stable/classes.html#overloaded-methods
         .def("get_neighbours",
-             [](Seldon::Network<Seldon::DiscreteVectorAgent>& self, std::size_t index) {
+             [](Seldon::Network<Seldon::DiscreteVectorAgent> &self, std::size_t index) {
                  auto span = self.get_neighbours(index);
                  return std::vector<size_t>(span.begin(), span.end());
              })
         .def("get_weights",
-        [](Seldon::Network<Seldon::DiscreteVectorAgent>& self, std::size_t index) {
+             [](Seldon::Network<Seldon::DiscreteVectorAgent> &self, std::size_t index) {
                  auto span = self.get_weights(index);
                  return std::vector<double>(span.begin(), span.end());
              })
-        .def("set_weights", [](Seldon::Network<Seldon::DiscreteVectorAgent>& self, std::size_t agent_idx, const std::vector<double>& weights) {
-            self.set_weights(agent_idx, std::span<const double>(weights));
-        }, "agent_idx"_a, "weights"_a)
-        .def("set_neighbours_and_weights", [](Seldon::Network<Seldon::DiscreteVectorAgent>& self, std::size_t agent_idx, const std::vector<std::size_t>& buffer_neighbours, const std::vector<double>& buffer_weights) {
-            self.set_neighbours_and_weights(agent_idx, std::span<const std::size_t>(buffer_neighbours), std::span<const double>(buffer_weights));
-        }, "agent_idx"_a, "buffer_neighbours"_a, "buffer_weights"_a)
-        .def("set_neighbours_and_weights", [](Seldon::Network<Seldon::DiscreteVectorAgent>& self, std::size_t agent_idx, const std::vector<std::size_t>& buffer_neighbours, const double& weight) {
-            self.set_neighbours_and_weights(agent_idx, std::span<const std::size_t>(buffer_neighbours), weight);
-        }, "agent_idx"_a, "buffer_neighbours"_a, "weight"_a)
+        .def(
+            "set_weights",
+            [](Seldon::Network<Seldon::DiscreteVectorAgent> &self, std::size_t agent_idx, const std::vector<double> &weights) {
+                self.set_weights(agent_idx, std::span<const double>(weights));
+            },
+            "agent_idx"_a,
+            "weights"_a)
+        .def(
+            "set_neighbours_and_weights",
+            [](Seldon::Network<Seldon::DiscreteVectorAgent> &self,
+               std::size_t agent_idx,
+               const std::vector<std::size_t> &buffer_neighbours,
+               const std::vector<double> &buffer_weights) {
+                self.set_neighbours_and_weights(agent_idx, std::span<const std::size_t>(buffer_neighbours), std::span<const double>(buffer_weights));
+            },
+            "agent_idx"_a,
+            "buffer_neighbours"_a,
+            "buffer_weights"_a)
+        .def(
+            "set_neighbours_and_weights",
+            [](Seldon::Network<Seldon::DiscreteVectorAgent> &self,
+               std::size_t agent_idx,
+               const std::vector<std::size_t> &buffer_neighbours,
+               const double &weight) { self.set_neighbours_and_weights(agent_idx, std::span<const std::size_t>(buffer_neighbours), weight); },
+            "agent_idx"_a,
+            "buffer_neighbours"_a,
+            "weight"_a)
         .def("push_back_neighbour_and_weight",
              &Seldon::Network<Seldon::DiscreteVectorAgent>::push_back_neighbour_and_weight) // takes in (size_T, size_t, double)
         .def("transpose", &Seldon::Network<Seldon::DiscreteVectorAgent>::transpose)
@@ -729,25 +782,43 @@ PYBIND11_MODULE(seldoncore, m) {
              &Seldon::Network<Seldon::ActivityAgent>::
                  strongly_connected_components) // https://stackoverflow.com/questions/64632424/interpreting-static-cast-static-castvoid-petint-syntax
                                                 // // https://pybind11.readthedocs.io/en/stable/classes.html#overloaded-methods
-         .def("get_neighbours",
-             [](Seldon::Network<Seldon::ActivityAgent>& self, std::size_t index) {
+        .def("get_neighbours",
+             [](Seldon::Network<Seldon::ActivityAgent> &self, std::size_t index) {
                  auto span = self.get_neighbours(index);
                  return std::vector<size_t>(span.begin(), span.end());
              })
         .def("get_weights",
-        [](Seldon::Network<Seldon::ActivityAgent>& self, std::size_t index) {
+             [](Seldon::Network<Seldon::ActivityAgent> &self, std::size_t index) {
                  auto span = self.get_weights(index);
                  return std::vector<double>(span.begin(), span.end());
              })
-        .def("set_weights", [](Seldon::Network<Seldon::ActivityAgent>& self, std::size_t agent_idx, const std::vector<double>& weights) {
-            self.set_weights(agent_idx, std::span<const double>(weights));
-        }, "agent_idx"_a, "weights"_a)
-        .def("set_neighbours_and_weights", [](Seldon::Network<Seldon::ActivityAgent>& self, std::size_t agent_idx, const std::vector<std::size_t>& buffer_neighbours, const std::vector<double>& buffer_weights) {
-            self.set_neighbours_and_weights(agent_idx, std::span<const std::size_t>(buffer_neighbours), std::span<const double>(buffer_weights));
-        }, "agent_idx"_a, "buffer_neighbours"_a, "buffer_weights"_a)
-        .def("set_neighbours_and_weights", [](Seldon::Network<Seldon::ActivityAgent>& self, std::size_t agent_idx, const std::vector<std::size_t>& buffer_neighbours, const double& weight) {
-            self.set_neighbours_and_weights(agent_idx, std::span<const std::size_t>(buffer_neighbours), weight);
-        }, "agent_idx"_a, "buffer_neighbours"_a, "weight"_a)
+        .def(
+            "set_weights",
+            [](Seldon::Network<Seldon::ActivityAgent> &self, std::size_t agent_idx, const std::vector<double> &weights) {
+                self.set_weights(agent_idx, std::span<const double>(weights));
+            },
+            "agent_idx"_a,
+            "weights"_a)
+        .def(
+            "set_neighbours_and_weights",
+            [](Seldon::Network<Seldon::ActivityAgent> &self,
+               std::size_t agent_idx,
+               const std::vector<std::size_t> &buffer_neighbours,
+               const std::vector<double> &buffer_weights) {
+                self.set_neighbours_and_weights(agent_idx, std::span<const std::size_t>(buffer_neighbours), std::span<const double>(buffer_weights));
+            },
+            "agent_idx"_a,
+            "buffer_neighbours"_a,
+            "buffer_weights"_a)
+        .def(
+            "set_neighbours_and_weights",
+            [](Seldon::Network<Seldon::ActivityAgent> &self,
+               std::size_t agent_idx,
+               const std::vector<std::size_t> &buffer_neighbours,
+               const double &weight) { self.set_neighbours_and_weights(agent_idx, std::span<const std::size_t>(buffer_neighbours), weight); },
+            "agent_idx"_a,
+            "buffer_neighbours"_a,
+            "weight"_a)
         .def("push_back_neighbour_and_weight",
              &Seldon::Network<Seldon::ActivityAgent>::push_back_neighbour_and_weight) // takes in (size_T, size_t, double)
         .def("transpose", &Seldon::Network<Seldon::ActivityAgent>::transpose)
@@ -781,25 +852,43 @@ PYBIND11_MODULE(seldoncore, m) {
              &Seldon::Network<Seldon::InertialAgent>::
                  strongly_connected_components) // https://stackoverflow.com/questions/64632424/interpreting-static-cast-static-castvoid-petint-syntax
                                                 // // https://pybind11.readthedocs.io/en/stable/classes.html#overloaded-methods
-         .def("get_neighbours",
-             [](Seldon::Network<Seldon::InertialAgent>& self, std::size_t index) {
+        .def("get_neighbours",
+             [](Seldon::Network<Seldon::InertialAgent> &self, std::size_t index) {
                  auto span = self.get_neighbours(index);
                  return std::vector<size_t>(span.begin(), span.end());
              })
         .def("get_weights",
-        [](Seldon::Network<Seldon::InertialAgent>& self, std::size_t index) {
+             [](Seldon::Network<Seldon::InertialAgent> &self, std::size_t index) {
                  auto span = self.get_weights(index);
                  return std::vector<double>(span.begin(), span.end());
              })
-        .def("set_weights", [](Seldon::Network<Seldon::InertialAgent>& self, std::size_t agent_idx, const std::vector<double>& weights) {
-            self.set_weights(agent_idx, std::span<const double>(weights));
-        }, "agent_idx"_a, "weights"_a)
-        .def("set_neighbours_and_weights", [](Seldon::Network<Seldon::InertialAgent>& self, std::size_t agent_idx, const std::vector<std::size_t>& buffer_neighbours, const std::vector<double>& buffer_weights) {
-            self.set_neighbours_and_weights(agent_idx, std::span<const std::size_t>(buffer_neighbours), std::span<const double>(buffer_weights));
-        }, "agent_idx"_a, "buffer_neighbours"_a, "buffer_weights"_a)
-        .def("set_neighbours_and_weights", [](Seldon::Network<Seldon::InertialAgent>& self, std::size_t agent_idx, const std::vector<std::size_t>& buffer_neighbours, const double& weight) {
-            self.set_neighbours_and_weights(agent_idx, std::span<const std::size_t>(buffer_neighbours), weight);
-        }, "agent_idx"_a, "buffer_neighbours"_a, "weight"_a)
+        .def(
+            "set_weights",
+            [](Seldon::Network<Seldon::InertialAgent> &self, std::size_t agent_idx, const std::vector<double> &weights) {
+                self.set_weights(agent_idx, std::span<const double>(weights));
+            },
+            "agent_idx"_a,
+            "weights"_a)
+        .def(
+            "set_neighbours_and_weights",
+            [](Seldon::Network<Seldon::InertialAgent> &self,
+               std::size_t agent_idx,
+               const std::vector<std::size_t> &buffer_neighbours,
+               const std::vector<double> &buffer_weights) {
+                self.set_neighbours_and_weights(agent_idx, std::span<const std::size_t>(buffer_neighbours), std::span<const double>(buffer_weights));
+            },
+            "agent_idx"_a,
+            "buffer_neighbours"_a,
+            "buffer_weights"_a)
+        .def(
+            "set_neighbours_and_weights",
+            [](Seldon::Network<Seldon::InertialAgent> &self,
+               std::size_t agent_idx,
+               const std::vector<std::size_t> &buffer_neighbours,
+               const double &weight) { self.set_neighbours_and_weights(agent_idx, std::span<const std::size_t>(buffer_neighbours), weight); },
+            "agent_idx"_a,
+            "buffer_neighbours"_a,
+            "weight"_a)
         .def("push_back_neighbour_and_weight",
              &Seldon::Network<Seldon::InertialAgent>::push_back_neighbour_and_weight) // takes in (size_T, size_t, double)
         .def("transpose", &Seldon::Network<Seldon::InertialAgent>::transpose)
@@ -1027,27 +1116,29 @@ PYBIND11_MODULE(seldoncore, m) {
 
     //--------------------------------------------------------------------------------------------------------------------
     py::class_<Seldon::power_law_distribution<double>>(m, "Power_Law_Distribution")
-        .def(py::init<double , double>(), "eps"_a, "gamma"_a)
+        .def(py::init<double, double>(), "eps"_a, "gamma"_a)
         .def("__call__", &Seldon::power_law_distribution<double>::template operator()<std::mt19937>, "gen"_a)
         .def("pdf", &Seldon::power_law_distribution<double>::pdf, "x"_a)
         .def("inverse_cdf", &Seldon::power_law_distribution<double>::inverse_cdf, "x"_a)
         .def("mean", &Seldon::power_law_distribution<double>::mean);
 
     py::class_<Seldon::truncated_normal_distribution<double>>(m, "Truncated_Normal_Distribution")
-        .def(py::init<double , double, double>(),"mean"_a, "sigma"_a, "eps"_a)
+        .def(py::init<double, double, double>(), "mean"_a, "sigma"_a, "eps"_a)
         .def("__call__", &Seldon::truncated_normal_distribution<double>::template operator()<std::mt19937>, "gen"_a)
         .def("pdf", &Seldon::truncated_normal_distribution<double>::pdf, "x"_a)
         .def("inverse_cdf", &Seldon::truncated_normal_distribution<double>::inverse_cdf, "y"_a);
-    
-     py::class_<Seldon::bivariate_normal_distribution<double>>(m, "Bivariate_Normal_Distribution")
-        .def(py::init<double>(),"covariance"_a)
-        .def("__call__", &Seldon::bivariate_normal_distribution<double>::template operator()<std::mt19937> , "gen"_a);
-    
-    py::class_<Seldon::bivariate_gaussian_copula<double, std::uniform_real_distribution<double> , std::uniform_real_distribution<double>>> (m, "Bivariate_Gaussian_Copula")
-        .def(py::init<double, std::uniform_real_distribution<double> , std::uniform_real_distribution<double>>(), "covariance"_a, "dist1"_a, "dist2"_a )
-        .def("__call__", &Seldon::bivariate_gaussian_copula<double, std::uniform_real_distribution<double> , std::uniform_real_distribution<double>>::template operator()<std::mt19937> , "gen"_a);
 
-    m.def("hamming_distance", &Seldon::hamming_distance<double> , "v1"_a , "v2"_a );
+    py::class_<Seldon::bivariate_normal_distribution<double>>(m, "Bivariate_Normal_Distribution")
+        .def(py::init<double>(), "covariance"_a)
+        .def("__call__", &Seldon::bivariate_normal_distribution<double>::template operator()<std::mt19937>, "gen"_a);
 
-}       
+    py::class_<Seldon::bivariate_gaussian_copula<double, std::uniform_real_distribution<double>, std::uniform_real_distribution<double>>>(
+        m, "Bivariate_Gaussian_Copula")
+        .def(py::init<double, std::uniform_real_distribution<double>, std::uniform_real_distribution<double>>(), "covariance"_a, "dist1"_a, "dist2"_a)
+        .def("__call__",
+             &Seldon::bivariate_gaussian_copula<double, std::uniform_real_distribution<double>, std::uniform_real_distribution<double>>::template
+             operator()<std::mt19937>,
+             "gen"_a);
 
+    m.def("hamming_distance", &Seldon::hamming_distance<double>, "v1"_a, "v2"_a);
+}

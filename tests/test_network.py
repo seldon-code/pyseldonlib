@@ -13,7 +13,7 @@ def test_network_class_tests():
         n_agents=n_agents,
         n_connections=n_connections,
         self_interaction=self_interaction,
-        seed = gen_pseudorandom
+        seed=gen_pseudorandom,
     )
 
     assert network is not None
@@ -27,9 +27,7 @@ def test_network_class_tests():
     neighbour_list = [0, 10]
     weights = [0.5, 0.5]
     network.set_neighbours_and_weights(
-        agent_idx=agent_index,
-        buffer_neighbours=neighbour_list,
-        buffer_weights=weights
+        agent_idx=agent_index, buffer_neighbours=neighbour_list, buffer_weights=weights
     )
 
     retrieved_weights = network.get_weights(agent_index)

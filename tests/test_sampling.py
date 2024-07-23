@@ -3,12 +3,14 @@ import pytest
 import random
 import pyseldon.seldoncore as Seldon
 
+
 def compute_p(k, n):
     if k == 0:
         return 0.0
     else:
         p = 1.0 / (float(n) - 1.0)
         return p + (1.0 - p) * compute_p(k - 1, n - 1)
+
 
 def test_draw_unique_k_from_n():
     N_RUNS = 10000
@@ -29,7 +31,9 @@ def test_draw_unique_k_from_n():
 
     assert histogram[ignore_idx] == 0  # The ignore_idx should never be selected
 
-    number_outside_three_sigma = sum(1 for count in histogram if 0 < abs(float(count) - mean) > 3.0 * sigma)
+    number_outside_three_sigma = sum(
+        1 for count in histogram if 0 < abs(float(count) - mean) > 3.0 * sigma
+    )
 
     for count in histogram:
         if count == 0:
@@ -37,7 +41,11 @@ def test_draw_unique_k_from_n():
         assert abs(count - mean) <= 5 * sigma
 
     if number_outside_three_sigma > 0.01 * N_RUNS:
-        pytest.warns(UserWarning, f"Many deviations beyond the 3 sigma range. {number_outside_three_sigma} out of {N_RUNS}")
+        pytest.warns(
+            UserWarning,
+            f"Many deviations beyond the 3 sigma range. {number_outside_three_sigma} out of {N_RUNS}",
+        )
+
 
 def test_weighted_reservoir_sampling():
     N_RUNS = 10000
