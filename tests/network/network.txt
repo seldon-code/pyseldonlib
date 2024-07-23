@@ -1,0 +1,1 @@
+# idx_agent, n_neighbours_in, indices_neighbours_in[...], weights_in[...]

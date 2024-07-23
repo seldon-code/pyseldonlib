@@ -1,0 +1,56 @@
+#subprojects
+/subprojects/seldon/
+
+#vscode
+.vscode/
+
+# docs
+doc/source/_build/
+doc/apidocs/
+
+#pycache
+*__pycache__/
+
+#mesonpython
+.mesonpy*
+notes.txt
+TODO.txt
+tests/__pycache__/
+tests/outputs/
+.pytest*
+output/
+build/
+
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+

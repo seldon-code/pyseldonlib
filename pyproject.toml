@@ -1,0 +1,24 @@
+[project]
+name = "pyseldon"
+version = "1.0"
+description=""
+authors = [
+    {name = "Amrita Goswami", email = "amrita16thaug646@gmail.com"},
+    {name = "Moritz Sallermann", email = "moritzsallermann@gmail.com"},
+    {name = "Rohit Goswami", email = "rgoswami@ieee.org"},
+    {name = "Daivik Karbhari", email="daivikkarbhari01@gmail.com"}
+    ]
+dependencies=[
+    "pybind11>=2.12.0"
+]
+requires-python = ">=3.9"
+readme = 'README.md'
+license = {text = "GPL v3"}  # just mention the license text to not clutter the metadata
+
+
+[build-system]
+requires = ["pybind11","meson-python"]
+build-backend= "mesonpy"
+
+[tool.meson-python.args]
+install = ['--skip-subprojects']
