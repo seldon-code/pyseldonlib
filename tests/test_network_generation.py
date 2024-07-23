@@ -11,7 +11,7 @@ def test_network_generation():
    weight = 0.25
    weights =  [weight, weight, weight ]
 
-   network = pd.generate_fully_connected(n_agents = n_agents, weight = weight, seed = None)
+   network = pd.generate_fully_connected_degroot(n_agents = n_agents, weight = weight, seed = None)
 
    assert  network.n_agents() == n_agents
 

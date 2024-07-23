@@ -2,7 +2,7 @@ import pytest
 import pyseldon as pd
 
 
-def network_class_tests():
+def test_network_class_tests():
     # Generate some network
     n_agents = 20
     n_connections = 10
@@ -13,12 +13,13 @@ def network_class_tests():
         n_agents=n_agents,
         n_connections=n_connections,
         self_interaction=self_interaction,
-        gen=gen_pseudorandom,
+        seed = gen_pseudorandom
     )
 
     assert network is not None
-    assert network.n_agents == n_agents
-    assert network.n_edges == n_agents * n_connections
+    assert network.n_agents() == n_agents
+    print(network.n_edges())
+    assert network.n_edges() == n_agents * n_connections
 
     # Check that the function for setting neighbours and a single weight work
     # Agent 3
@@ -26,9 +27,9 @@ def network_class_tests():
     neighbour_list = [0, 10]
     weights = [0.5, 0.5]
     network.set_neighbours_and_weights(
-        agent_index=agent_index,
+        agent_idx=agent_index,
         buffer_neighbours=neighbour_list,
-        buffer_weights=weights,
+        buffer_weights=weights
     )
 
     retrieved_weights = network.get_weights(agent_index)
@@ -36,12 +37,12 @@ def network_class_tests():
 
     # Checking that set_weight, get_neighbour work
     weights = [0.25, 0.55]
-    network.set_weights(agent_index=agent_index, buffer_weights=weights)
+    network.set_weights(agent_idx=agent_index, weights=weights)
     buffer_w_get = network.get_weights(agent_index)
 
     assert buffer_w_get == weights
     assert network.n_edges(3) == 2
-    assert neighbour_list[0] == network.get_weight(3)[0]
+    assert neighbour_list[0] == network.get_weights(3)[0]
     assert neighbour_list[0] == 2
     assert network.get_weights(3)[1] == 0.9  # dont know why
 
@@ -49,7 +50,7 @@ def network_class_tests():
     neighbour_list = [0, 10, 15]
     weights = [0.1, 0.2, 0.3]
     network.set_neighbours_and_weights(
-        agent_index=agent_index,
+        agent_idx=agent_index,
         buffer_neighbours=neighbour_list,
         buffer_weights=weights,
     )
