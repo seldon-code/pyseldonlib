@@ -1,7 +1,7 @@
 import math
 import pytest
 import random
-import pyseldon.seldoncore as Seldon
+import pypd.pdcore as pd
 
 
 def compute_p(k, n):
@@ -21,7 +21,7 @@ def test_draw_unique_k_from_n():
     histogram = [0] * n  # Count how often each element occurs amongst all samples
 
     for _ in range(N_RUNS):
-        buffer = Seldon.draw_unique_k_from_n(ignore_idx, k, n)
+        buffer = pd.draw_unique_k_from_n(ignore_idx, k, n)
         for num in buffer:
             histogram[num] += 1
 
@@ -63,7 +63,7 @@ def test_weighted_reservoir_sampling():
             return abs(n / 2.0 - idx)
 
     for _ in range(N_RUNS):
-        buffer = Seldon.reservoir_sampling_A_ExpJ(k, n, weight_callback)
+        buffer = pd.reservoir_sampling_A_ExpJ(k, n, weight_callback)
         for num in buffer:
             histogram[num] += 1
 

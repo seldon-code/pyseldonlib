@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-import pyseldon.seldoncore as Seldon
+import pypd.pdcore as pd
 import pytest
 
 
@@ -21,18 +21,18 @@ def write_results_to_file(n_samples, dist, filename):
 def test_probability_distributions():
     write_results_to_file(
         10000,
-        Seldon.Truncated_Normal_Distribution(1.0, 0.5, 0.75),
+        pd.Truncated_Normal_Distribution(1.0, 0.5, 0.75),
         "truncated_normal.txt",
     )
     write_results_to_file(
-        10000, Seldon.Power_Law_Distribution(0.01, 2.1), "power_law.txt"
+        10000, pd.Power_Law_Distribution(0.01, 2.1), "power_law.txt"
     )
     write_results_to_file(
-        10000, Seldon.Bivariate_Bormal_Distribution(0.5), "bivariate_normal.txt"
+        10000, pd.Bivariate_Bormal_Distribution(0.5), "bivariate_normal.txt"
     )
 
 
 def test_bivariate_gaussian_copula():
-    dist1 = Seldon.Power_Law_Distribution(0.02, 2.5)
-    dist2 = Seldon.Truncated_Normal_Distribution(1.0, 0.75, 0.2)
-    copula = Seldon.Bivariate_Gaussian_Copula(0.5, dist1, dist2)
+    dist1 = pd.Power_Law_Distribution(0.02, 2.5)
+    dist2 = pd.Truncated_Normal_Distribution(1.0, 0.75, 0.2)
+    copula = pd.Bivariate_Gaussian_Copula(0.5, dist1, dist2)
