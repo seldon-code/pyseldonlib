@@ -1,6 +1,7 @@
 import pyseldon.seldoncore as pd
 import pytest
 
+
 def test_activity_driven_settings():
     settings = pd.ActivityDrivenSettings()
     assert settings.max_iterations == None
@@ -69,5 +70,8 @@ def test_activity_driven_settings():
     assert settings.reluctance_mean == 1.1
     assert settings.reluctance_sigma == 0.26
     assert settings.reluctance_eps == 0.02
-    assert settings.covariance_factor == 0.1  
-    
+    assert settings.covariance_factor == 0.1
+
+
+if __name__ == "__main__":
+    pytest.main([__file__])

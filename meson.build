@@ -30,19 +30,20 @@ _deps += pyb11_dep
 # ask: name of the module
 py.extension_module(
   'seldoncore',
+  sources : [
+    'python_bindings/bindings.cpp'
+  ],
   dependencies: _deps,
   cpp_args : _args,
   install: true,
   subdir: 'pyseldon/',
-  sources : [
-    'python_bindings/bindings.cpp'
-  ]
 )
 
 py.install_sources(
    [ 
     # 'src/simulation.py',
-    'pyseldon/__init__.py',
+    # this would be replaced by src/simulation as we create a python interface for the bindings
+    'bindings_package/__init__.py',
   ],
   pure: false, # install next to compiled extension
   subdir: 'pyseldon'
