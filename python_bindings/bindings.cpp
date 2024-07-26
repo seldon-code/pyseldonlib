@@ -567,7 +567,7 @@ PYBIND11_MODULE(seldoncore, m) {
              "weight_list"_a,
              "direction"_a = "Incoming")
         .def("n_agents", &Seldon::Network<double>::n_agents)
-        .def("n_edges", &Seldon::Network<double>::n_edges, "agent_idx"_a = std::nullopt)
+        .def("n_edges", &Seldon::Network<double>::n_edges, "agent_idx"_a) //std::nullopt
         .def("direction", &Seldon::Network<double>::direction)
         .def("strongly_connected_components",
              &Seldon::Network<double>::
@@ -636,7 +636,7 @@ PYBIND11_MODULE(seldoncore, m) {
              "weight_list"_a,
              "direction"_a = "Incoming")
         .def("n_agents", &Seldon::Network<Seldon::SimpleAgent>::n_agents)
-        .def("n_edges", &Seldon::Network<Seldon::SimpleAgent>::n_edges, "agent_idx"_a = std::nullopt)
+        .def("n_edges", &Seldon::Network<Seldon::SimpleAgent>::n_edges, "agent_idx"_a)  //std::nullopt
         .def("direction", &Seldon::Network<Seldon::SimpleAgent>::direction)
         .def("strongly_connected_components",
              &Seldon::Network<Seldon::SimpleAgent>::
@@ -706,7 +706,7 @@ PYBIND11_MODULE(seldoncore, m) {
              "weight_list"_a,
              "direction"_a = "Incoming")
         .def("n_agents", &Seldon::Network<Seldon::DiscreteVectorAgent>::n_agents)
-        .def("n_edges", &Seldon::Network<Seldon::DiscreteVectorAgent>::n_edges, "agent_idx"_a = std::nullopt)
+        .def("n_edges", &Seldon::Network<Seldon::DiscreteVectorAgent>::n_edges, "agent_idx"_a) //std::nullopt
         .def("direction", &Seldon::Network<Seldon::DiscreteVectorAgent>::direction)
         .def("strongly_connected_components",
              &Seldon::Network<Seldon::DiscreteVectorAgent>::
@@ -776,7 +776,7 @@ PYBIND11_MODULE(seldoncore, m) {
              "weight_list"_a,
              "direction"_a = "Incoming")
         .def("n_agents", &Seldon::Network<Seldon::ActivityAgent>::n_agents)
-        .def("n_edges", &Seldon::Network<Seldon::ActivityAgent>::n_edges, "agent_idx"_a = std::nullopt)
+        .def("n_edges", &Seldon::Network<Seldon::ActivityAgent>::n_edges, "agent_idx"_a) //std::nullopt
         .def("direction", &Seldon::Network<Seldon::ActivityAgent>::direction)
         .def("strongly_connected_components",
              &Seldon::Network<Seldon::ActivityAgent>::
@@ -846,7 +846,7 @@ PYBIND11_MODULE(seldoncore, m) {
              "weight_list"_a,
              "direction"_a = "Incoming")
         .def("n_agents", &Seldon::Network<Seldon::InertialAgent>::n_agents)
-        .def("n_edges", &Seldon::Network<Seldon::InertialAgent>::n_edges, "agent_idx"_a = std::nullopt)
+        .def("n_edges", &Seldon::Network<Seldon::InertialAgent>::n_edges, "agent_idx"_a) //std::nullopt
         .def("direction", &Seldon::Network<Seldon::InertialAgent>::direction)
         .def("strongly_connected_components",
              &Seldon::Network<Seldon::InertialAgent>::
