@@ -20,4 +20,4 @@ jobs:
       - name: test
         shell: micromamba-shell {0}
         run: |
-          pytest tests
+          pytest tests/
