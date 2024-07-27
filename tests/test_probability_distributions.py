@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-import pypd.pdcore as pd
+import pyseldon.seldoncore as pd
 import pytest
 
 
@@ -24,9 +24,7 @@ def test_probability_distributions():
         pd.Truncated_Normal_Distribution(1.0, 0.5, 0.75),
         "truncated_normal.txt",
     )
-    write_results_to_file(
-        10000, pd.Power_Law_Distribution(0.01, 2.1), "power_law.txt"
-    )
+    write_results_to_file(10000, pd.Power_Law_Distribution(0.01, 2.1), "power_law.txt")
     write_results_to_file(
         10000, pd.Bivariate_Bormal_Distribution(0.5), "bivariate_normal.txt"
     )

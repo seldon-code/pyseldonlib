@@ -1,5 +1,7 @@
-# pyseldon
-Python bindings for the Seldon framework
+# PySeldon
+<img src="./doc/source/_static/res/logotext.png">
+
+## Python bindings for the Seldon framework
 
 ### Steps to Install and Compile the code
 
@@ -26,5 +28,11 @@ pip install .
 ### Run the tests
 Use `pytest` to run the tests:
 ```bash
-pytest tests/test.py
+pytest tests/
 ```
+ or
+
+ ```bash
+pytest -s tests/
+```
+to see the output of the tests without capturing the std output

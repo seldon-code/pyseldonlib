@@ -1,7 +1,7 @@
 import math
 import pytest
 import random
-import pypd.pdcore as pd
+import pyseldon.seldoncore as pd
 
 
 def compute_p(k, n):

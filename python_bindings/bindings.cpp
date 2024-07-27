@@ -100,14 +100,14 @@ void run_simulation(const std::optional<std::string> &config_file_path,
 }
 
 template <typename AgentT>
-void bind_Network(py::module &m, const std::string &name){
-        string Network_name = name + "Network";
-        py::class_<Seldon::Network<AgentT>>(m, Network_name)
+void bind_Network(py::module &m, const std::string &name) {
+    std::string Network_name = name + "Network";
+    py::class_<Seldon::Network<AgentT>>(m, Network_name.c_str())
         .def(py::init<>())
         .def(py::init<const std::size_t>())
         .def(py::init<const std::vector<AgentT> &>())
         .def(py::init<>(
-                 [](std::vector<std::vector<size_t>> &&neighbour_list, std::vector<std::vector<AgentT>> &&weight_list, const std::string &direction) {
+                 [](std::vector<std::vector<size_t>> &&neighbour_list, std::vector<std::vector<double>> &&weight_list, const std::string &direction) {
                      typename Seldon::Network<AgentT>::EdgeDirection edge_direction;
                      if (direction == "Incoming") {
                          edge_direction = Seldon::Network<AgentT>::EdgeDirection::Incoming;
@@ -120,7 +120,7 @@ void bind_Network(py::module &m, const std::string &name){
              "weight_list"_a,
              "direction"_a = "Incoming")
         .def("n_agents", &Seldon::Network<AgentT>::n_agents)
-        .def("n_edges", &Seldon::Network<AgentT>::n_edges, "agent_idx"_a) //std::nullopt
+        .def("n_edges", &Seldon::Network<AgentT>::n_edges, "agent_idx"_a) // std::nullopt
         .def("direction", &Seldon::Network<AgentT>::direction)
         .def("strongly_connected_components",
              &Seldon::Network<AgentT>::
@@ -134,11 +134,11 @@ void bind_Network(py::module &m, const std::string &name){
         .def("get_weights",
              [](Seldon::Network<AgentT> &self, std::size_t index) {
                  auto span = self.get_weights(index);
-                 return std::vector<AgentT>(span.begin(), span.end());
+                 return std::vector<double>(span.begin(), span.end());
              })
         .def(
             "set_weights",
-            [](Seldon::Network<AgentT> &self, std::size_t agent_idx, const std::vector<AgentT> &weights) {
+            [](Seldon::Network<AgentT> &self, std::size_t agent_idx, const std::vector<double> &weights) {
                 self.set_weights(agent_idx, std::span<const double>(weights));
             },
             "agent_idx"_a,
@@ -148,7 +148,7 @@ void bind_Network(py::module &m, const std::string &name){
             [](Seldon::Network<AgentT> &self,
                std::size_t agent_idx,
                const std::vector<std::size_t> &buffer_neighbours,
-               const std::vector<AgentT> &buffer_weights) {
+               const std::vector<double> &buffer_weights) {
                 self.set_neighbours_and_weights(agent_idx, std::span<const std::size_t>(buffer_neighbours), std::span<const double>(buffer_weights));
             },
             "agent_idx"_a,
@@ -170,7 +170,6 @@ void bind_Network(py::module &m, const std::string &name){
         .def("remove_double_counting", &Seldon::Network<AgentT>::remove_double_counting)
         .def("clear", &Seldon::Network<AgentT>::clear)
         .def_readwrite("agent", &Seldon::Network<AgentT>::agents);
-
 }
 
 PYBIND11_MODULE(seldoncore, m) {
@@ -623,18 +622,19 @@ PYBIND11_MODULE(seldoncore, m) {
         .def_readwrite("model_settings", &Seldon::Config::SimulationOptions::model_settings)
         .def_readwrite("network_settings", &Seldon::Config::SimulationOptions::network_settings);
 
-    bind_network<double>(m, "");
-    bind_network<Seldon::SimpleAgent>(m, "SimpleAgent");
-    bind_network<Seldon::DiscreteVectorAgent>(m, "DiscreteVectorAgent");
-    bind_network<Seldon::ActivityAgent>(m, "ActivityAgent");
-    bind_network<Seldon::InertialAgent>(m, "InertialAgent");
+    bind_Network<double>(m, "");
+    bind_Network<Seldon::SimpleAgent>(m, "SimpleAgent");
+    bind_Network<Seldon::DiscreteVectorAgent>(m, "DiscreteVectorAgent");
+    bind_Network<Seldon::ActivityAgent>(m, "ActivityAgent");
+    bind_Network<Seldon::InertialAgent>(m, "InertialAgent");
 
     // py::class_<Seldon::Network<double>>(m, "Network")
     //     .def(py::init<>())
     //     .def(py::init<const std::size_t>())
     //     .def(py::init<const std::vector<double> &>())
     //     .def(py::init<>(
-    //              [](std::vector<std::vector<size_t>> &&neighbour_list, std::vector<std::vector<double>> &&weight_list, const std::string &direction) {
+    //              [](std::vector<std::vector<size_t>> &&neighbour_list, std::vector<std::vector<double>> &&weight_list, const std::string
+    //              &direction) {
     //                  typename Seldon::Network<double>::EdgeDirection edge_direction;
     //                  if (direction == "Incoming") {
     //                      edge_direction = Seldon::Network<double>::EdgeDirection::Incoming;
@@ -651,7 +651,8 @@ PYBIND11_MODULE(seldoncore, m) {
     //     .def("direction", &Seldon::Network<double>::direction)
     //     .def("strongly_connected_components",
     //          &Seldon::Network<double>::
-    //              strongly_connected_components) // https://stackoverflow.com/questions/64632424/interpreting-static-cast-static-castvoid-petint-syntax
+    //              strongly_connected_components) //
+    //              https://stackoverflow.com/questions/64632424/interpreting-static-cast-static-castvoid-petint-syntax
     //                                             // // https://pybind11.readthedocs.io/en/stable/classes.html#overloaded-methods
     //     .def("get_neighbours",
     //          [](Seldon::Network<double> &self, std::size_t index) {
@@ -676,7 +677,8 @@ PYBIND11_MODULE(seldoncore, m) {
     //            std::size_t agent_idx,
     //            const std::vector<std::size_t> &buffer_neighbours,
     //            const std::vector<double> &buffer_weights) {
-    //             self.set_neighbours_and_weights(agent_idx, std::span<const std::size_t>(buffer_neighbours), std::span<const double>(buffer_weights));
+    //             self.set_neighbours_and_weights(agent_idx, std::span<const std::size_t>(buffer_neighbours), std::span<const
+    //             double>(buffer_weights));
     //         },
     //         "agent_idx"_a,
     //         "buffer_neighbours"_a,
@@ -703,7 +705,8 @@ PYBIND11_MODULE(seldoncore, m) {
     //     .def(py::init<const std::size_t>())
     //     .def(py::init<const std::vector<Seldon::SimpleAgent> &>())
     //     .def(py::init<>(
-    //              [](std::vector<std::vector<size_t>> &&neighbour_list, std::vector<std::vector<double>> &&weight_list, const std::string &direction) {
+    //              [](std::vector<std::vector<size_t>> &&neighbour_list, std::vector<std::vector<double>> &&weight_list, const std::string
+    //              &direction) {
     //                  typename Seldon::Network<Seldon::SimpleAgent>::EdgeDirection edge_direction;
     //                  if (direction == "Incoming") {
     //                      edge_direction = Seldon::Network<Seldon::SimpleAgent>::EdgeDirection::Incoming;
@@ -720,7 +723,8 @@ PYBIND11_MODULE(seldoncore, m) {
     //     .def("direction", &Seldon::Network<Seldon::SimpleAgent>::direction)
     //     .def("strongly_connected_components",
     //          &Seldon::Network<Seldon::SimpleAgent>::
-    //              strongly_connected_components) // https://stackoverflow.com/questions/64632424/interpreting-static-cast-static-castvoid-petint-syntax
+    //              strongly_connected_components) //
+    //              https://stackoverflow.com/questions/64632424/interpreting-static-cast-static-castvoid-petint-syntax
     //                                             // // https://pybind11.readthedocs.io/en/stable/classes.html#overloaded-methods
     //     .def("get_neighbours",
     //          [](Seldon::Network<Seldon::SimpleAgent> &self, std::size_t index) {
@@ -745,7 +749,8 @@ PYBIND11_MODULE(seldoncore, m) {
     //            std::size_t agent_idx,
     //            const std::vector<std::size_t> &buffer_neighbours,
     //            const std::vector<double> &buffer_weights) {
-    //             self.set_neighbours_and_weights(agent_idx, std::span<const std::size_t>(buffer_neighbours), std::span<const double>(buffer_weights));
+    //             self.set_neighbours_and_weights(agent_idx, std::span<const std::size_t>(buffer_neighbours), std::span<const
+    //             double>(buffer_weights));
     //         },
     //         "agent_idx"_a,
     //         "buffer_neighbours"_a,
@@ -773,7 +778,8 @@ PYBIND11_MODULE(seldoncore, m) {
     //     .def(py::init<const std::size_t>())
     //     .def(py::init<const std::vector<Seldon::DiscreteVectorAgent> &>())
     //     .def(py::init<>(
-    //              [](std::vector<std::vector<size_t>> &&neighbour_list, std::vector<std::vector<double>> &&weight_list, const std::string &direction) {
+    //              [](std::vector<std::vector<size_t>> &&neighbour_list, std::vector<std::vector<double>> &&weight_list, const std::string
+    //              &direction) {
     //                  typename Seldon::Network<Seldon::DiscreteVectorAgent>::EdgeDirection edge_direction;
     //                  if (direction == "Incoming") {
     //                      edge_direction = Seldon::Network<Seldon::DiscreteVectorAgent>::EdgeDirection::Incoming;
@@ -790,7 +796,8 @@ PYBIND11_MODULE(seldoncore, m) {
     //     .def("direction", &Seldon::Network<Seldon::DiscreteVectorAgent>::direction)
     //     .def("strongly_connected_components",
     //          &Seldon::Network<Seldon::DiscreteVectorAgent>::
-    //              strongly_connected_components) // https://stackoverflow.com/questions/64632424/interpreting-static-cast-static-castvoid-petint-syntax
+    //              strongly_connected_components) //
+    //              https://stackoverflow.com/questions/64632424/interpreting-static-cast-static-castvoid-petint-syntax
     //                                             // // https://pybind11.readthedocs.io/en/stable/classes.html#overloaded-methods
     //     .def("get_neighbours",
     //          [](Seldon::Network<Seldon::DiscreteVectorAgent> &self, std::size_t index) {
@@ -815,7 +822,8 @@ PYBIND11_MODULE(seldoncore, m) {
     //            std::size_t agent_idx,
     //            const std::vector<std::size_t> &buffer_neighbours,
     //            const std::vector<double> &buffer_weights) {
-    //             self.set_neighbours_and_weights(agent_idx, std::span<const std::size_t>(buffer_neighbours), std::span<const double>(buffer_weights));
+    //             self.set_neighbours_and_weights(agent_idx, std::span<const std::size_t>(buffer_neighbours), std::span<const
+    //             double>(buffer_weights));
     //         },
     //         "agent_idx"_a,
     //         "buffer_neighbours"_a,
@@ -843,7 +851,8 @@ PYBIND11_MODULE(seldoncore, m) {
     //     .def(py::init<const std::size_t>())
     //     .def(py::init<const std::vector<Seldon::ActivityAgent> &>())
     //     .def(py::init<>(
-    //              [](std::vector<std::vector<size_t>> &&neighbour_list, std::vector<std::vector<double>> &&weight_list, const std::string &direction) {
+    //              [](std::vector<std::vector<size_t>> &&neighbour_list, std::vector<std::vector<double>> &&weight_list, const std::string
+    //              &direction) {
     //                  typename Seldon::Network<Seldon::ActivityAgent>::EdgeDirection edge_direction;
     //                  if (direction == "Incoming") {
     //                      edge_direction = Seldon::Network<Seldon::ActivityAgent>::EdgeDirection::Incoming;
@@ -860,7 +869,8 @@ PYBIND11_MODULE(seldoncore, m) {
     //     .def("direction", &Seldon::Network<Seldon::ActivityAgent>::direction)
     //     .def("strongly_connected_components",
     //          &Seldon::Network<Seldon::ActivityAgent>::
-    //              strongly_connected_components) // https://stackoverflow.com/questions/64632424/interpreting-static-cast-static-castvoid-petint-syntax
+    //              strongly_connected_components) //
+    //              https://stackoverflow.com/questions/64632424/interpreting-static-cast-static-castvoid-petint-syntax
     //                                             // // https://pybind11.readthedocs.io/en/stable/classes.html#overloaded-methods
     //     .def("get_neighbours",
     //          [](Seldon::Network<Seldon::ActivityAgent> &self, std::size_t index) {
@@ -885,7 +895,8 @@ PYBIND11_MODULE(seldoncore, m) {
     //            std::size_t agent_idx,
     //            const std::vector<std::size_t> &buffer_neighbours,
     //            const std::vector<double> &buffer_weights) {
-    //             self.set_neighbours_and_weights(agent_idx, std::span<const std::size_t>(buffer_neighbours), std::span<const double>(buffer_weights));
+    //             self.set_neighbours_and_weights(agent_idx, std::span<const std::size_t>(buffer_neighbours), std::span<const
+    //             double>(buffer_weights));
     //         },
     //         "agent_idx"_a,
     //         "buffer_neighbours"_a,
@@ -913,7 +924,8 @@ PYBIND11_MODULE(seldoncore, m) {
     //     .def(py::init<const std::size_t>())
     //     .def(py::init<const std::vector<Seldon::InertialAgent> &>())
     //     .def(py::init<>(
-    //              [](std::vector<std::vector<size_t>> &&neighbour_list, std::vector<std::vector<double>> &&weight_list, const std::string &direction) {
+    //              [](std::vector<std::vector<size_t>> &&neighbour_list, std::vector<std::vector<double>> &&weight_list, const std::string
+    //              &direction) {
     //                  typename Seldon::Network<Seldon::InertialAgent>::EdgeDirection edge_direction;
     //                  if (direction == "Incoming") {
     //                      edge_direction = Seldon::Network<Seldon::InertialAgent>::EdgeDirection::Incoming;
@@ -930,7 +942,8 @@ PYBIND11_MODULE(seldoncore, m) {
     //     .def("direction", &Seldon::Network<Seldon::InertialAgent>::direction)
     //     .def("strongly_connected_components",
     //          &Seldon::Network<Seldon::InertialAgent>::
-    //              strongly_connected_components) // https://stackoverflow.com/questions/64632424/interpreting-static-cast-static-castvoid-petint-syntax
+    //              strongly_connected_components) //
+    //              https://stackoverflow.com/questions/64632424/interpreting-static-cast-static-castvoid-petint-syntax
     //                                             // // https://pybind11.readthedocs.io/en/stable/classes.html#overloaded-methods
     //     .def("get_neighbours",
     //          [](Seldon::Network<Seldon::InertialAgent> &self, std::size_t index) {
@@ -955,7 +968,8 @@ PYBIND11_MODULE(seldoncore, m) {
     //            std::size_t agent_idx,
     //            const std::vector<std::size_t> &buffer_neighbours,
     //            const std::vector<double> &buffer_weights) {
-    //             self.set_neighbours_and_weights(agent_idx, std::span<const std::size_t>(buffer_neighbours), std::span<const double>(buffer_weights));
+    //             self.set_neighbours_and_weights(agent_idx, std::span<const std::size_t>(buffer_neighbours), std::span<const
+    //             double>(buffer_weights));
     //         },
     //         "agent_idx"_a,
     //         "buffer_neighbours"_a,
@@ -1177,24 +1191,31 @@ PYBIND11_MODULE(seldoncore, m) {
     m.def("network_to_dot_file", &Seldon::network_to_dot_file<Seldon::SimpleAgent>, "network"_a, "file_path"_a);
     m.def("network_to_dot_file", &Seldon::network_to_dot_file<Seldon::DiscreteVectorAgent>, "network"_a, "file_path"_a);
     m.def("network_to_dot_file", &Seldon::network_to_dot_file<Seldon::ActivityAgent>, "network"_a, "file_path"_a);
-    m.def("network_to_dot_file", &Seldon::network_to_dot_file<Seldon::InertialAgent>, "network"_a, "file_path"_a);
+    m.def("network_to_dot_file_inertial_agent", &Seldon::network_to_dot_file<Seldon::InertialAgent>, "network"_a, "file_path"_a);
 
     m.def("network_to_file", &Seldon::network_to_file<Seldon::SimpleAgent>, "network"_a, "file_path"_a);
     m.def("network_to_file", &Seldon::network_to_file<Seldon::DiscreteVectorAgent>, "network"_a, "file_path"_a);
     m.def("network_to_file", &Seldon::network_to_file<Seldon::ActivityAgent>, "network"_a, "file_path"_a);
     m.def("network_to_file", &Seldon::network_to_file<Seldon::InertialAgent>, "network"_a, "file_path"_a);
 
-    m.def("agents_from_file", &Seldon::agents_from_file<Seldon::SimpleAgent>, "file"_a);
-    m.def("agents_from_file", &Seldon::agents_from_file<Seldon::DiscreteVectorAgent>, "file"_a);
-    m.def("agents_from_file", &Seldon::agents_from_file<Seldon::ActivityAgent>, "file"_a);
-    m.def("agents_from_file", &Seldon::agents_from_file<Seldon::InertialAgent>, "file"_a);
+    m.def("agents_from_file_simple_agent", &Seldon::agents_from_file<Seldon::SimpleAgent>, "file"_a);
+    m.def("agents_from_file_discrete_agent", &Seldon::agents_from_file<Seldon::DiscreteVectorAgent>, "file"_a);
+    m.def("agents_from_file_activity_agent", &Seldon::agents_from_file<Seldon::ActivityAgent>, "file"_a);
+    m.def("agents_from_file_inertial_agent", &Seldon::agents_from_file<Seldon::InertialAgent>, "file"_a);
 
-    m.def("agents_to_file", &Seldon::agents_to_file<Seldon::SimpleAgent>, "network"_a, "file_path"_a);
-    m.def("agents_to_file", &Seldon::agents_to_file<Seldon::DiscreteVectorAgent>, "network"_a, "file_path"_a);
-    m.def("agents_to_file", &Seldon::agents_to_file<Seldon::ActivityAgent>, "network"_a, "file_path"_a);
-    m.def("agents_to_file", &Seldon::agents_to_file<Seldon::InertialAgent>, "network"_a, "file_path"_a);
+    m.def("agents_to_file_simple_agent", &Seldon::agents_to_file<Seldon::SimpleAgent>, "network"_a, "file_path"_a);
+    m.def("agents_to_file_discrete_agent", &Seldon::agents_to_file<Seldon::DiscreteVectorAgent>, "network"_a, "file_path"_a);
+    m.def("agents_to_file_activity_agent", &Seldon::agents_to_file<Seldon::ActivityAgent>, "network"_a, "file_path"_a);
+    m.def("agents_to_file_inertial_agent", &Seldon::agents_to_file<Seldon::InertialAgent>, "network"_a, "file_path"_a);
 
     //--------------------------------------------------------------------------------------------------------------------
+
+    // Function for getting a vector of k agents (corresponding to connections)
+    // drawing from n agents (without duplication)
+    // ignore_idx ignores the index of the agent itself, since we will later add the agent itself ourselves to prevent duplication
+    // std::optional<size_t> ignore_idx, std::size_t k, std::size_t n, std::vector<std::size_t> & buffer,std::mt19937 & gen
+    m.def("draw_unique_k_from_n", &Seldon::draw_unique_k_from_n, "ignore_idx"_a, "k"_a, "n"_a, "buffer"_a, "gen"_a);
+
     py::class_<Seldon::power_law_distribution<double>>(m, "Power_Law_Distribution")
         .def(py::init<double, double>(), "eps"_a, "gamma"_a)
         .def("__call__", &Seldon::power_law_distribution<double>::template operator()<std::mt19937>, "gen"_a)
@@ -1212,13 +1233,33 @@ PYBIND11_MODULE(seldoncore, m) {
         .def(py::init<double>(), "covariance"_a)
         .def("__call__", &Seldon::bivariate_normal_distribution<double>::template operator()<std::mt19937>, "gen"_a);
 
-    py::class_<Seldon::bivariate_gaussian_copula<double, std::uniform_real_distribution<double>, std::uniform_real_distribution<double>>>(
-        m, "Bivariate_Gaussian_Copula")
-        .def(py::init<double, std::uniform_real_distribution<double>, std::uniform_real_distribution<double>>(), "covariance"_a, "dist1"_a, "dist2"_a)
+    py::class_<Seldon::bivariate_gaussian_copula<double, Seldon::power_law_distribution<double>, Seldon::power_law_distribution<double>>>(
+        m, "Bivariate_Gaussian_Copula_Power_Law_Distribution")
+        .def(py::init<double, Seldon::power_law_distribution<double>, Seldon::power_law_distribution<double>>(), "covariance"_a, "dist1"_a, "dist2"_a)
         .def("__call__",
-             &Seldon::bivariate_gaussian_copula<double, std::uniform_real_distribution<double>, std::uniform_real_distribution<double>>::template
+             &Seldon::bivariate_gaussian_copula<double, Seldon::power_law_distribution<double>, Seldon::power_law_distribution<double>>::template
              operator()<std::mt19937>,
              "gen"_a);
 
+    py::class_<
+        Seldon::bivariate_gaussian_copula<double, Seldon::truncated_normal_distribution<double>, Seldon::truncated_normal_distribution<double>>>(
+        m, "Bivariate_Gaussian_Copula_Truncated_Normal_Distribution")
+        .def(py::init<double, Seldon::truncated_normal_distribution<double>, Seldon::truncated_normal_distribution<double>>(),
+             "covariance"_a,
+             "dist1"_a,
+             "dist2"_a)
+        .def("__call__",
+             &Seldon::bivariate_gaussian_copula<double,
+                                                Seldon::truncated_normal_distribution<double>,
+                                                Seldon::truncated_normal_distribution<double>>::template operator()<std::mt19937>,
+             "gen"_a);
+
     m.def("hamming_distance", &Seldon::hamming_distance<double>, "v1"_a, "v2"_a);
+
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    // Connectivity(Tarjan Implementation)
+    py::class_<Seldon::TarjanConnectivityAlgo>(m, "TarjanConnectivityAlgo")
+        .def(py::init<const std::vector<std::vector<size_t>> &>(), "adjacency_list_arg"_a)
+        .def_readwrite("scc_list", &Seldon::TarjanConnectivityAlgo::scc_list);
 }

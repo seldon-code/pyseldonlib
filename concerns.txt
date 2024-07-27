@@ -1,1 +1,0 @@
-The Network class is binded agaist default double (float) type for weights which might give wrong results if the user wants to use int type weights due to float arithmetic 

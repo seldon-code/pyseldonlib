@@ -13,23 +13,12 @@ import pathlib
 simulation = pyseldon.seldoncore.SimulationSimpleAgent(pyseldon.seldoncore.parse_config_file("/home/parrot_user/Desktop/pyseldon/subprojects/seldon/examples/DeGroot/conf.toml"))
 agent = simulation.network.agent
 
-<<<<<<< HEAD
 simulation.run()
 for i in agent: 
   print(i.data.opinion)
 print(dir(simulation))
-=======
-# simulation.run()
-# for i in agent:
-#   print(i.data.opinion)
-# print(dir(simulation))
->>>>>>> bindings
 
 # pyseldon.seldoncore.run_simulation(config_file_path = "/home/parrot_user/Desktop/pyseldon/subprojects/seldon/examples/ActivityDrivenBot/conf.toml")
 
 # agent = simulation.network.agent[5].data.opinion
-<<<<<<< HEAD
 # print(agent)
-=======
-# print(agent)
->>>>>>> bindings
