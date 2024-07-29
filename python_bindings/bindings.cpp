@@ -121,7 +121,13 @@ void bind_Network(py::module &m, const std::string &name) {
              "direction"_a = "Incoming")
         .def("n_agents", &Seldon::Network<AgentT>::n_agents)
         .def("n_edges", &Seldon::Network<AgentT>::n_edges, "agent_idx"_a) // std::nullopt
-        .def("direction", &Seldon::Network<AgentT>::direction)
+        .def("direction", [](){
+            if(edge_direction == Seldon::Network<AgentT>::EdgeDirection::Incoming){
+                return "Incoming";
+            }else{
+                return "Outgoing";
+            }
+        })
         .def("strongly_connected_components",
              &Seldon::Network<AgentT>::
                  strongly_connected_components) // https://stackoverflow.com/questions/64632424/interpreting-static-cast-static-castvoid-petint-syntax
@@ -130,7 +136,7 @@ void bind_Network(py::module &m, const std::string &name) {
              [](Seldon::Network<AgentT> &self, std::size_t index) {
                  auto span = self.get_neighbours(index);
                  return std::vector<size_t>(span.begin(), span.end());
-             })
+             }, "index"_a)
         .def("get_weights",
              [](Seldon::Network<AgentT> &self, std::size_t index) {
                  auto span = self.get_weights(index);
@@ -163,7 +169,7 @@ void bind_Network(py::module &m, const std::string &name) {
             "buffer_neighbours"_a,
             "weight"_a)
         .def("push_back_neighbour_and_weight",
-             &Seldon::Network<AgentT>::push_back_neighbour_and_weight) // takes in (size_T, size_t, double)
+             &Seldon::Network<AgentT>::push_back_neighbour_and_weight, "agent_idx_i"_a, "agent_idx_j"_a, "w"_a) // takes in (size_T, size_t, double)
         .def("transpose", &Seldon::Network<AgentT>::transpose)
         .def("toggle_incoming_outgoing", &Seldon::Network<AgentT>::toggle_incoming_outgoing)
         .def("switch_direction_flag", &Seldon::Network<AgentT>::switch_direction_flag)
@@ -1164,13 +1170,13 @@ PYBIND11_MODULE(seldoncore, m) {
         "weight"_a,
         "seed"_a);
 
-    m.def("generate_from_file", &Seldon::NetworkGeneration::generate_from_file<Seldon::SimpleAgent>, "file"_a);
+    m.def("generate_from_file_simple_agent", &Seldon::NetworkGeneration::generate_from_file<Seldon::SimpleAgent>, "file"_a);
 
-    m.def("generate_from_file", &Seldon::NetworkGeneration::generate_from_file<Seldon::DiscreteVectorAgent>, "file"_a);
+    m.def("generate_from_file_discrete_agent", &Seldon::NetworkGeneration::generate_from_file<Seldon::DiscreteVectorAgent>, "file"_a);
 
-    m.def("generate_from_file", &Seldon::NetworkGeneration::generate_from_file<Seldon::ActivityAgent>, "file"_a);
+    m.def("generate_from_file_activity_agent", &Seldon::NetworkGeneration::generate_from_file<Seldon::ActivityAgent>, "file"_a);
 
-    m.def("generate_from_file", &Seldon::NetworkGeneration::generate_from_file<Seldon::InertialAgent>, "file"_a);
+    m.def("generate_from_file_inertial_agent", &Seldon::NetworkGeneration::generate_from_file<Seldon::InertialAgent>, "file"_a);
 
     m.def("generate_square_lattice_simple_agent", &Seldon::NetworkGeneration::generate_square_lattice<Seldon::SimpleAgent>, "n_edge"_a, "weight"_a);
 
@@ -1188,15 +1194,15 @@ PYBIND11_MODULE(seldoncore, m) {
     m.def("parse_config_file", &Seldon::Config::parse_config_file, "file"_a);
 
     // network
-    m.def("network_to_dot_file", &Seldon::network_to_dot_file<Seldon::SimpleAgent>, "network"_a, "file_path"_a);
-    m.def("network_to_dot_file", &Seldon::network_to_dot_file<Seldon::DiscreteVectorAgent>, "network"_a, "file_path"_a);
-    m.def("network_to_dot_file", &Seldon::network_to_dot_file<Seldon::ActivityAgent>, "network"_a, "file_path"_a);
+    m.def("network_to_dot_file_simple_agent", &Seldon::network_to_dot_file<Seldon::SimpleAgent>, "network"_a, "file_path"_a);
+    m.def("network_to_dot_file_discrete_agent", &Seldon::network_to_dot_file<Seldon::DiscreteVectorAgent>, "network"_a, "file_path"_a);
+    m.def("network_to_dot_file_activity_agent", &Seldon::network_to_dot_file<Seldon::ActivityAgent>, "network"_a, "file_path"_a);
     m.def("network_to_dot_file_inertial_agent", &Seldon::network_to_dot_file<Seldon::InertialAgent>, "network"_a, "file_path"_a);
 
-    m.def("network_to_file", &Seldon::network_to_file<Seldon::SimpleAgent>, "network"_a, "file_path"_a);
-    m.def("network_to_file", &Seldon::network_to_file<Seldon::DiscreteVectorAgent>, "network"_a, "file_path"_a);
-    m.def("network_to_file", &Seldon::network_to_file<Seldon::ActivityAgent>, "network"_a, "file_path"_a);
-    m.def("network_to_file", &Seldon::network_to_file<Seldon::InertialAgent>, "network"_a, "file_path"_a);
+    m.def("network_to_file_simple_agent", &Seldon::network_to_file<Seldon::SimpleAgent>, "network"_a, "file_path"_a);
+    m.def("network_to_file_discrete_agent", &Seldon::network_to_file<Seldon::DiscreteVectorAgent>, "network"_a, "file_path"_a);
+    m.def("network_to_file_activity_agent", &Seldon::network_to_file<Seldon::ActivityAgent>, "network"_a, "file_path"_a);
+    m.def("network_to_file_inertial_agent", &Seldon::network_to_file<Seldon::InertialAgent>, "network"_a, "file_path"_a);
 
     m.def("agents_from_file_simple_agent", &Seldon::agents_from_file<Seldon::SimpleAgent>, "file"_a);
     m.def("agents_from_file_discrete_agent", &Seldon::agents_from_file<Seldon::DiscreteVectorAgent>, "file"_a);

@@ -47,30 +47,32 @@ def run_simulation_from_options(
 
 class Simulation:
     """The Simulation class provides functions to run the simulation using the simulation options object, agent file, and network file."""
-    def __init__(self, model_string="DeGroot", agent_file_path=None, network_file_path=None):
+
+    def __init__(
+        self, model_string="DeGroot", agent_file_path=None, network_file_path=None
+    ):
         """
         Initialize the Simulation object.
-        
+
         Args:
             model_string (str): The model string.
             agent_file_path (str, optional): The path to the agent file.
             network_file_path (str, optional): The path to the network file.
         """
-        if(model_string == "DeGroot"):
+        if model_string == "DeGroot":
             self.simulation = seldoncore.SimulationDeGroot()
 
-        elif(model_string == "Deffuant"):
+        elif model_string == "Deffuant":
             self.simulation = seldoncore.SimulationDeffuant()
 
-        elif(model_string == "DeffuantVector"):
+        elif model_string == "DeffuantVector":
             self.simulation = seldoncore.SimulationDeffuantVector()
 
-        elif(model_string == "ActivityDriven"):
+        elif model_string == "ActivityDriven":
             self.simulation = seldoncore.SimulationActivityDriven()
-        
-        elif(model_string == "ActivityDrivenInertial"):
+
+        elif model_string == "ActivityDrivenInertial":
             self.simulation = seldoncore.SimulationInertial()
-        
+
         else:
             TypeError("Model not found")
-        
