@@ -29,7 +29,6 @@ alt: Pyseldon logo
 :maxdepth: 1
 :caption: Contents
 
-
 source/install.md
 User Guide <source/user-guide/user-guide.md>
 API Reference <source/api-reference/api-reference.md>
@@ -37,4 +36,3 @@ Examples <source/examples.md>
 Contributing <source/contributing.md>
 License <source/LICENSE>
 ```
-source/api-reference/api-reference

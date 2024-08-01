@@ -1,5 +1,5 @@
-# PySeldon
-<img src="./doc/source/_static/res/logotext.png">
+# pyseldon
+<img src="./res/logotext.png">
 
 ## Python bindings for the Seldon framework
 

@@ -4,17 +4,19 @@ import sys
 sys.path.insert(0, os.path.abspath('../src'))
 
 project = 'pyseldon'
-copyright = '2024, Amrita Goswami, Rohit Goswami, Moritz Sallermann'
-author = 'Daivik Karbhari'
+copyright = '2024, Amrita Goswami, Rohit Goswami, Moritz Sallermann, Daivik Karbhari'
+author = 'Amrita Goswami, Rohit Goswami, Moritz Sallermann, Daivik Karbhari'
 release = '1.0'
 
 # -- General configuration ---------------------------------------------------
 
 extensions = [
-    'myst_parser',
+    'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
     'sphinx.ext.napoleon',
-    "autodoc2",
-    "sphinx_favicon"
+    'sphinx.ext.viewcode',
+    'sphinx.ext.coverage',
+    'nbsphinx'
 ]
 
 templates_path = ['source/_templates']
@@ -24,7 +26,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # -- Options for HTML output -------------------------------------------------
 html_theme = 'sphinx_book_theme'
 html_title = "PySeldon"
-html_static_path = ['source/_static']
+# html_static_path = ['source/_static']
 
 html_theme_options = {
     "repository_url": "https://github.com/User-DK/pyseldon/tree/develop", #to do change url
@@ -52,20 +54,3 @@ myst_enable_extensions = [
     "substitution",
     "tasklist",
 ]
-
-
-# -- autodoc2 options --------------------------------------------------------
-autodoc2_render_plugin = "myst"
-autodoc2_packages = [
-    "../src",
-]
-# # -- sphinx_favicon options -----------------------------------------------
-# favicons = [
-#     "favicons/favicon-16x16.png",
-#     "favicons/favicon-32x32.png",
-#     "favicons/favicon.ico",
-#     "favicons/android-chrome-192x192.png",
-#     "favicons/android-chrome-512x512.png",
-#     "favicons/apple-touch-icon.png",
-#     "favicons/site.webmanifest",
-# ]

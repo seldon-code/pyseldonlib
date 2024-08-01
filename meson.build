@@ -41,9 +41,9 @@ py.extension_module(
 
 py.install_sources(
    [ 
-    # 'src/simulation.py',
+    'src/__init__.py',
     # this would be replaced by src/simulation as we create a python interface for the bindings
-    'bindings_package/__init__.py',
+    # 'bindings_package/__init__.py',
   ],
   pure: false, # install next to compiled extension
   subdir: 'pyseldon'

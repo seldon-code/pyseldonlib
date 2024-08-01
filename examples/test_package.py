@@ -22,3 +22,32 @@ print(dir(simulation))
 
 # agent = simulation.network.agent[5].data.opinion
 # print(agent)
+
+
+# print(type(DeGrootSettings()))
+# print(type(Network()))
+
+# network = Network(model_string="DeGroot", n_agents=5)
+# print(network.n_agents)    
+# op = OutputSettings(n_output_agents = 1)
+# op.n_output_agents = 2
+# # print(op.print_settings)
+
+# deg = DeGrootSettings(max_iterations =1)
+# deff = DeffuantSettings(max_iterations = 2, homophily_threshold=0.5)
+# deffv = DeffuantSettings(max_iterations = 2, homophily_threshold=0.5, use_binary_vector=True, dim=2)
+# # print(deg)
+# # print(deg.settings.max_iterations)
+# # print(deg.max_iterations)
+
+# sett = SimulationOptions(model_string = "DeGroot", output_settings=op, model_settings=deg)
+# print(sett.model_string)
+# print(sett.model)
+# print(sett.output_settings)
+# print(sett.options)
+
+# x = Simulation(options = SimulationOptions(model_string = "DeffuantVector", output_settings=op, model_settings= deffv), agent_file_path=None, network_file_path=None)
+# # x.run()
+# network = x.network
+# print(network.n_agents())
+# print(network.n_agents)

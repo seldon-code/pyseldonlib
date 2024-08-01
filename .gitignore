@@ -5,11 +5,12 @@
 .vscode/
 
 # docs
-doc/source/_build/
+*_build/
 doc/apidocs/
 
 #pycache
 *__pycache__/
+*_cache/
 
 #mesonpython
 .mesonpy*
