@@ -1,4 +1,4 @@
-import pyseldon.seldoncore as pd
+import pyseldon
 import pathlib as ptlb
 import pytest
 import shutil
@@ -7,7 +7,7 @@ import math
 
 def test_activity_driven():
     # using ../subprojects/seldon/test/res/activity_probabilistic_conf.toml
-    settings = pd.ActivityDrivenSettings(
+    settings = pyseldon.ActivityDrivenSettings(
         max_iterations=20,
         dt=0.01,  # Timestep for the integration of the coupled ODEs
         m=10,  # Number of agents contacted, when the agent is active
@@ -21,15 +21,15 @@ def test_activity_driven():
         mean_weights=False,  # Use the meanfield approximation of the network edges
     )
 
-    initial_network_settings = pd.InitialNetworkSettings(
+    initial_network_settings = pyseldon.InitialNetworkSettings(
         number_of_agents=1000, connections_per_agent=10
     )
-    output_settings = pd.OutputSettings(
+    output_settings = pyseldon.OutputSettings(
         n_output_agents=1,
         print_progress=True,  # Print the iteration time ; if not set, then does not print
     )
 
-    options = pd.SimulationOptions(
+    options = pyseldon.SimulationOptions(
         model_string="ActivityDriven",
         rng_seed=120,
         output_settings=output_settings,
@@ -45,14 +45,14 @@ def test_activity_driven():
         shutil.rmtree(output_dir)
 
     # By using the above settings
-    pd.run_simulation(options=options, output_dir_path=output_dir)
+    pyseldon.seldoncore.run_simulation(options=options, output_dir_path=output_dir)
     print("Simulation completed!")
     assert ptlb.Path(output_dir).exists()
     shutil.rmtree(output_dir)
 
     # By using a config file
     config_file_path = str(base_dir / "res/activity_probabilistic_conf.toml")
-    pd.run_simulation(config_file_path=config_file_path, output_dir_path=output_dir)
+    pyseldon.seldoncore.run_simulation(config_file_path=config_file_path, output_dir_path=output_dir)
     assert ptlb.Path(output_dir).exists()
     shutil.rmtree(output_dir)
 
@@ -61,7 +61,7 @@ def test_activity_driven():
 def test_activityProb():
     proj_root = ptlb.Path.cwd()
     input_file = str(proj_root / "tests" / "res" / "activity_probabilistic_conf.toml")
-    options = pd.parse_config_file(input_file)
+    options = pyseldon.seldoncore.parse_config_file(input_file)
 
     output_dir_path = proj_root / "tests" / "output"
 
@@ -69,7 +69,7 @@ def test_activityProb():
         shutil.rmtree(output_dir_path)
     output_dir_path.mkdir(parents=True, exist_ok=True)
 
-    simulation = pd.SimulationActivityAgent(options=options)
+    simulation = pyseldon.seldoncore.SimulationActivityAgent(options=options)
     simulation.run(str(output_dir_path))
 
     assert any(output_dir_path.iterdir()), "Output directory is empty after simulation."
@@ -81,11 +81,11 @@ def test_activityProb():
 def test_activityProbTwoAgents():
     proj_root = ptlb.Path.cwd()
     input_file = str(proj_root / "tests" / "res" / "2_agents_activity_prob.toml")
-    options = pd.parse_config_file(input_file)
+    options = pyseldon.seldoncore.parse_config_file(input_file)
 
     output_dir_path = str(proj_root / "tests" / "output")
 
-    simulation = pd.SimulationActivityAgent(options=options)
+    simulation = pyseldon.seldoncore.SimulationActivityAgent(options=options)
     simulation.run(output_dir_path)
 
     model_settings = options.model_settings
@@ -109,9 +109,9 @@ def test_activityProbTwoAgents():
 def test_activity1Bot1AgentReluctance():
     proj_root = ptlb.Path.cwd()
     input_file = str(proj_root / "tests" / "res" / "1bot_1agent_activity_prob.toml")
-    options = pd.parse_config_file(input_file)
+    options = pyseldon.seldoncore.parse_config_file(input_file)
 
-    simulation = pd.SimulationActivityAgent(options=options)
+    simulation = pyseldon.seldoncore.SimulationActivityAgent(options)
 
     output_dir_path = str(proj_root / "tests" / "output")
 
@@ -154,7 +154,7 @@ def test_activity1Bot1AgentReluctance():
 def test_activityMeanfield10Agents():
     proj_root = ptlb.Path.cwd()
     input_file = str(proj_root / "tests" / "res" / "10_agents_meanfield_activity.toml")
-    options = pd.parse_config_file(input_file)
+    options = pyseldon.seldoncore.parse_config_file(input_file)
 
     model_settings = options.model_settings
     assert model_settings.mean_weights == True
@@ -169,11 +169,11 @@ def test_activityMeanfield10Agents():
     eps = model_settings.eps
     gamma = model_settings.gamma
 
-    dist = pd.Power_Law_Distribution(eps, gamma)
+    dist = pyseldon.seldoncore.Power_Law_Distribution(eps, gamma)
     mean_activity = dist.mean()
 
     def set_opinions_and_run(above_critical_controversialness):
-        simulation = pd.SimulationActivityAgent(options=options)
+        simulation = pyseldon.seldoncore.SimulationActivityAgent(options=options)
         initial_opinion_delta = (
             0.1  # Set the initial opinion in the interval [-delta, delta]
         )

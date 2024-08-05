@@ -1,4 +1,4 @@
-import pyseldon.seldoncore as pd
+import pyseldon
 import pathlib
 import pytest
 import cmath
@@ -9,8 +9,8 @@ def test_inertial1Bot1Agent():
     proj_root_path = pathlib.Path.cwd()
     input_file = str(proj_root_path / "tests" / "res" / "1bot_1agent_inertial.toml")
 
-    options = pd.parse_config_file(input_file)
-    simulation = pd.SimulationInertialAgent(options=options)
+    options = pyseldon.seldoncore.parse_config_file(input_file)
+    simulation = pyseldon.seldoncore.SimulationInertialAgent(options=options)
 
     output_dir_path = str(proj_root_path / "tests" / "output_inertial")
 

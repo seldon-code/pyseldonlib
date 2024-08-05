@@ -1,9 +1,9 @@
-import pyseldon.seldoncore as pd
+import pyseldon
 import pytest
 
 
 def test_activity_driven_inertial_settings():
-    settings = pd.ActivityDrivenInertialSettings()
+    settings = pyseldon.seldoncore.ActivityDrivenInertialSettings()
     assert settings.max_iterations == None
     assert settings.dt == 0.01
     assert settings.m == 10

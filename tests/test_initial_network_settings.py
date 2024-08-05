@@ -1,10 +1,10 @@
-import pyseldon.seldoncore as pd
+import pyseldon
 import pathlib as ptlb
 import pytest
 
 
 def test_initial_network_settings_readwrite():
-    network_settings = pd.InitialNetworkSettings()
+    network_settings = pyseldon.seldoncore.InitialNetworkSettings()
 
     # default values
     assert network_settings.file is None

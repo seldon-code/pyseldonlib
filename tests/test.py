@@ -2,7 +2,7 @@ import pathlib as ptlb
 
 # import os
 import pytest
-import pyseldon as pd
+import pyseldon
 import shutil
 
 
@@ -23,7 +23,7 @@ def test_run_simulation(capsys):
 
     # Test with output directory and config
     with capsys.disabled():
-        pd.seldoncore.run_simulation(
+        pyseldon.seldoncore.run_simulation(
             config_file_path=config_file, output_dir_path=output_dir1
         )
     assert ptlb.Path(output_dir1).exists()
@@ -31,7 +31,7 @@ def test_run_simulation(capsys):
 
     # Test with network file
     with capsys.disabled():
-        pd.seldoncore.run_simulation(
+        pyseldon.seldoncore.run_simulation(
             config_file_path=config_file,
             network_file_path=network_file,
             output_dir_path=output_dir2,
@@ -43,26 +43,26 @@ def test_run_simulation(capsys):
     invalid_network_file = str(ptlb.Path(base_dir, "tests/network/net.txt"))
     with pytest.raises(RuntimeError):
         with capsys.disabled():
-            pd.seldoncore.run_simulation(
+            pyseldon.seldoncore.run_simulation(
                 config_file_path=config_file, network_file_path=invalid_network_file
             )
 
     # Test with invalid config file
     with pytest.raises(RuntimeError):
         with capsys.disabled():
-            pd.seldoncore.run_simulation(config_file_path=invalid_config_file)
+            pyseldon.seldoncore.run_simulation(config_file_path=invalid_config_file)
 
     if ptlb.Path(output_dir).exists():
         shutil.rmtree(output_dir)
 
 
 def test_settings():
-    degroot_settings = pd.seldoncore.DeGrootSettings()
-    output_settings = pd.seldoncore.OutputSettings()
-    deffuant_settings = pd.seldoncore.DeffuantSettings()
-    activitydriven_settings = pd.seldoncore.ActivityDrivenSettings()
-    activitydriveninertial_settings = pd.seldoncore.ActivityDrivenInertialSettings()
-    initial_network_settings = pd.seldoncore.InitialNetworkSettings()
+    degroot_settings = pyseldon.seldoncore.DeGrootSettings()
+    output_settings = pyseldon.seldoncore.OutputSettings()
+    deffuant_settings = pyseldon.seldoncore.DeffuantSettings()
+    activitydriven_settings = pyseldon.seldoncore.ActivityDrivenSettings()
+    activitydriveninertial_settings = pyseldon.seldoncore.ActivityDrivenInertialSettings()
+    initial_network_settings = pyseldon.seldoncore.InitialNetworkSettings()
 
     assert degroot_settings is not None
     assert output_settings is not None
@@ -74,10 +74,10 @@ def test_settings():
 
 
 # def test_network():
-#     degroot_network = pd.seldoncore.DeGrootNetwork()
-#     deffuant_network = pd.seldoncore.DeffuantNetwork()
-#     activitydriven_network = pd.seldoncore.ActivityDrivenNetwork()
-#     activitydriveninertial_network = pd.seldoncore.InertialNetwork()
+#     degroot_network = pyseldon.seldoncore.DeGrootNetwork()
+#     deffuant_network = pyseldon.seldoncore.DeffuantNetwork()
+#     activitydriven_network = pyseldon.seldoncore.ActivityDrivenNetwork()
+#     activitydriveninertial_network = pyseldon.seldoncore.InertialNetwork()
 
 #     assert degroot_network is not None
 #     assert deffuant_network is not None
@@ -85,10 +85,10 @@ def test_settings():
 #     assert activitydriveninertial_network is not None
 
 # def test_simulation_with_simulationOptions():
-#     degroot_settings = pd.seldoncore.DeGrootSettings()
-#     output_settings = pd.seldoncore.OutputSettings()
-#     initial_network_settings = pd.seldoncore.InitialNetworkSettings()
-#     simulation_options = pd.seldoncore.SimulationOptions()
+#     degroot_settings = pyseldon.seldoncore.DeGrootSettings()
+#     output_settings = pyseldon.seldoncore.OutputSettings()
+#     initial_network_settings = pyseldon.seldoncore.InitialNetworkSettings()
+#     simulation_options = pyseldon.seldoncore.SimulationOptions()
 #     simulation_options.output_settings = output_settings
 #     simulation_options.model_settings = degroot_settings
 #     simulation_options.network_settings = initial_network_settings
@@ -97,7 +97,7 @@ def test_settings():
 #     base_dir = ptlb.Path(__file__).parent.resolve()
 #     output_dir = str(base_dir / "outputs/output")
 
-#     pd.seldoncore.run_simulation(options = simulation_options,output_dir_path = output_dir)
+#     pyseldon.seldoncore.run_simulation(options = simulation_options,output_dir_path = output_dir)
 #     assert ptlb.Path(output_dir).exists()
 #     shutil.rmtree(output_dir)
 

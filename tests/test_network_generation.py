@@ -1,4 +1,4 @@
-import pyseldon.seldoncore as pd
+import pyseldon
 import pytest
 
 
@@ -12,7 +12,7 @@ def test_network_generation():
     weight = 0.25
     weights = [weight, weight, weight]
 
-    network = pd.generate_fully_connected_degroot(
+    network = pyseldon.seldoncore.generate_fully_connected_degroot(
         n_agents=n_agents, weight=weight, seed=None
     )
 

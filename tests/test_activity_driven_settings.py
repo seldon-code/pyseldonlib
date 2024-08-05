@@ -1,9 +1,9 @@
-import pyseldon.seldoncore as pd
+import pyseldon
 import pytest
 
 
 def test_activity_driven_settings():
-    settings = pd.ActivityDrivenSettings()
+    settings = pyseldon.seldoncore.ActivityDrivenSettings()
     assert settings.max_iterations == None
     assert settings.dt == 0.01
     assert settings.m == 10

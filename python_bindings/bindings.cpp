@@ -243,6 +243,14 @@ PYBIND11_MODULE(seldoncore, m) {
 
     //------------------------------------------------------------------------------------------------------------------------------------------
 
+    bind_Network<double>(m, "");
+    bind_Network<Seldon::SimpleAgent>(m, "SimpleAgent");
+    bind_Network<Seldon::DiscreteVectorAgent>(m, "DiscreteVectorAgent");
+    bind_Network<Seldon::ActivityAgent>(m, "ActivityAgent");
+    bind_Network<Seldon::InertialAgent>(m, "InertialAgent");
+
+    //------------------------------------------------------------------------------------------------------------------------------------------
+
     py::class_<Seldon::Simulation<Seldon::SimpleAgent>>(m, "SimulationSimpleAgent")
         .def(py::init<>([](const Seldon::Config::SimulationOptions &options,
                            const std::optional<std::string> &agent_file,
@@ -404,12 +412,6 @@ PYBIND11_MODULE(seldoncore, m) {
         .def_readwrite("output_settings", &Seldon::Config::SimulationOptions::output_settings)
         .def_readwrite("model_settings", &Seldon::Config::SimulationOptions::model_settings)
         .def_readwrite("network_settings", &Seldon::Config::SimulationOptions::network_settings);
-
-    bind_Network<double>(m, "");
-    bind_Network<Seldon::SimpleAgent>(m, "SimpleAgent");
-    bind_Network<Seldon::DiscreteVectorAgent>(m, "DiscreteVectorAgent");
-    bind_Network<Seldon::ActivityAgent>(m, "ActivityAgent");
-    bind_Network<Seldon::InertialAgent>(m, "InertialAgent");
 
     //--------------------------------------------------------------------------------------------------------------------
 
@@ -631,7 +633,7 @@ PYBIND11_MODULE(seldoncore, m) {
     // drawing from n agents (without duplication)
     // ignore_idx ignores the index of the agent itself, since we will later add the agent itself ourselves to prevent duplication
     // std::optional<size_t> ignore_idx, std::size_t k, std::size_t n, std::vector<std::size_t> & buffer,std::mt19937 & gen
-    m.def("draw_unique_k_from_n", &Seldon::draw_unique_k_from_n, "ignore_idx"_a, "k"_a, "n"_a, "buffer"_a, "gen"_a);
+    m.def("draw_unique_k_from_n", &Seldon::draw_unique_k_from_n, "ignore_idx"_a, "k"_a, "n"_a, "buffer"_a, "gen"_a=std::random_device()());
 
     py::class_<Seldon::power_law_distribution<double>>(m, "Power_Law_Distribution")
         .def(py::init<double, double>(), "eps"_a, "gamma"_a)
@@ -650,28 +652,19 @@ PYBIND11_MODULE(seldoncore, m) {
         .def(py::init<double>(), "covariance"_a)
         .def("__call__", &Seldon::bivariate_normal_distribution<double>::template operator()<std::mt19937>, "gen"_a);
 
-    py::class_<Seldon::bivariate_gaussian_copula<double, Seldon::power_law_distribution<double>, Seldon::power_law_distribution<double>>>(
-        m, "Bivariate_Gaussian_Copula_Power_Law_Distribution")
-        .def(py::init<double, Seldon::power_law_distribution<double>, Seldon::power_law_distribution<double>>(), "covariance"_a, "dist1"_a, "dist2"_a)
+    py::class_<Seldon::bivariate_gaussian_copula<double, Seldon::power_law_distribution<double>, Seldon::truncated_normal_distribution<double>>>(
+        m, "Bivariate_Gaussian_Copula")
+        .def(py::init<double, Seldon::power_law_distribution<double>, Seldon::truncated_normal_distribution<double>>(), "covariance"_a, "dist1"_a, "dist2"_a)
         .def("__call__",
-             &Seldon::bivariate_gaussian_copula<double, Seldon::power_law_distribution<double>, Seldon::power_law_distribution<double>>::template
+             &Seldon::bivariate_gaussian_copula<double, Seldon::power_law_distribution<double>, Seldon::truncated_normal_distribution<double>>::template
              operator()<std::mt19937>,
              "gen"_a);
 
-    py::class_<
-        Seldon::bivariate_gaussian_copula<double, Seldon::truncated_normal_distribution<double>, Seldon::truncated_normal_distribution<double>>>(
-        m, "Bivariate_Gaussian_Copula_Truncated_Normal_Distribution")
-        .def(py::init<double, Seldon::truncated_normal_distribution<double>, Seldon::truncated_normal_distribution<double>>(),
-             "covariance"_a,
-             "dist1"_a,
-             "dist2"_a)
-        .def("__call__",
-             &Seldon::bivariate_gaussian_copula<double,
-                                                Seldon::truncated_normal_distribution<double>,
-                                                Seldon::truncated_normal_distribution<double>>::template operator()<std::mt19937>,
-             "gen"_a);
+    m.def("hamming_distance", [](const std::vector<double>& v1, const std::vector<double>& v2){
+        return Seldon::hamming_distance(std::span<const double>(v1) , std::span<const double>(v2));
+    }, "v1"_a, "v2"_a);
 
-    m.def("hamming_distance", &Seldon::hamming_distance<double>, "v1"_a, "v2"_a);
+    // m.def("reservoir_sampling_A_ExpJ", &Seldon::reservoir_sampling_A_ExpJ<std::function<double(size_t)>>, "k"_a, "n"_a,"weight"_a,"buffer"_a, "gen"_a= std::random_device()());
 
     //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -682,4 +675,8 @@ PYBIND11_MODULE(seldoncore, m) {
 
     m.def("print_settings", &Seldon::Config::print_settings, "options"_a);
     m.def("validate_settings", &Seldon::Config::validate_settings, "options"_a);
+
+    py::class_<std::mt19937>(m, "RandomGenerator")
+        .def(py::init<unsigned int>());
+
 }

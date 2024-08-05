@@ -1,4 +1,4 @@
-import pyseldon.seldoncore as pd
+import pyseldon
 import math
 import pytest
 
@@ -8,16 +8,16 @@ def test_deGroot():
     neighbour_list = [[1, 0], [0, 1]]
     weight_list = [[0.2, 0.8], [0.2, 0.8]]
 
-    settings = pd.DeGrootSettings()
+    settings = pyseldon.seldoncore.DeGrootSettings()
     settings.max_iterations = 100
     settings.convergence_tol = 1e-6
 
-    network = pd.SimpleAgentNetwork(
+    network = pyseldon.seldoncore.SimpleAgentNetwork(
         neighbour_list=neighbour_list, weight_list=weight_list, direction="Incoming"
     )
 
-    simulation = pd.SimulationSimpleAgent(
-        options=pd.SimulationOptions(model_string="DeGroot", model_settings=settings)
+    simulation = pyseldon.seldoncore.SimulationSimpleAgent(
+        options=pyseldon.seldoncore.SimulationOptions(model_string="DeGroot", model_settings=settings)
     )
 
     simulation.network.agent[0].data.opinion = 0.0

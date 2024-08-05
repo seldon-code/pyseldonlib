@@ -1,6 +1,6 @@
 """This module provides the main interface to the pyseldon package."""
 
-from pyseldon import seldoncore
+from bindings import seldoncore
 from typing import Optional, Union
 # from .simulation import run_simulation_from_config_file, run_simulation_from_options
 
@@ -115,8 +115,6 @@ class Network:
             else:
                 self.network = seldoncore.SimpleAgentNetwork()
 
-            self._agent_type = "SimpleAgent"
-
         elif model_string == "DeffuantVector":
             if n_agents:
                 self.network = seldoncore.DiscreteVectorAgentNetwork(n_agents)
@@ -132,7 +130,6 @@ class Network:
             else:
                 self.network = seldoncore.DiscreteVectorAgentNetwork()
 
-            self._agent_type = "DiscreteVectorAgent"
 
         elif model_string == "ActivityDriven":
             if n_agents:
@@ -148,7 +145,6 @@ class Network:
                     TypeError("Direction allowed values are 'Incoming' or 'Outgoing'")
             else:
                 self.network = seldoncore.ActivityDrivenAgentNetwork()
-            self._agent_type = "ActivityDrivenAgent"
 
         elif model_string == "ActivityDrivenInertial" or model_string == "Inertial":
             if n_agents:
@@ -164,7 +160,6 @@ class Network:
                     TypeError("Direction allowed values are 'Incoming' or 'Outgoing'")
             else:
                 self.network = seldoncore.InertialAgentNetwork()
-            self._agent_type = "InertialAgent"
 
         else:
             print(
@@ -183,7 +178,6 @@ class Network:
                     TypeError("Direction allowed values are 'Incoming' or 'Outgoing'")
             else:
                 self.network = seldoncore.Network()
-            self._agent_type = "float"
 
     @property
     def n_agents(self):
@@ -362,7 +356,7 @@ class Network:
         """
         return self.network.clear()
 
-    def get_agents_data(self, index=None):
+    def get_agents_data(self, index:int=None):
         """Access the network's agents data.
 
         Args:
@@ -375,60 +369,28 @@ class Network:
             for ActivityDriven: (list) opinion, activity, and reluctance of the agent at the given index.
             for Inertial: (list) opinion, activity, reluctance, and velocity of the agent at the given index.
         """
+        def get_agent_data(agent):
+            result = []
 
-        if self._agent_type == "SimpleAgent":
-            if index is None:
-                return [
-                    self.network.agent[i].data.opinion for i in range(self.n_agents)
-                ]
-            return self.network.agent[index].data.opinion
-
-        elif self._agent_type == "DiscreteVectorAgent":
-            if index is None:
-                return [
-                    self.network.agent[i].data.opinion for i in range(self.n_agents)
-                ]
-            return self.network.agent[index].data.opinion
-
-        elif self._agent_type == "ActivityDrivenAgent":
-            if index is None:
-                return [
-                    (
-                        self.network.agent[i].data.opinion,
-                        self.network.agent[i].data.activity,
-                        self.network.agent[i].data.reluctance,
-                    )
-                    for i in range(self.n_agents)
-                ]
-            return (
-                self.network.agent[index].data.opinion,
-                self.network.agent[index].data.activity,
-                self.network.agent[index].data.reluctance,
-            )
-
-        elif self._agent_type == "InertialAgent":
-            if index is None:
-                return [
-                    (
-                        self.network.agent[i].data.opinion,
-                        self.network.agent[i].data.activity,
-                        self.network.agent[i].data.reluctance,
-                        self.network.agent[i].data.velocity,
-                    )
-                    for i in range(self.n_agents)
-                ]
-            return (
-                self.network.agent[index].data.opinion,
-                self.network.agent[index].data.activity,
-                self.network.agent[index].data.reluctance,
-                self.network.agent[index].data.velocity,
-            )
-
+            opinion = agent.data.opinion if hasattr(agent.data, 'opinion') else None
+            activity = agent.data.activity if hasattr(agent.data, 'activity') else None
+            reluctance = agent.data.reluctance if hasattr(agent.data, 'reluctance') else None
+            velocity = agent.data.velocity if hasattr(agent.data, 'velocity') else None
+            if opinion is not None:
+                    result.append(opinion)
+            if activity is not None:
+                    result.append(activity)
+            if reluctance is not None:
+                    result.append(reluctance)
+            if velocity is not None:
+                    result.append(velocity)
+            return result
+            
+        if index is None:
+            return [get_agent_data(self.network.agent[i]) for i in range(self.n_agents)]
         else:
-            print(
-                "This is a float type network that can't be used for the simulation as it doesn't contain any agents and their data like opinions, etc."
-            )
-            return None
+            return get_agent_data(self.network.agent[index])
+
 
     def set_agents_data(
         self,
@@ -459,15 +421,15 @@ class Network:
             None
         """
 
-        if self._agent_type == "SimpleAgent":
+        if self.network._agent_type == "SimpleAgent":
             if opinion is not None:
                 self.network.agent[index].data.opinion = opinion
 
-        elif self._agent_type == "DiscreteVectorAgent":
+        elif self.network._agent_type == "DiscreteVectorAgent":
             if opinion is not None:
                 self.network.agent[index].data.opinion = opinion
 
-        elif self._agent_type == "ActivityDrivenAgent":
+        elif self.network._agent_type == "ActivityDrivenAgent":
             if opinion is not None:
                 self.network.agent[index].data.opinion = opinion
             if activity is not None:
@@ -475,7 +437,7 @@ class Network:
             if reluctance is not None:
                 self.network.agent[index].data.reluctance = reluctance
 
-        elif self._agent_type == "InertialAgent":
+        elif self.network.network._agent_type == "InertialAgent":
             if opinion is not None:
                 self.network.agent[index].data.opinion = opinion
             if activity is not None:
@@ -581,7 +543,7 @@ class Simulation:
         Returns:
             object: The network class object.
         """
-        return self.simulation.network
+        return self.network
 
 
 class OutputSettings:
@@ -1117,11 +1079,11 @@ class SimulationOptions:
 
     @property
     def print_settings(self):
-        print(f"model_string: {self.model_string}")
-        print(f"rng_seed: {self.rng_seed}")
-        print(f"output_settings: {self.output_settings.print_settings}")
-        print(f"network_settings: {self.network_settings.print_settings}")
-        print(f"model_settings: {self.model_settings.print_settings}")
+        print(f"model_string: {self.options.model_string}")
+        print(f"rng_seed: {self.options.rng_seed}")
+        print(f"output_settings: {self.options.output_settings.print_settings}")
+        print(f"network_settings: {self.options.network_settings.print_settings}")
+        print(f"model_settings: {self.options.model_settings.print_settings}")
 
 
 def parse_config_file(file_path: str):

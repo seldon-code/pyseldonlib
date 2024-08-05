@@ -1,7 +1,8 @@
 import os
 from pathlib import Path
-import pyseldon.seldoncore as pd
+import pyseldon
 import pytest
+import random
 
 
 def write_results_to_file(n_samples, dist, filename):
@@ -10,27 +11,28 @@ def write_results_to_file(n_samples, dist, filename):
     print(f"file = {file_path}")
     file_path.parent.mkdir(parents=True, exist_ok=True)
 
-    # Assuming dist function internally manages its random number generation
-    results = dist(n_samples)
+    gen = pyseldon.seldoncore.RandomGenerator(random.randint(0, 2**32 - 1))
+    results = [dist(gen) for _ in range(n_samples)]
 
-    with open(file_path, "w") as filestream:
+    with open(file_path, "w") as file:
         for value in results:
-            filestream.write(f"{value}\n")
+            file.write(f"{value}\n")
 
 
 def test_probability_distributions():
     write_results_to_file(
         10000,
-        pd.Truncated_Normal_Distribution(1.0, 0.5, 0.75),
+        pyseldon.seldoncore.Truncated_Normal_Distribution(1.0, 0.5, 0.75),
         "truncated_normal.txt",
     )
-    write_results_to_file(10000, pd.Power_Law_Distribution(0.01, 2.1), "power_law.txt")
+    write_results_to_file(10000, pyseldon.seldoncore.Power_Law_Distribution(0.01, 2.1), "power_law.txt")
     write_results_to_file(
-        10000, pd.Bivariate_Bormal_Distribution(0.5), "bivariate_normal.txt"
+        10000, pyseldon.seldoncore.Bivariate_Normal_Distribution(0.5), "bivariate_normal.txt"
     )
 
 
 def test_bivariate_gaussian_copula():
-    dist1 = pd.Power_Law_Distribution(0.02, 2.5)
-    dist2 = pd.Truncated_Normal_Distribution(1.0, 0.75, 0.2)
-    copula = pd.Bivariate_Gaussian_Copula(0.5, dist1, dist2)
+    dist1 = pyseldon.seldoncore.Power_Law_Distribution(0.02, 2.5)
+    dist2 = pyseldon.seldoncore.Truncated_Normal_Distribution(1.0, 0.75, 0.2)
+    copula = pyseldon.seldoncore.Bivariate_Gaussian_Copula(0.5, dist1, dist2)
+    write_results_to_file(10000, copula, "gaussian_copula.txt" )

@@ -1,5 +1,5 @@
 import pytest
-import pyseldon.seldoncore as pd
+import pyseldon
 
 # Test data similar to the C++ version
 neighbour_list = [[1], [2, 3], [0], [4], [5], [4], [4, 7], [5, 8], [9], [6, 7]]
@@ -10,7 +10,7 @@ expected_scc = [{5, 4}, {3}, {2, 1, 0}, {9, 8, 7, 6}]
 
 def test_tarjan_scc():
     # Run Tarjan's algorithm
-    tarjan_scc = pd.TarjanConnectivityAlgo(neighbour_list)
+    tarjan_scc = pyseldon.seldoncore.TarjanConnectivityAlgo(neighbour_list)
 
     # Convert each SCC list to a set for comparison
     scc_sets = [set(scc) for scc in tarjan_scc.scc_list]

@@ -1,9 +1,9 @@
-import pyseldon.seldoncore as pd
+import pyseldon
 import pytest
 
 
 def test_degroot_settings():
-    settings = pd.DeGrootSettings()
+    settings = pyseldon.seldoncore.DeGrootSettings()
     assert settings.max_iterations == None
     assert settings.convergence_tol == 1e-6
 

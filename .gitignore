@@ -12,6 +12,9 @@ doc/apidocs/
 *__pycache__/
 *_cache/
 
+#probability_distribution
+output_probability_distributions/
+
 #mesonpython
 .mesonpy*
 notes.txt

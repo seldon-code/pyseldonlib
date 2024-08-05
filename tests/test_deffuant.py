@@ -1,4 +1,4 @@
-import pyseldon.seldoncore as pd
+import pyseldon
 import pytest
 from pathlib import Path
 
@@ -7,9 +7,9 @@ def test_basic_deffuant_model_two_agents():
     proj_root = Path.cwd()
     input_file = str(proj_root / "tests" / "res" / "deffuant_2agents.toml")
     print(type(input_file))
-    options = pd.parse_config_file(input_file)
+    options = pyseldon.seldoncore.parse_config_file(input_file)
 
-    simulation = pd.SimulationSimpleAgent(options=options)
+    simulation = pyseldon.seldoncore.SimulationSimpleAgent(options=options)
 
     output_dir_path = str(proj_root / "tests" / "output_deffuant")
     model_settings = options.model_settings
@@ -47,9 +47,9 @@ def test_basic_deffuant_model_two_agents():
 def test_lattice_deffuant_model_16X16_agents():
     proj_root = Path.cwd()
     input_file = str(proj_root / "tests" / "res" / "deffuant_16x16_agents.toml")
-    options = pd.parse_config_file(input_file)
+    options = pyseldon.seldoncore.parse_config_file(input_file)
 
-    simulation = pd.SimulationSimpleAgent(options=options)
+    simulation = pyseldon.seldoncore.SimulationSimpleAgent(options=options)
 
     output_dir_path = str(proj_root / "tests" / "output_deffuant")
     model_settings = options.model_settings
@@ -87,9 +87,9 @@ def test_lattice_deffuant_model_16X16_agents():
 def test_deffuant_vector_model():
     proj_root = Path.cwd()
     input_file = str(proj_root / "tests" / "res" / "deffuant_vector_2agents.toml")
-    options = pd.parse_config_file(input_file)
+    options = pyseldon.seldoncore.parse_config_file(input_file)
 
-    simulation = pd.SimulationDiscreteVector(options=options)
+    simulation = pyseldon.seldoncore.SimulationDiscreteVector(options=options)
 
     output_dir_path = str(proj_root / "tests" / "output_deffuant_vector")
 

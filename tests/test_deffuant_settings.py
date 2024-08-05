@@ -1,9 +1,9 @@
-import pyseldon.seldoncore as pd
+import pyseldon
 import pytest
 
 
 def test_deffuant_settings():
-    settings = pd.DeffuantSettings()
+    settings = pyseldon.seldoncore.DeffuantSettings()
     assert settings.max_iterations == None
     assert settings.homophily_threshold == 0.2
     assert settings.mu == 0.5
