@@ -42,6 +42,11 @@ py.extension_module(
 py.install_sources(
    [
     'pyseldon/__init__.py',
+    'pyseldon/DeGrootModel.py',
+    'pyseldon/DeffuantModel.py',
+    'pyseldon/DeffuantVectorModel.py',
+    'pyseldon/ActivityDrivenModel.py',
+    'pyseldon/InertialModel.py',
   ],
   pure: false, # install next to compiled extension
   subdir: 'pyseldon'

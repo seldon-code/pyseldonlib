@@ -252,64 +252,44 @@ PYBIND11_MODULE(seldoncore, m) {
     //------------------------------------------------------------------------------------------------------------------------------------------
 
     py::class_<Seldon::Simulation<Seldon::SimpleAgent>>(m, "SimulationSimpleAgent")
-        .def(py::init<>([](const Seldon::Config::SimulationOptions &options,
-                           const std::optional<std::string> &agent_file,
-                           const std::optional<std::string> &network_file) {
-                 Seldon::Config::validate_settings(options);
-                 Seldon::Config::print_settings(options);
-                 return new Seldon::Simulation<Seldon::SimpleAgent>(options, network_file, agent_file);
-             }),
+        .def(py::init<const Seldon::Config::SimulationOptions & , const std::optional<std::string> & ,
+        const std::optional<std::string> & >(),
              "options"_a,
-             "agent_file"_a = std::optional<std::string>{},
-             "network_file"_a = std::optional<std::string>{})
+             "cli_network_file"_a,"cli_agent_file"_a
+             )
         .def("run", &Seldon::Simulation<Seldon::SimpleAgent>::run, "output_dir_path"_a)
         .def_readwrite("network", &Seldon::Simulation<Seldon::SimpleAgent>::network);
 
     //---------------------------------------------------------------------------------------------------------------------------------------
 
     py::class_<Seldon::Simulation<Seldon::DiscreteVectorAgent>>(m, "SimulationDiscreteVector")
-        .def(py::init<>([](const Seldon::Config::SimulationOptions &options,
-                           const std::optional<std::string> &agent_file,
-                           const std::optional<std::string> &network_file) {
-                 Seldon::Config::validate_settings(options);
-                 Seldon::Config::print_settings(options);
-                 return new Seldon::Simulation<Seldon::DiscreteVectorAgent>(options, network_file, agent_file);
-             }),
+        .def(py::init<const Seldon::Config::SimulationOptions & , const std::optional<std::string> & ,
+        const std::optional<std::string> & >(),
              "options"_a,
-             "agent_file"_a,
-             "network_file"_a)
+             "cli_network_file"_a,"cli_agent_file"_a
+             )
         .def("run", &Seldon::Simulation<Seldon::DiscreteVectorAgent>::run, "output_dir_path"_a)
         .def_readwrite("network", &Seldon::Simulation<Seldon::DiscreteVectorAgent>::network);
 
     //---------------------------------------------------------------------------------------------------------------------------------------
 
     py::class_<Seldon::Simulation<Seldon::ActivityAgent>>(m, "SimulationActivityAgent")
-        .def(py::init<>([](const Seldon::Config::SimulationOptions &options,
-                           const std::optional<std::string> &agent_file,
-                           const std::optional<std::string> &network_file) {
-                 Seldon::Config::validate_settings(options);
-                 Seldon::Config::print_settings(options);
-                 return new Seldon::Simulation<Seldon::ActivityAgent>(options, network_file, agent_file);
-             }),
+        .def(py::init<const Seldon::Config::SimulationOptions & , const std::optional<std::string> & ,
+        const std::optional<std::string> & >(),
              "options"_a,
-             "agent_file"_a,
-             "network_file"_a)
+             "cli_network_file"_a,"cli_agent_file"_a
+             )
         .def("run", &Seldon::Simulation<Seldon::ActivityAgent>::run,"output_dir_path"_a)
         .def_readwrite("network", &Seldon::Simulation<Seldon::ActivityAgent>::network);
 
     //---------------------------------------------------------------------------------------------------------------------------------------
 
     py::class_<Seldon::Simulation<Seldon::InertialAgent>>(m, "SimulationInertialAgent")
-        .def(py::init<>([](const Seldon::Config::SimulationOptions &options,
-                           const std::optional<std::string> &agent_file,
-                           const std::optional<std::string> &network_file) {
-                 Seldon::Config::validate_settings(options);
-                 Seldon::Config::print_settings(options);
-                 return new Seldon::Simulation<Seldon::InertialAgent>(options, network_file, agent_file);
-             }),
+        .def(py::init<const Seldon::Config::SimulationOptions & , const std::optional<std::string> & ,
+        const std::optional<std::string> & >(),
              "options"_a,
-             "agent_file"_a,
-             "network_file"_a)
+             "cli_network_file"_a,"cli_agent_file"_a
+             )
         .def("run", &Seldon::Simulation<Seldon::InertialAgent>::run, "output_dir_path"_a)
         .def_readwrite("network", &Seldon::Simulation<Seldon::InertialAgent>::network);
 

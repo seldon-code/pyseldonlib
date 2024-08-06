@@ -10,13 +10,13 @@ import pathlib
 # print(agent)
 # print(type(agent))
 
-simulation = pyseldon.seldoncore.SimulationSimpleAgent(pyseldon.seldoncore.parse_config_file("/home/parrot_user/Desktop/pyseldon/subprojects/seldon/examples/DeGroot/conf.toml"))
-agent = simulation.network.agent
+# simulation = pyseldon.seldoncore.SimulationSimpleAgent(pyseldon.seldoncore.parse_config_file("/home/parrot_user/Desktop/pyseldon/subprojects/seldon/examples/DeGroot/conf.toml"))
+# agent = simulation.network.agent
 
-simulation.run()
-for i in agent: 
-  print(i.data.opinion)
-print(dir(simulation))
+# simulation.run()
+# for i in agent: 
+#   print(i.data.opinion)
+# print(dir(simulation))
 
 # pyseldon.seldoncore.run_simulation(config_file_path = "/home/parrot_user/Desktop/pyseldon/subprojects/seldon/examples/ActivityDrivenBot/conf.toml")
 
@@ -51,3 +51,6 @@ print(dir(simulation))
 # network = x.network
 # print(network.n_agents())
 # print(network.n_agents)
+
+model = pyseldon.DeGrootModel(max_iterations=100)
+model.run()
