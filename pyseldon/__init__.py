@@ -8,10 +8,11 @@ from typing import Optional, Union
 
 # """This module provides functions to run the simulation using the configuration file or the simulation options object."""
 
-from .DeGrootModel import Other_Settings, DeGrootModel
-from .DeffuantModel import DeffuantModel
+from ._othersettings import Other_Settings
+from .DeGrootModel import DeGrootModel
+from .DeffuantModel import Deffuant_Model
 from .DeffuantVectorModel import Deffuant_Vector_Model
-from .InertialModel import InertialModel
+from .InertialModel import Inertial_Model
 from .ActivityDrivenModel import Activity_Driven_Model
 
 # def run_simulation_from_config_file(

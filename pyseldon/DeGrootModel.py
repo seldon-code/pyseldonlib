@@ -1,65 +1,48 @@
-"""This is the implementation of the Classical DeGroot Model in Opinion Dynamics."""
+"""
+DeGroot Model
+-------------
+
+This is the implementation of the Classical DeGroot Model in Opinion Dynamics.
+
+The DeGroot Model is a model of social influence that describes how agents in a network update their opinions based on the opinions of their neighbors. 
+The model is based on the idea that agents update their opinions by taking the average of the opinions of their neighbors. 
+The model is iterative, with agents updating their opinions in each iteration based on the opinions of their neighbors.
+
+Consider a group of Individuals(committee or team), with individuals having subjective probability distribution for some unknown value of a parameter.
+This Model decribes how the group might reach agreement on a common subjective probability distribution for the parameter by pooling their individual opinions.
+The model can also be applied to problems of reaching a consensus when the opinion of each member of the group is represented simply as a point estimate of the parameter rather than as a probability distribution.
+
+Example:
+---------
+```python
+from pyseldon import DeGrootModel
+
+# Create the DeGroot Model
+degroot = DeGrootModel(max_iterations=1000, convergence_tol=1e-6)
+
+# Run the simulation
+degroot.run("output_dir")
+
+# Access the network
+network = degroot.get_Network()
+
+# Access the opinions of the agents
+opinions = degroot.agents_opinions()
+
+```
+
+read also: Network, Other_Settings
+
+Reference:
+----------
+    - DeGroot, Morris H. (1974). "Reaching a Consensus". Journal of the American Statistical Association. 69 (345): 118–121. doi:10.2307/2286313. JSTOR 2286313.
+"""
 
 from bindings import seldoncore
 import pathlib
 from typing import Optional
 
-# from ._othersettings import Other_Settings
-
-class Other_Settings:
-  """
-  All other settings for the simulation.
-  
-  Parameters:
-  -----------
-
-  output_settings:
-  ----------------
-  n_output_agents :  int, default=None
-    Write out the agents every n iterations.
-
-  n_output_network : int, default=None
-    Write out the network every n iterations.
-
-  print_progress : bool, default=False
-    Print the progress of the simulation.
-
-  output_initial : bool, default=True
-    Output initial opinions and network.
-
-  start_output : int, default=1
-    Start printing opinion and/or network files from this iteration number.
-
-  start_numbering_from : int, default=0
-    The initial step number, before the simulation runs, is this value. The first step would be (1+start_numbering_from).
-  
-  network_settings:
-  -----------------
-  number_of_agents : int, default=200
-    The number of agents in the network.
-  
-  connections_per_agent : int, default=10
-    The number of connections per agent.
-  """
-  def __init__(self,n_output_agents: Optional[int] = None,
-        n_output_network: Optional[int] = None,
-        print_progress: bool = False,
-        output_initial: bool = True,
-        start_output: int = 1,
-        start_numbering_from: int = 0, number_of_agents: int = 200,
-        connections_per_agent: int = 10):
-    self.output_settings = seldoncore.OutputSettings()
-    self.output_settings.n_output_agents=n_output_agents
-    self.output_settings.n_output_network=n_output_network
-    self.output_settings.print_progress=print_progress
-    self.output_settings.output_initial=output_initial
-    self.output_settings.start_output=start_output
-    self.output_settings.start_numbering_from=start_numbering_from
-    self.network_settings = seldoncore.InitialNetworkSettings()
-    self.network_settings.number_of_agents=number_of_agents
-    self.network_settings.connections_per_agent=connections_per_agent
-
-
+from ._othersettings import Other_Settings
 
 class DeGrootModel:
   """
@@ -115,7 +98,7 @@ class DeGrootModel:
 
     if rng_seed is not None:
       self._options.rng_seed = rng_seed
-    self._simulation = seldoncore.SimulationSimpleAgent(options = self._options, agent_file = agent_file, network_file = network_file)
+    self._simulation = seldoncore.SimulationSimpleAgent(options = self._options, cli_agent_file = agent_file, cli_network_file = network_file)
 
     self.Network = self._simulation.network
 
@@ -125,8 +108,8 @@ class DeGrootModel:
 
     Parameters:
     -----------
-    output_dir : str, default=None
-      The directory to output the files to. If None, the files are not written out. Instead the Network is stored in the Network attribute.
+    output_dir : str, default="./output"
+      The directory to output the files to.
     """
     seldoncore.validate_settings(self._options)
     seldoncore.print_settings(self._options)
@@ -142,7 +125,7 @@ class DeGrootModel:
       self._simulation.run(output_dir)
       
     else:
-      self._simulation.run("")
+      self._simulation.run("./output")
 
     self.Network = self._simulation.network
 
@@ -179,27 +162,3 @@ class DeGrootModel:
           return result
       else:
           return self.Network.agent[index].data.opinion
-
-model = DeGrootModel(max_iterations=100,rng_seed=120)
-model.run("./output1")
-
-network = model.get_Network()
-print(network.n_agents())
-# # opinions = model.agents_opinions()
-# for x in network.get_neighbours(1):
-#    print(x)
-# # for x in network.get_weights(1):
-# #    print(x)
-# network.set_neighbours_and_weights(1, [16,45], 0.5)
-# for x in network.get_weights(1):
-#    print(x)
-# for x in network.get_neighbours(1):
-#    print(x)
-# model.run()
-# for x in network.get_weights(1):
-#    print(x)
-# for x in network.get_neighbours(1):
-#    print(x)
-# print(opinions)
-
-# seldoncore.run_simulation(config_file_path="/home/parrot_user/Desktop/pyseldon/examples/test.toml", output_dir_path= "./output")

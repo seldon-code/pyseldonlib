@@ -1,7 +1,7 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath('../src'))
+sys.path.insert(0, os.path.abspath('../pyseldon'))
 
 project = 'pyseldon'
 copyright = '2024, Amrita Goswami, Rohit Goswami, Moritz Sallermann, Daivik Karbhari'
@@ -16,7 +16,9 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinx.ext.viewcode',
     'sphinx.ext.coverage',
-    'nbsphinx'
+    'nbsphinx',
+    'myst_nb',
+    'sphinx_copybutton',
 ]
 
 templates_path = ['source/_templates']
@@ -24,20 +26,27 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 
 # -- Options for HTML output -------------------------------------------------
-html_theme = 'sphinx_book_theme'
+html_theme = 'pydata_sphinx_theme'
 html_title = "PySeldon"
-# html_static_path = ['source/_static']
+html_logo = "../res/logotext.png"
+html_favicon = "../res/favicon.ico"
 
 html_theme_options = {
-    "repository_url": "https://github.com/User-DK/pyseldon/tree/develop", #to do change url
-    "use_repository_button": True,
-    "use_fullscreen_button": False,
-    "use_download_button": False,
+  "show_toc_level": 2,
+    "icon_links": [
+        {"name": "Home Page", "url": "https://github.com/seldon-code/pyseldon", "icon": "fas fa-home"},
+        {
+            "name": "GitHub",
+            "url": "https://github.com/seldon-code/pyseldon",
+            "icon": "fab fa-github-square",
+        },
+    ],
+    # "navbar_end": ["theme-switcher", "navbar-icon-links"],
+    "pygments_light_style": "tango",
+   "pygments_dark_style": "monokai"
+
 
 }
-
-# # -- Path setup --------------------------------------------------------------
-# sys.path.insert(0, os.path.abspath('../pyseldon'))
 
 myst_enable_extensions = [
     "amsmath",

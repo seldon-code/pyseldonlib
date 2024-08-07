@@ -54,3 +54,29 @@ import pathlib
 
 model = pyseldon.DeGrootModel(max_iterations=100)
 model.run()
+
+#--------------------------------------------------
+# newest
+# model = DeGrootModel(max_iterations=100,rng_seed=120)
+# model.run("./output1")
+
+# network = model.get_Network()
+# print(network.n_agents())
+# # opinions = model.agents_opinions()
+# for x in network.get_neighbours(1):
+#    print(x)
+# # for x in network.get_weights(1):
+# #    print(x)
+# network.set_neighbours_and_weights(1, [16,45], 0.5)
+# for x in network.get_weights(1):
+#    print(x)
+# for x in network.get_neighbours(1):
+#    print(x)
+# model.run()
+# for x in network.get_weights(1):
+#    print(x)
+# for x in network.get_neighbours(1):
+#    print(x)
+# print(opinions)
+
+# seldoncore.run_simulation(config_file_path="/home/parrot_user/Desktop/pyseldon/examples/test.toml", output_dir_path= "./output")

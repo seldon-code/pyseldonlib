@@ -1,69 +1,48 @@
-"""This is the implementation of the Deffuant Model in Opinion Dynamics."""
+"""
+Deffuant Model
+--------------
+
+This is the implementation of the Deffuant Model in Opinion Dynamics.
+
+In this model, referred to as "Mixing of Beliefs among Interacting Agents" in various papers, agents adjust their continuous opinions through random binary encounters, provided their difference in opinion is below a given threshold known as the Homophily Threshold.
+
+High thresholds lead to the convergence of opinions towards an average opinion, while low thresholds result in the formation of several opinion clusters. Members of the same cluster share a similar opinion but are no longer influenced by members of other clusters.
+
+Example:
+---------
+```python
+from pyseldon import DeffuantModel
+
+# Create the Deffuant Model
+deffuant = DeffuantModel(max_iterations=1000, homophily_threshold=0.2, mu=0.5)
+
+# Run the simulation
+deffuant.run("output_dir")
+
+# Access the network
+network = deffuant.get_Network()
+
+# Access the opinions of the agents
+opinions = deffuant.agents_opinions()
+
+```
+
+read also: Network, Other_Settings
+
+Reference:
+----------
+    - Mixing beliefs among interacting agents. Guillaume Deffuant, David Neau, Frédéric Amblard, and Gérard Weisbuch. Advances in Complex Systems, 3(1-4):87-98, 2000. DOI: 10.1142/S0219525900000078
+"""
 
 from bindings import seldoncore
 import pathlib
 from typing import Optional
 
-# from ._othersettings import Other_Settings
+from ._othersettings import Other_Settings
 
-class Other_Settings:
+class Deffuant_Model:
   """
-  All other settings for the simulation.
-  
-  Parameters:
-  -----------
-
-  output_settings:
-  ----------------
-  n_output_agents :  int, default=None
-    Write out the agents every n iterations.
-
-  n_output_network : int, default=None
-    Write out the network every n iterations.
-
-  print_progress : bool, default=False
-    Print the progress of the simulation.
-
-  output_initial : bool, default=True
-    Output initial opinions and network.
-
-  start_output : int, default=1
-    Start printing opinion and/or network files from this iteration number.
-
-  start_numbering_from : int, default=0
-    The initial step number, before the simulation runs, is this value. The first step would be (1+start_numbering_from).
-  
-  network_settings:
-  -----------------
-  number_of_agents : int, default=200
-    The number of agents in the network.
-  
-  connections_per_agent : int, default=10
-    The number of connections per agent.
-  """
-  def __init__(self,n_output_agents: Optional[int] = None,
-        n_output_network: Optional[int] = None,
-        print_progress: bool = False,
-        output_initial: bool = True,
-        start_output: int = 1,
-        start_numbering_from: int = 0, number_of_agents: int = 200,
-        connections_per_agent: int = 10):
-    self.output_settings = seldoncore.OutputSettings()
-    self.output_settings.n_output_agents=n_output_agents
-    self.output_settings.n_output_network=n_output_network
-    self.output_settings.print_progress=print_progress
-    self.output_settings.output_initial=output_initial
-    self.output_settings.start_output=start_output
-    self.output_settings.start_numbering_from=start_numbering_from
-    self.network_settings = seldoncore.InitialNetworkSettings()
-    self.network_settings.number_of_agents=number_of_agents
-    self.network_settings.connections_per_agent=connections_per_agent
-
-
-
-class Deffuant_Vector_Model:
-  """
-  DeGroot Model base class for Simulation.
+  Deffuant Model base class for Simulation.
   
   Parameters:
   -----------
@@ -77,10 +56,7 @@ class Deffuant_Vector_Model:
     The convergence rate of the agents.
 
   use_network : bool, default=False
-    For using a square lattice network.
-  
-  dim : int, default=1
-    The size of the opinions vector. This is used for the multi-dimensional DeffuantVector model.
+    For using a square lattice network. Will throw error if sqrt(n_agents) is not an integer.
   
   rng_seed : int, default=None
     The seed for the random number generator. If not provided, a random seed is picked. 
@@ -106,15 +82,13 @@ class Deffuant_Vector_Model:
   """
   def __init__(self,max_iterations: int=None, homophily_threshold: float = 0.2,
         mu: float = 0.5,
-        use_network: bool = False,
-        dim: int = 1, rng_seed: Optional[int]=None, agent_file: Optional[str]=None, network_file: Optional[str]=None, other_settings: Other_Settings=None):
+        use_network: bool = False, rng_seed: Optional[int]=None, agent_file: Optional[str]=None, network_file: Optional[str]=None, other_settings: Other_Settings=None):
     self.model_settings = seldoncore.DeffuantSettings()
     self.model_settings.max_iterations=max_iterations
     self.model_settings.homophily_threshold=homophily_threshold
     self.model_settings.mu=mu
     self.model_settings.use_network=use_network
     self.model_settings.use_binary_vector = False
-    self.model_settings.dim=dim
 
     if other_settings is not None:
       self._output_settings = other_settings.output_settings
@@ -132,7 +106,7 @@ class Deffuant_Vector_Model:
 
     if rng_seed is not None:
       self._options.rng_seed = rng_seed
-    self._simulation = seldoncore.SimulationSimpleAgent(options = self._options, agent_file = agent_file, network_file = network_file)
+    self._simulation = seldoncore.SimulationSimpleAgent(options = self._options, cli_agent_file = agent_file, cli_network_file = network_file)
 
     self.Network = self._simulation.network
 
@@ -142,8 +116,8 @@ class Deffuant_Vector_Model:
 
     Parameters:
     -----------
-    output_dir : str, default=None
-      The directory to output the files to. If None, the files are not written out. Instead the Network is stored in the Network attribute.
+    output_dir : str, default="./output"
+      The directory to output the files to.
     """
     seldoncore.validate_settings(self._options)
     seldoncore.print_settings(self._options)
@@ -159,7 +133,7 @@ class Deffuant_Vector_Model:
       self._simulation.run(output_dir)
       
     else:
-      self._simulation.run("")
+      self._simulation.run("./output")
 
     self.Network = self._simulation.network
 
@@ -196,27 +170,3 @@ class Deffuant_Vector_Model:
           return result
       else:
           return self.Network.agent[index].data.opinion
-
-model = Deffuant_Vector_Model(max_iterations=100,rng_seed=120)
-model.run("./output1")
-
-network = model.get_Network()
-print(network.n_agents())
-# # opinions = model.agents_opinions()
-# for x in network.get_neighbours(1):
-#    print(x)
-# # for x in network.get_weights(1):
-# #    print(x)
-# network.set_neighbours_and_weights(1, [16,45], 0.5)
-# for x in network.get_weights(1):
-#    print(x)
-# for x in network.get_neighbours(1):
-#    print(x)
-# model.run()
-# for x in network.get_weights(1):
-#    print(x)
-# for x in network.get_neighbours(1):
-#    print(x)
-# print(opinions)
-
-# seldoncore.run_simulation(config_file_path="/home/parrot_user/Desktop/pyseldon/examples/test.toml", output_dir_path= "./output")

@@ -1,7 +1,6 @@
 from bindings import seldoncore
 from typing import Optional
 
-
 class Other_Settings:
   """
   All other settings for the simulation.

@@ -259,10 +259,10 @@ PYBIND11_MODULE(seldoncore, m) {
              )
         .def("run", &Seldon::Simulation<Seldon::SimpleAgent>::run, "output_dir_path"_a)
         .def_readwrite("network", &Seldon::Simulation<Seldon::SimpleAgent>::network);
-
+    
     //---------------------------------------------------------------------------------------------------------------------------------------
 
-    py::class_<Seldon::Simulation<Seldon::DiscreteVectorAgent>>(m, "SimulationDiscreteVector")
+    py::class_<Seldon::Simulation<Seldon::DiscreteVectorAgent>>(m, "SimulationDiscreteVectorAgent")
         .def(py::init<const Seldon::Config::SimulationOptions & , const std::optional<std::string> & ,
         const std::optional<std::string> & >(),
              "options"_a,

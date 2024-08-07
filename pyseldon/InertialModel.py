@@ -1,64 +1,13 @@
-"""This is the implementation of the all inclusive Activity Driven Model for Opinion Dynamics"""
+"""
+This is the implementation of the all inclusive Activity Driven Inertial Model for Opinion Dynamics.
+
+"""
 
 from bindings import seldoncore
 import pathlib
 from typing import Optional
 
-# from ._othersettings import Other_Settings
-
-class Other_Settings:
-  """
-  All other settings for the simulation.
-  
-  Parameters:
-  -----------
-
-  output_settings:
-  ----------------
-  n_output_agents :  int, default=None
-    Write out the agents every n iterations.
-
-  n_output_network : int, default=None
-    Write out the network every n iterations.
-
-  print_progress : bool, default=False
-    Print the progress of the simulation.
-
-  output_initial : bool, default=True
-    Output initial opinions and network.
-
-  start_output : int, default=1
-    Start printing opinion and/or network files from this iteration number.
-
-  start_numbering_from : int, default=0
-    The initial step number, before the simulation runs, is this value. The first step would be (1+start_numbering_from).
-  
-  network_settings:
-  -----------------
-  number_of_agents : int, default=200
-    The number of agents in the network.
-  
-  connections_per_agent : int, default=10
-    The number of connections per agent.
-  """
-  def __init__(self,n_output_agents: Optional[int] = None,
-        n_output_network: Optional[int] = None,
-        print_progress: bool = False,
-        output_initial: bool = True,
-        start_output: int = 1,
-        start_numbering_from: int = 0, number_of_agents: int = 200,
-        connections_per_agent: int = 10):
-    self.output_settings = seldoncore.OutputSettings()
-    self.output_settings.n_output_agents=n_output_agents
-    self.output_settings.n_output_network=n_output_network
-    self.output_settings.print_progress=print_progress
-    self.output_settings.output_initial=output_initial
-    self.output_settings.start_output=start_output
-    self.output_settings.start_numbering_from=start_numbering_from
-    self.network_settings = seldoncore.InitialNetworkSettings()
-    self.network_settings.number_of_agents=number_of_agents
-    self.network_settings.connections_per_agent=connections_per_agent
-
+from ._othersettings import Other_Settings
 
 class Inertial_Model:
   """
@@ -227,7 +176,7 @@ class Inertial_Model:
 
     if rng_seed is not None:
       self._options.rng_seed = rng_seed
-    self._simulation = seldoncore.SimulationInertialAgent(options = self._options, agent_file = agent_file, network_file = network_file)
+    self._simulation = seldoncore.SimulationInertialAgent(options = self._options, cli_agent_file = agent_file, cli_network_file = network_file)
 
     self.Network = self._simulation.network
 
@@ -237,8 +186,8 @@ class Inertial_Model:
 
     Parameters:
     -----------
-    output_dir : str, default=None
-      The directory to output the files to. If None, the files are not written out. Instead the Network is stored in the Network attribute.
+    output_dir : str, default="./output"
+      The directory to output the files to.
     """
     seldoncore.validate_settings(self._options)
     seldoncore.print_settings(self._options)
@@ -254,7 +203,7 @@ class Inertial_Model:
       self._simulation.run(output_dir)
       
     else:
-      self._simulation.run("")
+      self._simulation.run("./output")
 
     self.Network = self._simulation.network
 
@@ -325,10 +274,3 @@ class Inertial_Model:
           return result
       else:
           return self.Network.agent[index].data.reluctance
-
-
-model = Inertial_Model(max_iterations=100,rng_seed=120)
-model.run("./output1")
-
-network = model.get_Network()
-print(network.n_agents())
