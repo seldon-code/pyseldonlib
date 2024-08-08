@@ -133,45 +133,45 @@ class Activity_Driven_Model:
         network_file: Optional[str] = None,
         other_settings: Other_Settings = None,
     ):
-        self.model_settings = seldoncore.ActivityDrivenSettings()
-        self.model_settings.max_iterations = max_iterations
-        self.model_settings.dt = dt
-        self.model_settings.m = m
-        self.model_settings.eps = eps
-        self.model_settings.gamma = gamma
-        self.model_settings.alpha = alpha
-        self.model_settings.homophily = homophily
-        self.model_settings.reciprocity = reciprocity
-        self.model_settings.K = K
-        self.model_settings.mean_activities = mean_activities
-        self.model_settings.mean_weights = mean_weights
-        self.model_settings.n_bots = n_bots
-        self.model_settings.bot_m = bot_m
-        self.model_settings.bot_activity = bot_activity
-        self.model_settings.bot_opinion = bot_opinion
-        self.model_settings.bot_homophily = bot_homophily
-        self.model_settings.use_reluctances = use_reluctances
-        self.model_settings.reluctance_mean = reluctance_mean
-        self.model_settings.reluctance_sigma = reluctance_sigma
-        self.model_settings.reluctance_eps = reluctance_eps
-        self.model_settings.covariance_factor = covariance_factor
 
         if other_settings is not None:
-            self._output_settings = other_settings.output_settings
-            self._network_settings = other_settings.network_settings
+            self.other_settings = other_settings
         else:
-            self._output_settings = seldoncore.OutputSettings()
-            self._network_settings = seldoncore.InitialNetworkSettings()
+            self.other_settings = Other_Settings()
 
         self._options = seldoncore.SimulationOptions()
         self._options.model_string = "ActivityDriven"
-        self._options.model_settings = self.model_settings
+        self._options.model_settings = seldoncore.ActivityDrivenSettings()
         self._options.output_settings = self._output_settings
         self._options.network_settings = self._network_settings
         self._options.model = seldoncore.Model.ActivityDrivenModel
 
+        self._options.model_settings.max_iterations = max_iterations
+        self._options.model_settings.dt = dt
+        self._options.model_settings.m = m
+        self._options.model_settings.eps = eps
+        self._options.model_settings.gamma = gamma
+        self._options.model_settings.alpha = alpha
+        self._options.model_settings.homophily = homophily
+        self._options.model_settings.reciprocity = reciprocity
+        self._options.model_settings.K = K
+        self._options.model_settings.mean_activities = mean_activities
+        self._options.model_settings.mean_weights = mean_weights
+        self._options.model_settings.n_bots = n_bots
+        self._options.model_settings.bot_m = bot_m
+        self._options.model_settings.bot_activity = bot_activity
+        self._options.model_settings.bot_opinion = bot_opinion
+        self._options.model_settings.bot_homophily = bot_homophily
+        self._options.model_settings.use_reluctances = use_reluctances
+        self._options.model_settings.reluctance_mean = reluctance_mean
+        self._options.model_settings.reluctance_sigma = reluctance_sigma
+        self._options.model_settings.reluctance_eps = reluctance_eps
+        self._options.model_settings.covariance_factor = covariance_factor
+
+
         if rng_seed is not None:
             self._options.rng_seed = rng_seed
+
         self._simulation = seldoncore.SimulationActivityAgent(
             options=self._options,
             cli_agent_file=agent_file,
@@ -179,6 +179,24 @@ class Activity_Driven_Model:
         )
 
         self.Network = self._simulation.network
+
+    def __getattr__(self, name):
+        if '_options' in self.__dict__ and hasattr(self.__dict__['_options'].model_settings, name):
+            return getattr(self.__dict__['_options'].model_settings, name)
+        elif name == "rng_seed":
+            return self.__dict__['_options'].rng_seed
+        else:
+            return self.__dict__[name]
+
+    def __setattr__(self, name, value):
+        if '_options' in self.__dict__ and hasattr(self.__dict__['_options'].model_settings, name):
+            setattr(self.__dict__['_options'].model_settings, name, value)
+        elif name == "rng_seed":
+            self.__dict__['_options'].rng_seed = value
+        else:
+            self.__dict__[name] = value
+
+
 
     def run(self, output_dir: str = None):
         """

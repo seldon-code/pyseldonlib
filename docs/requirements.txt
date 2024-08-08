@@ -8,3 +8,5 @@ sphinxcontrib-bibtex == 2.6.2
 autodoc_pydantic == 2.2.0
 nbsphinx
 sphinx-favicon
+sphinx-copybutton
+numpydoc

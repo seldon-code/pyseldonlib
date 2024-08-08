@@ -1,4 +1,17 @@
-"""This module provides the main interface to the pyseldon package."""
+"""This module provides the main interface to the pyseldon package.
+
+It includes the following classes and functions:
+- DeGrootModel
+- Deffuant_Model
+- Deffuant_Vector_Model
+- Inertial_Model
+- Activity_Driven_Model
+- Other_Settings
+- Network
+- run_simulation_from_config_file
+- run_simulation_from_options
+- parse_config_file
+"""
 
 from typing import Optional, Union
 from .DeGrootModel import DeGrootModel
@@ -14,5 +27,15 @@ from ._run_simulation import (
     parse_config_file,
 )
 
-
-__all__ = ["run_simulation_from_config_file", "run_simulation_from_options"]
+__all__ = [
+    "run_simulation_from_config_file",
+    "run_simulation_from_options",
+    "DeGrootModel",
+    "Deffuant_Model",
+    "Deffuant_Vector_Model",
+    "Inertial_Model",
+    "Activity_Driven_Model",
+    "Other_Settings",
+    "Network",
+    "parse_config_file",
+]

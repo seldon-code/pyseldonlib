@@ -47,6 +47,9 @@ py.install_sources(
     'pyseldon/DeffuantVectorModel.py',
     'pyseldon/ActivityDrivenModel.py',
     'pyseldon/InertialModel.py',
+    'pyseldon/_network.py',
+    'pyseldon/_othersettings.py',
+    'pyseldon/_run_simulation.py',
   ],
   pure: false, # install next to compiled extension
   subdir: 'pyseldon'

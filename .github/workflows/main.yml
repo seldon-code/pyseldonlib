@@ -1,23 +1,25 @@
 name : build pyseldon and test
+
 on: [push, pull_request]
+
 jobs:
   testing:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.5
-      - name: micromamba setup
-      - uses: mamba-org/setup-micromamba@v1
-        with:
-          environment-file: environment.yml
-          generate-run-shell: true
-          cache-environment: true
-          init-shell: bash
-      - name: build-and-install
-        shell: micromamba-shell {0}
-        run: |
-          meson setup build
-          pip install .
-      - name: test
-        shell: micromamba-shell {0}
-        run: |
-          pytest tests/
+    - uses: actions/checkout@v4.1.5
+    - name: micromamba setup
+      uses: mamba-org/setup-micromamba@v1
+      with:
+        environment-file: environment.yml
+        generate-run-shell: true
+        cache-environment: true
+        init-shell: bash
+    - name: build-and-install
+      shell: micromamba-shell {0}
+      run: |
+        meson setup build
+        pip install .
+    - name: test
+      shell: micromamba-shell {0}
+      run: |
+        pytest tests/

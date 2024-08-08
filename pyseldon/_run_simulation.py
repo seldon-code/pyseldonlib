@@ -8,8 +8,7 @@ def run_simulation_from_config_file(
     network_file_path: Optional[str] = None,
     output_dir_path: Optional[str] = None,
 ):
-    """
-    Run the simulation using the configuration(toml) file.
+    """Run the simulation using the configuration(toml) file.
 
     Parameters:
     -----------

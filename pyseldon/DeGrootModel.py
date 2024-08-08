@@ -8,30 +8,23 @@ The DeGroot Model is a model of social influence that describes how agents in a 
 The model is based on the idea that agents update their opinions by taking the average of the opinions of their neighbors.
 The model is iterative, with agents updating their opinions in each iteration based on the opinions of their neighbors.
 
-Consider a group of Individuals(committee or team), with individuals having subjective probability distribution for some unknown value of a parameter.
-This Model decribes how the group might reach agreement on a common subjective probability distribution for the parameter by pooling their individual opinions.
+Consider a group of Individuals (committee or team), with individuals having subjective probability distribution for some unknown value of a parameter.
+This Model describes how the group might reach agreement on a common subjective probability distribution for the parameter by pooling their individual opinions.
 The model can also be applied to problems of reaching a consensus when the opinion of each member of the group is represented simply as a point estimate of the parameter rather than as a probability distribution.
 
 Example:
 ---------
-```python
-from pyseldon import DeGrootModel
+>>> from pyseldon import DeGrootModel
+>>> # Create the DeGroot Model
+>>> degroot = DeGrootModel(max_iterations=1000, convergence_tol=1e-6)
+>>> # Run the simulation
+>>> degroot.run("output_dir")
+>>> # Access the network
+>>> network = degroot.get_Network()
+>>> # Access the opinions of the agents
+>>> opinions = degroot.agents_opinions()
 
-# Create the DeGroot Model
-degroot = DeGrootModel(max_iterations=1000, convergence_tol=1e-6)
-
-# Run the simulation
-degroot.run("output_dir")
-
-# Access the network
-network = degroot.get_Network()
-
-# Access the opinions of the agents
-opinions = degroot.agents_opinions()
-
-```
-
-read also: Network, Other_Settings
+Read also: Network, Other_Settings
 
 Reference:
 ----------
@@ -43,7 +36,6 @@ import pathlib
 from typing import Optional
 
 from ._othersettings import Other_Settings
-
 
 class DeGrootModel:
     """
@@ -89,52 +81,43 @@ class DeGrootModel:
         network_file: Optional[str] = None,
         other_settings: Other_Settings = None,
     ):
-        self.model_settings = seldoncore.DeGrootSettings()
-        self.model_settings.max_iterations = max_iterations
-        self.model_settings.convergence_tol = convergence_tol
+        self.other_settings = Other_Settings()
         if other_settings is not None:
-            self._output_settings = other_settings.output_settings
-            self._network_settings = other_settings.network_settings
-        else:
-            self._output_settings = seldoncore.OutputSettings()
-            self._network_settings = seldoncore.InitialNetworkSettings()
+            self.other_settings = other_settings
 
         self._options = seldoncore.SimulationOptions()
         self._options.model_string = "DeGroot"
-        self._options.model_settings = self.model_settings
-        self._options.output_settings = self._output_settings
-        self._options.network_settings = self._network_settings
+        self._options.model_settings = seldoncore.DeGrootSettings()
+        self._options.output_settings = self.other_settings.output_settings
+        self._options.network_settings = self.other_settings.network_settings
         self._options.model = seldoncore.Model.DeGroot
+
+        self._options.model_settings.max_iterations = max_iterations
+        self._options.model_settings.convergence_tol = convergence_tol
 
         if rng_seed is not None:
             self._options.rng_seed = rng_seed
-        self._simulation = seldoncore.SimulationSimpleAgent(
-            options=self._options,
-            cli_agent_file=agent_file,
-            cli_network_file=network_file,
-        )
+
+        
 
         self.Network = self._simulation.network
-    
+
     def __getattr__(self, name):
-        if hasattr(self.model_settings, name):
-            return getattr(self.model_settings, name)
-        elif hasattr(self._output_settings, name):
-            return getattr(self._output_settings, name)
-        elif hasattr(self._network_settings, name):
-            return getattr(self._network_settings, name)
+        if '_options' in self.__dict__ and hasattr(self.__dict__['_options'].model_settings, name):
+            return getattr(self.__dict__['_options'].model_settings, name)
+        elif name == "rng_seed":
+            return self.__dict__['_options'].rng_seed
         else:
-            raise AttributeError(f"{self.__class__.__name__} object has no attribute {name}")
-    
+            return self.__dict__[name]
+
     def __setattr__(self, name, value):
-        if hasattr(self.model_settings, name):
-            setattr(self.model_settings, name, value)
-        elif hasattr(self._output_settings, name):
-            setattr(self._output_settings, name, value)
-        elif hasattr(self._network_settings, name):
-            setattr(self._network_settings, name, value)
+        if '_options' in self.__dict__ and hasattr(self.__dict__['_options'].model_settings, name):
+            setattr(self.__dict__['_options'].model_settings, name, value)
+        elif name == "rng_seed":
+            self.__dict__['_options'].rng_seed = value
         else:
-            super().__setattr__(name, value)
+            self.__dict__[name] = value
+
 
     def run(self, output_dir: str = None):
         """
