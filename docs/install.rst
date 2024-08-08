@@ -2,7 +2,7 @@ Installation
 =============
 
 Python Package Index (PYPI)
-===========================
+---------------------------
 You can install the package from PYPI using `pip`:
 
 .. code-block:: bash
@@ -17,6 +17,7 @@ Create and Activate the Environment
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Create a new `micromamba` environment and activate it:
+
 .. code-block:: bash
 
   $ micromamba create -f environment.yml
@@ -24,11 +25,12 @@ Create a new `micromamba` environment and activate it:
   $ micromamba activate pyseldonenv
 
 
-If you get problem with micromamba can look at the installation documentation [here](https://mamba.readthedocs.io/en/latest/installation/micromamba-installation.html)
+If you get problem with micromamba can look at the installation documentation `here <https://mamba.readthedocs.io/en/latest/installation/micromamba-installation.html>`_
 
 Build
 ~~~~~
 Set up the build directory with `meson`:
+
 .. code-block:: bash
 
    $ meson setup build
@@ -45,9 +47,10 @@ Use `pip` to install the package:
 Run the tests
 ~~~~~~~~~~~~~
 Use `pytest` to run the tests:
+
 .. code-block:: bash
 
-   $ pytest tests
+  $ pytest tests
 
 or
 

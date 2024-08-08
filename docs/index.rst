@@ -1,18 +1,36 @@
-PySeldon Documentation
-=======================
-
-Welcome to the **PySeldon** documentation. PySeldon is a Python library for Opinion Dynamics Simulation, an extension of the `Seldon Framework <https://github.com/seldon-code/seldon>`_.
-
 .. image:: ../res/PySeldon_1.svg
-   :align: right
-   :width: 600px
+   :align: left
+   :width: 800px
    :alt: PySeldon
 
+PySeldon Documentation
+=======================
+:Release: |release|
+:Date: |today|
+
+Welcome to the **PySeldon** Documentation. PySeldon is a Python Package for Opinion Dynamics Simulation, an extension of the `Seldon Framework <https://github.com/seldon-code/seldon>`_.
+It provides:
+
+- tools for simulation of various Opinion Dynamics Models like the classical DeGroot Model, Deffuant Model, Activity Driven Model, etc.
+- tools to create, manipulate and study complex networks which are either randomly generated or provided by the user.
+- a clean and robust interface for conducting the simulations.
+
+Opinion Dynamics
+----------------
+Opinion dynamics is a field of study within the realm of complex systems and sociophysics that explores how opinions, beliefs, and attitudes evolve and spread within social networks. It combines elements of physics, social science, and mathematics to understand the mechanisms driving opinion formation and change under various influences, such as personal convictions, peer pressure, media impact, and societal norms. 
+Our work contributes to this interdisciplinary field by providing robust tools for simulation and analysis, aiding in the understanding of complex opinion dynamics phenomena `Seldon-Code <https://github.com/seldon-code>`_.
+
+Citing
+------
+To cite PySeldon please ask what to write
+
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Contents:
 
    install
+   quickstart
    source/reference/index
    examples
    contributing.md
+   LICENSE.md

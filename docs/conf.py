@@ -4,8 +4,8 @@ import sys
 sys.path.insert(0, os.path.abspath('../pyseldon'))
 
 project = 'pyseldon'
-copyright = '2024, Amrita Goswami, Rohit Goswami, Moritz Sallermann, Daivik Karbhari'
-author = 'Amrita Goswami, Rohit Goswami, Moritz Sallermann, Daivik Karbhari'
+copyright = '2024, Amrita Goswami, Moritz Sallermann, Rohit Goswami, Daivik Karbhari'
+author = 'Amrita Goswami, Moritz Sallermann, Rohit Goswami, Daivik Karbhari'
 release = '1.0'
 
 # -- General configuration ---------------------------------------------------
