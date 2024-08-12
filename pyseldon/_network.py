@@ -2,8 +2,8 @@ from bindings import seldoncore
 
 
 class Network:
-    """
-    The Network class provides functions to create a network object.
+    """The Network class provides functions to create a network object.
+    
     """
 
     def __init__(
@@ -15,8 +15,7 @@ class Network:
         weight_list: list[float] = [],
         direction: str = "Incoming",
     ):
-        """
-        Initialize the Network object.
+        """Initialize the Network object.
 
         Note: This class is used to create a network object that can be used to run the simulation by writing it out to a file and then using it.
 
@@ -54,6 +53,7 @@ class Network:
 
         direction : str
           The direction of the network.
+
         """
 
         if model_string == "DeGroot" or model_string == "Deffuant":
@@ -136,27 +136,26 @@ class Network:
 
     @property
     def n_agents(self):
-        """
-        The number of nodes/agents in the network.
+        """The number of nodes/agents in the network.
 
         """
         return self.network.n_agents()
 
     def n_edges(self, agent_idx: int):
-        """
-        The number of edges going out/coming in at `agent_idx` in the network.
+        """The number of edges going out/coming in at `agent_idx` in the network.
 
         Parameters:
         -----------
         agent_idx : int
           The index of the agent. If not provided, the total number of edges in the network is returned.
+
         """
         return self.network.n_edges(agent_idx)
 
     @property
     def get_direction(self):
-        """
-        The direction of the network.
+        """The direction of the network.
+
         """
         return self.network.direction()
 
@@ -170,8 +169,7 @@ class Network:
         return self.network.strongly_connected_components()
 
     def get_neighbours(self, index: int):
-        """
-        The neighbours of the node/agent in the network.
+        """The neighbours of the node/agent in the network.
 
         Parameters:
         -----------
@@ -182,8 +180,7 @@ class Network:
         return self.network.get_neighbours(index)
 
     def get_weights(self, index: int):
-        """
-        The weights of the agent.
+        """The weights of the agent.
 
         Parameters:
         -----------
@@ -195,8 +192,7 @@ class Network:
         return self.network.get_weights(index)
 
     def set_weights(self, agent_idx: int, weights: list):
-        """
-        Set the weights of the agent.
+        """Set the weights of the agent.
 
         Parameters:
         -----------
@@ -212,8 +208,7 @@ class Network:
     def set_neighbours_and_weights(
         self, agent_idx: int, buffer_neighbours: list[int], buffer_weights: list[float]
     ):
-        """
-        Sets the neighbour indices and weights at agent_idx
+        """Sets the neighbour indices and weights at agent_idx
 
         Parameters:
         -----------
@@ -232,8 +227,7 @@ class Network:
     def set_neighbours_and_weights(
         self, agent_idx: int, buffer_neighbours: list[int], weight: float
     ):
-        """
-        Sets the neighbour indices and sets the weight to a constant value at agent_idx in the network.
+        """Sets the neighbour indices and sets the weight to a constant value at agent_idx in the network.
 
         Parameters:
         -----------
@@ -252,8 +246,7 @@ class Network:
     def push_back_neighbour_and_weight(
         self, agent_idx_i: int, agent_idx_j: int, weight: float
     ):
-        """
-        Adds an edge between agent_idx_i and agent_idx_j with weight w
+        """Adds an edge between agent_idx_i and agent_idx_j with weight w
 
         Parameters:
         ------------
@@ -271,11 +264,10 @@ class Network:
 
     @property
     def transpose(self):
-        """
-        Transposes the network, without switching the direction flag (expensive).
+        """Transposes the network, without switching the direction flag (expensive).
 
         Example:
-        -------
+        --------
           N(inc) -> N(inc)^T
 
         """
@@ -286,34 +278,35 @@ class Network:
         """Switches the direction flag *without* transposing the network (expensive)
 
         Example:
-        -------
+        --------
           N(inc) -> N(out)
+
         """
 
         return self.network.toggle_incoming_outgoing()
 
     @property
     def switch_direction_flag(self):
-        """
-        Only switches the direction flag. This effectively transposes the network and, simultaneously, changes its representation.
+        """Only switches the direction flag. This effectively transposes the network and, simultaneously, changes its representation.
 
-        Example: N(inc) -> N^T(out)
+        Example:
+        -------- 
+          N(inc) -> N^T(out)
 
         """
         return self.network.switch_direction_flag()
 
     @property
     def remove_double_counting(self):
-        """
-        Sorts the neighbours by index and removes doubly counted edges by summing the weights of the corresponding edges.
+        """Sorts the neighbours by index and removes doubly counted edges by summing the weights of the corresponding edges.
 
         """
         return self.network.remove_double_counting()
 
     @property
     def clear(self):
+        """Clears the network.
+        
         """
-        Clears the network.
-
-        """
+        
         return self.network.clear()

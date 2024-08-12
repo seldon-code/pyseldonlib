@@ -52,19 +52,19 @@ import pathlib
 # print(network.n_agents())
 # print(network.n_agents)
 
-model = pyseldon.DeGrootModel(max_iterations=20, convergence_tol=0.001, rng_seed=120)
+other_settings = pyseldon.Other_Settings(n_output_agents = 1, n_output_network= 20,number_of_agents = 300,connections_per_agent = 10)
+model = pyseldon.DeGroot_Model(max_iterations=20,  rng_seed=120, other_settings=other_settings)
 # print(f"max_iterations_before{model.max_iterations}")
 # model.max_iterations = 200
 # print(f"max_iterations_after{model.max_iterations}")
 # print(f"rng_seed_before{model.rng_seed}")
 # model.rng_seed = 120
-model.other_settings.network_settings.number_of_agents =300
-model.other_settings.network_settings.connections_per_agent =10
-model.other_settings.output_settings.print_progress = False
-model.other_settings.output_settings.n_output_network =20
-model.other_settings.output_settings.n_output_agents = 1
-model.run("./output1")
-
+# model.run("./output1")
+other_settings = pyseldon.Other_Settings(n_output_agents = 1, n_output_network= 1,number_of_agents = 500,connections_per_agent = 10)
+model = pyseldon.DeGroot_Model(max_iterations="20",  rng_seed=120, other_settings=other_settings)
+model.run("./output")
+result = model.agents_opinions()
+print(result)
 
 #--------------------------------------------------
 # newest
@@ -90,4 +90,5 @@ model.run("./output1")
 #    print(x)
 # print(opinions)
 
-pyseldon.run_simulation_from_config_file(config_file_path="/home/parrot_user/Desktop/pyseldon/subprojects/seldon/examples/DeGroot/conf.toml", output_dir_path= "./output")
+# pyseldon.run_simulation_from_config_file(config_file_path="/home/parrot_user/Desktop/pyseldon/subprojects/seldon/examples/DeGroot/conf.toml", output_dir_path= "./output")
+

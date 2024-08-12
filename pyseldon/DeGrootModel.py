@@ -28,7 +28,7 @@ Read also: Network, Other_Settings
 
 Reference:
 ----------
-    - DeGroot, Morris H. (1974). "Reaching a Consensus". Journal of the American Statistical Association. 69 (345): 118–121. doi:10.2307/2286313. JSTOR 2286313.
+- DeGroot, Morris H. (1974). "Reaching a Consensus". Journal of the American Statistical Association. 69 (345): 118–121. doi:10.2307/2286313. JSTOR 2286313.
 """
 
 from bindings import seldoncore
@@ -37,7 +37,7 @@ from typing import Optional
 
 from ._othersettings import Other_Settings
 
-class DeGrootModel:
+class DeGroot_Model:
     """
     DeGroot Model base class for Simulation.
 
@@ -79,7 +79,7 @@ class DeGrootModel:
         rng_seed: Optional[int] = None,
         agent_file: Optional[str] = None,
         network_file: Optional[str] = None,
-        other_settings: Other_Settings = None,
+        other_settings: Other_Settings = None
     ):
         self.other_settings = Other_Settings()
         if other_settings is not None:
@@ -98,7 +98,9 @@ class DeGrootModel:
         if rng_seed is not None:
             self._options.rng_seed = rng_seed
 
-        
+        self._simulation = seldoncore.SimulationSimpleAgent(options=self._options,
+            cli_agent_file=agent_file,
+            cli_network_file=network_file)
 
         self.Network = self._simulation.network
 
@@ -107,6 +109,8 @@ class DeGrootModel:
             return getattr(self.__dict__['_options'].model_settings, name)
         elif name == "rng_seed":
             return self.__dict__['_options'].rng_seed
+        elif name == "other_settings":
+            return self.__dict__['other_settings']
         else:
             return self.__dict__[name]
 
@@ -115,6 +119,8 @@ class DeGrootModel:
             setattr(self.__dict__['_options'].model_settings, name, value)
         elif name == "rng_seed":
             self.__dict__['_options'].rng_seed = value
+        elif name == "other_settings":
+            self.__dict__['other_settings'] = value
         else:
             self.__dict__[name] = value
 
@@ -131,21 +137,14 @@ class DeGrootModel:
         seldoncore.validate_settings(self._options)
         seldoncore.print_settings(self._options)
         cwd = pathlib.Path.cwd()
-        if output_dir is not None:
-            output_path = cwd / pathlib.Path(output_dir)
-            if output_path.exists():
-                user_input = input(
-                    "The directory already exists. Do you want to overwrite it? (y/n): "
-                )
-                if user_input.lower() != "y":
-                    raise Exception("Ouput Directory Exists. Simulation Terminated!!")
-            print(f"Output directory path set to: {output_path}\n")
-            output_path.mkdir(parents=True, exist_ok=True)
-            self._simulation.run(output_dir)
-
-        else:
-            self._simulation.run("./output")
-
+        if output_dir is None:
+            output_dir ="./output"
+        output_path = cwd / pathlib.Path(output_dir)
+        if output_path.exists():
+          raise Exception("Output Directory already Exists!! Either delete it or change the path!!")
+        print(f"Output directory path set to: {output_path}\n")
+        output_path.mkdir(parents=True, exist_ok=True)
+        self._simulation.run(output_dir )
         self.Network = self._simulation.network
 
     def print_settings(self):
@@ -165,7 +164,7 @@ class DeGrootModel:
         """
         return self.Network
 
-    def agents_opinions(self, index: int = None):
+    def agent_opinion(self, index: int = None):
         """
         Access the agents data from the simulation.
 
@@ -175,9 +174,25 @@ class DeGrootModel:
           The index of the agent to access. The index is 0-based. If not provided, all agents are returned.
         """
         if index is None:
-            result = []
-            for agent in self.Network.agent:
-                result.append(agent.data.opinion)
+            result = [agent.data.opinion for agent in self.Network.agent]
             return result
         else:
+            if index < 0 or index >= self.Network.n_agents():
+                raise IndexError("Agent index is out of range.")
             return self.Network.agent[index].data.opinion
+    
+    def set_agent_opinion(self, index: int, opinion: float):
+        """
+        Set the opinion of a specific agent.
+
+        Parameters
+        ----------
+        index : int
+            The index of the agent whose opinion is to be set.
+        opinion : float
+            The new opinion value for the agent.
+        """        
+        if index < 0 or index >= self.Network.n_agents():
+            raise IndexError("Agent index is out of range.")
+        
+        self.Network.agent[index].data.opinion = opinion

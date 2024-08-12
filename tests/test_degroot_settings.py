@@ -5,7 +5,7 @@ import pytest
 def test_degroot_settings():
     settings = pyseldon.seldoncore.DeGrootSettings()
     assert settings.max_iterations == None
-    assert settings.convergence_tol == 1e-6
+    assert settings.convergence_tol == 0.0
 
     # set values
     settings.max_iterations = 100

@@ -14,7 +14,7 @@ It includes the following classes and functions:
 """
 
 from typing import Optional, Union
-from .DeGrootModel import DeGrootModel
+from .DeGrootModel import DeGroot_Model
 from .DeffuantModel import Deffuant_Model
 from .DeffuantVectorModel import Deffuant_Vector_Model
 from .InertialModel import Inertial_Model
@@ -26,11 +26,12 @@ from ._run_simulation import (
     run_simulation_from_options,
     parse_config_file,
 )
+from bindings import seldoncore
 
 __all__ = [
     "run_simulation_from_config_file",
     "run_simulation_from_options",
-    "DeGrootModel",
+    "DeGroot_Model",
     "Deffuant_Model",
     "Deffuant_Vector_Model",
     "Inertial_Model",

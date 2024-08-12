@@ -120,24 +120,27 @@ void bind_Network(py::module &m, const std::string &name) {
              "weight_list"_a,
              "direction"_a = "Incoming")
         .def("n_agents", &Seldon::Network<AgentT>::n_agents)
-        .def("n_edges", &Seldon::Network<AgentT>::n_edges, "agent_idx"_a) // std::nullopt
-        .def("direction", [](Seldon::Network<AgentT> &self){
-            auto edge_direction = self.direction();
-            if(edge_direction == Seldon::Network<AgentT>::EdgeDirection::Incoming){
-                return "Incoming";
-            }else{
-                return "Outgoing";
-            }
-        })
+        .def("n_edges", &Seldon::Network<AgentT>::n_edges, "agent_idx"_a = std::nullopt)
+        .def("direction",
+             [](Seldon::Network<AgentT> &self) {
+                 auto edge_direction = self.direction();
+                 if (edge_direction == Seldon::Network<AgentT>::EdgeDirection::Incoming) {
+                     return "Incoming";
+                 } else {
+                     return "Outgoing";
+                 }
+             })
         .def("strongly_connected_components",
              &Seldon::Network<AgentT>::
                  strongly_connected_components) // https://stackoverflow.com/questions/64632424/interpreting-static-cast-static-castvoid-petint-syntax
                                                 // // https://pybind11.readthedocs.io/en/stable/classes.html#overloaded-methods
-        .def("get_neighbours",
-             [](Seldon::Network<AgentT> &self, std::size_t index) {
-                 auto span = self.get_neighbours(index);
-                 return std::vector<size_t>(span.begin(), span.end());
-             }, "index"_a)
+        .def(
+            "get_neighbours",
+            [](Seldon::Network<AgentT> &self, std::size_t index) {
+                auto span = self.get_neighbours(index);
+                return std::vector<size_t>(span.begin(), span.end());
+            },
+            "index"_a)
         .def("get_weights",
              [](Seldon::Network<AgentT> &self, std::size_t index) {
                  auto span = self.get_weights(index);
@@ -170,7 +173,10 @@ void bind_Network(py::module &m, const std::string &name) {
             "buffer_neighbours"_a,
             "weight"_a)
         .def("push_back_neighbour_and_weight",
-             &Seldon::Network<AgentT>::push_back_neighbour_and_weight, "agent_idx_i"_a, "agent_idx_j"_a, "w"_a) // takes in (size_T, size_t, double)
+             &Seldon::Network<AgentT>::push_back_neighbour_and_weight,
+             "agent_idx_i"_a,
+             "agent_idx_j"_a,
+             "w"_a)
         .def("transpose", &Seldon::Network<AgentT>::transpose)
         .def("toggle_incoming_outgoing", &Seldon::Network<AgentT>::toggle_incoming_outgoing)
         .def("switch_direction_flag", &Seldon::Network<AgentT>::switch_direction_flag)
@@ -183,7 +189,6 @@ PYBIND11_MODULE(seldoncore, m) {
     m.doc() = "Python bindings for Seldon Cpp Engine";
 
     //------------------------------------------------------------------------------------------------------------------------------------------
-    //------------------------------------------------------------------------------------------------------------------------------------------
 
     m.def("run_simulation",
           &run_simulation,
@@ -194,7 +199,6 @@ PYBIND11_MODULE(seldoncore, m) {
           "output_dir_path"_a = std::optional<std::string>{});
 
     //------------------------------------------------------------------------------------------------------------------------------------------
-    //------------------------------------------------------------------------------------------------------------------------------------------
 
     py::class_<Seldon::SimpleAgentData>(m, "SimpleAgentData").def(py::init<>()).def_readwrite("opinion", &Seldon::SimpleAgentData::opinion);
 
@@ -202,8 +206,6 @@ PYBIND11_MODULE(seldoncore, m) {
         .def(py::init<>())
         .def(py::init<Seldon::SimpleAgentData>())
         .def_readwrite("data", &Seldon::Agent<Seldon::SimpleAgentData>::data);
-
-    //------------------------------------------------------------------------------------------------------------------------------------------
 
     py::class_<Seldon::DiscreteVectorAgentData>(m, "DiscreteVectorAgentData")
         .def(py::init<>())
@@ -213,8 +215,6 @@ PYBIND11_MODULE(seldoncore, m) {
         .def(py::init<>())
         .def(py::init<Seldon::DiscreteVectorAgentData>())
         .def_readwrite("data", &Seldon::Agent<Seldon::DiscreteVectorAgentData>::data);
-
-    //------------------------------------------------------------------------------------------------------------------------------------------
 
     py::class_<Seldon::ActivityAgentData>(m, "ActivityAgentData")
         .def(py::init<>())
@@ -226,8 +226,6 @@ PYBIND11_MODULE(seldoncore, m) {
         .def(py::init<>())
         .def(py::init<Seldon::ActivityAgentData>())
         .def_readwrite("data", &Seldon::Agent<Seldon::ActivityAgentData>::data);
-
-    //------------------------------------------------------------------------------------------------------------------------------------------
 
     py::class_<Seldon::InertialAgentData>(m, "InertialAgentData")
         .def(py::init<>())
@@ -252,44 +250,34 @@ PYBIND11_MODULE(seldoncore, m) {
     //------------------------------------------------------------------------------------------------------------------------------------------
 
     py::class_<Seldon::Simulation<Seldon::SimpleAgent>>(m, "SimulationSimpleAgent")
-        .def(py::init<const Seldon::Config::SimulationOptions & , const std::optional<std::string> & ,
-        const std::optional<std::string> & >(),
+        .def(py::init<const Seldon::Config::SimulationOptions &, const std::optional<std::string> &, const std::optional<std::string> &>(),
              "options"_a,
-             "cli_network_file"_a,"cli_agent_file"_a
-             )
+             "cli_network_file"_a = std::nullopt,
+             "cli_agent_file"_a = std::nullopt)
         .def("run", &Seldon::Simulation<Seldon::SimpleAgent>::run, "output_dir_path"_a)
         .def_readwrite("network", &Seldon::Simulation<Seldon::SimpleAgent>::network);
-    
-    //---------------------------------------------------------------------------------------------------------------------------------------
 
     py::class_<Seldon::Simulation<Seldon::DiscreteVectorAgent>>(m, "SimulationDiscreteVectorAgent")
-        .def(py::init<const Seldon::Config::SimulationOptions & , const std::optional<std::string> & ,
-        const std::optional<std::string> & >(),
+        .def(py::init<const Seldon::Config::SimulationOptions &, const std::optional<std::string> &, const std::optional<std::string> &>(),
              "options"_a,
-             "cli_network_file"_a,"cli_agent_file"_a
-             )
+             "cli_network_file"_a = std::nullopt,
+             "cli_agent_file"_a = std::nullopt)
         .def("run", &Seldon::Simulation<Seldon::DiscreteVectorAgent>::run, "output_dir_path"_a)
         .def_readwrite("network", &Seldon::Simulation<Seldon::DiscreteVectorAgent>::network);
 
-    //---------------------------------------------------------------------------------------------------------------------------------------
-
     py::class_<Seldon::Simulation<Seldon::ActivityAgent>>(m, "SimulationActivityAgent")
-        .def(py::init<const Seldon::Config::SimulationOptions & , const std::optional<std::string> & ,
-        const std::optional<std::string> & >(),
+        .def(py::init<const Seldon::Config::SimulationOptions &, const std::optional<std::string> &, const std::optional<std::string> &>(),
              "options"_a,
-             "cli_network_file"_a,"cli_agent_file"_a
-             )
-        .def("run", &Seldon::Simulation<Seldon::ActivityAgent>::run,"output_dir_path"_a)
+             "cli_network_file"_a = std::nullopt,
+             "cli_agent_file"_a = std::nullopt)
+        .def("run", &Seldon::Simulation<Seldon::ActivityAgent>::run, "output_dir_path"_a)
         .def_readwrite("network", &Seldon::Simulation<Seldon::ActivityAgent>::network);
 
-    //---------------------------------------------------------------------------------------------------------------------------------------
-
     py::class_<Seldon::Simulation<Seldon::InertialAgent>>(m, "SimulationInertialAgent")
-        .def(py::init<const Seldon::Config::SimulationOptions & , const std::optional<std::string> & ,
-        const std::optional<std::string> & >(),
+        .def(py::init<const Seldon::Config::SimulationOptions &, const std::optional<std::string> &, const std::optional<std::string> &>(),
              "options"_a,
-             "cli_network_file"_a,"cli_agent_file"_a
-             )
+             "cli_network_file"_a = std::nullopt,
+             "cli_agent_file"_a = std::nullopt)
         .def("run", &Seldon::Simulation<Seldon::InertialAgent>::run, "output_dir_path"_a)
         .def_readwrite("network", &Seldon::Simulation<Seldon::InertialAgent>::network);
 
@@ -304,13 +292,11 @@ PYBIND11_MODULE(seldoncore, m) {
         .def_readwrite("start_output", &Seldon::Config::OutputSettings::start_output)
         .def_readwrite("start_numbering_from", &Seldon::Config::OutputSettings::start_numbering_from);
 
-    //degroot setting instance to be passed in the simulation options
     py::class_<Seldon::Config::DeGrootSettings>(m, "DeGrootSettings")
         .def(py::init<>())
         .def_readwrite("max_iterations", &Seldon::Config::DeGrootSettings::max_iterations)
         .def_readwrite("convergence_tol", &Seldon::Config::DeGrootSettings::convergence_tol);
 
-    // deffuant setting instance to be passed in the simulation options
     py::class_<Seldon::Config::DeffuantSettings>(m, "DeffuantSettings")
         .def(py::init<>())
         .def_readwrite("max_iterations", &Seldon::Config::DeffuantSettings::max_iterations)
@@ -320,7 +306,6 @@ PYBIND11_MODULE(seldoncore, m) {
         .def_readwrite("use_binary_vector", &Seldon::Config::DeffuantSettings::use_binary_vector)
         .def_readwrite("dim", &Seldon::Config::DeffuantSettings::dim);
 
-    // ActivityDriven setting instance to be passed in the simulation options
     py::class_<Seldon::Config::ActivityDrivenSettings>(m, "ActivityDrivenSettings")
         .def(py::init<>())
         .def_readwrite("max_iterations", &Seldon::Config::ActivityDrivenSettings::max_iterations)
@@ -345,7 +330,6 @@ PYBIND11_MODULE(seldoncore, m) {
         .def_readwrite("reluctance_eps", &Seldon::Config::ActivityDrivenSettings::reluctance_eps)
         .def_readwrite("covariance_factor", &Seldon::Config::ActivityDrivenSettings::covariance_factor);
 
-    // ActivityDrivenInertial setting instance to be passed in the simulation options
     py::class_<Seldon::Config::ActivityDrivenInertialSettings>(m, "ActivityDrivenInertialSettings")
         .def(py::init<>())
         .def_readwrite("max_iterations", &Seldon::Config::ActivityDrivenInertialSettings::max_iterations)
@@ -371,17 +355,16 @@ PYBIND11_MODULE(seldoncore, m) {
         .def_readwrite("covariance_factor", &Seldon::Config::ActivityDrivenInertialSettings::covariance_factor)
         .def_readwrite("friction_coefficient", &Seldon::Config::ActivityDrivenInertialSettings::friction_coefficient);
 
-    // InitialNetwork setting instance to be passed in the simulation options
     py::class_<Seldon::Config::InitialNetworkSettings>(m, "InitialNetworkSettings")
         .def(py::init<>())
         .def_readwrite("file", &Seldon::Config::InitialNetworkSettings::file)
         .def_readwrite("number_of_agents", &Seldon::Config::InitialNetworkSettings::n_agents)
         .def_readwrite("connections_per_agent", &Seldon::Config::InitialNetworkSettings::n_connections);
-    
+
     py::enum_<Seldon::Config::Model>(m, "Model")
         .value("DeGroot", Seldon::Config::Model::DeGroot)
         .value("ActivityDrivenModel", Seldon::Config::Model::ActivityDrivenModel)
-        .value("DeffuantModel", Seldon::Config::Model::DeffuantModel)   
+        .value("DeffuantModel", Seldon::Config::Model::DeffuantModel)
         .value("ActivityDrivenInertial", Seldon::Config::Model::ActivityDrivenInertial);
 
     py::class_<Seldon::Config::SimulationOptions>(m, "SimulationOptions")
@@ -613,7 +596,7 @@ PYBIND11_MODULE(seldoncore, m) {
     // drawing from n agents (without duplication)
     // ignore_idx ignores the index of the agent itself, since we will later add the agent itself ourselves to prevent duplication
     // std::optional<size_t> ignore_idx, std::size_t k, std::size_t n, std::vector<std::size_t> & buffer,std::mt19937 & gen
-    m.def("draw_unique_k_from_n", &Seldon::draw_unique_k_from_n, "ignore_idx"_a, "k"_a, "n"_a, "buffer"_a, "gen"_a=std::random_device()());
+    m.def("draw_unique_k_from_n", &Seldon::draw_unique_k_from_n, "ignore_idx"_a, "k"_a, "n"_a, "buffer"_a, "gen"_a = std::random_device()());
 
     py::class_<Seldon::power_law_distribution<double>>(m, "Power_Law_Distribution")
         .def(py::init<double, double>(), "eps"_a, "gamma"_a)
@@ -634,17 +617,25 @@ PYBIND11_MODULE(seldoncore, m) {
 
     py::class_<Seldon::bivariate_gaussian_copula<double, Seldon::power_law_distribution<double>, Seldon::truncated_normal_distribution<double>>>(
         m, "Bivariate_Gaussian_Copula")
-        .def(py::init<double, Seldon::power_law_distribution<double>, Seldon::truncated_normal_distribution<double>>(), "covariance"_a, "dist1"_a, "dist2"_a)
+        .def(py::init<double, Seldon::power_law_distribution<double>, Seldon::truncated_normal_distribution<double>>(),
+             "covariance"_a,
+             "dist1"_a,
+             "dist2"_a)
         .def("__call__",
-             &Seldon::bivariate_gaussian_copula<double, Seldon::power_law_distribution<double>, Seldon::truncated_normal_distribution<double>>::template
-             operator()<std::mt19937>,
+             &Seldon::bivariate_gaussian_copula<double, Seldon::power_law_distribution<double>, Seldon::truncated_normal_distribution<double>>::
+                 template operator()<std::mt19937>,
              "gen"_a);
 
-    m.def("hamming_distance", [](const std::vector<double>& v1, const std::vector<double>& v2){
-        return Seldon::hamming_distance(std::span<const double>(v1) , std::span<const double>(v2));
-    }, "v1"_a, "v2"_a);
+    m.def(
+        "hamming_distance",
+        [](const std::vector<double> &v1, const std::vector<double> &v2) {
+            return Seldon::hamming_distance(std::span<const double>(v1), std::span<const double>(v2));
+        },
+        "v1"_a,
+        "v2"_a);
 
-    // m.def("reservoir_sampling_A_ExpJ", &Seldon::reservoir_sampling_A_ExpJ<std::function<double(size_t)>>, "k"_a, "n"_a,"weight"_a,"buffer"_a, "gen"_a= std::random_device()());
+    // m.def("reservoir_sampling_A_ExpJ", &Seldon::reservoir_sampling_A_ExpJ<std::function<double(size_t)>>, "k"_a, "n"_a,"weight"_a,"buffer"_a,
+    // "gen"_a= std::random_device()());
 
     //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -656,7 +647,5 @@ PYBIND11_MODULE(seldoncore, m) {
     m.def("print_settings", &Seldon::Config::print_settings, "options"_a);
     m.def("validate_settings", &Seldon::Config::validate_settings, "options"_a);
 
-    py::class_<std::mt19937>(m, "RandomGenerator")
-        .def(py::init<unsigned int>());
-
+    py::class_<std::mt19937>(m, "RandomGenerator").def(py::init<unsigned int>());
 }

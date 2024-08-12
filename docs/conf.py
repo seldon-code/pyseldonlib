@@ -19,14 +19,17 @@ extensions = [
     'nbsphinx',
     'myst_nb',
     'sphinx_copybutton',
+    # 'sphinx-jsonschema',
+    'sphinx-pydantic',
     "numpydoc",
 ]
+
+autosummary_generate = True
 
 autodoc_default_options = {
     'members': True,
     'undoc-members': True,
     'private-members': True,
-    'special-members': '__init__',
     'inherited-members': True,
     'show-inheritance': True,
 }
@@ -53,9 +56,7 @@ html_theme_options = {
     ],
     # "navbar_end": ["theme-switcher", "navbar-icon-links"],
     "pygments_light_style": "tango",
-   "pygments_dark_style": "monokai"
-
-
+   "pygments_dark_style": "monokai",
 }
 
 myst_enable_extensions = [

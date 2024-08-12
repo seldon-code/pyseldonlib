@@ -10,3 +10,5 @@ nbsphinx
 sphinx-favicon
 sphinx-copybutton
 numpydoc
+pydantic
+sphinx-jsonschema

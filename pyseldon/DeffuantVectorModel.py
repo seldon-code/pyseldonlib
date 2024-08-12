@@ -63,30 +63,28 @@ class Deffuant_Vector_Model:
         network_file: Optional[str] = None,
         other_settings: Other_Settings = None,
     ):
-        self.model_settings = seldoncore.DeffuantSettings()
-        self.model_settings.max_iterations = max_iterations
-        self.model_settings.homophily_threshold = homophily_threshold
-        self.model_settings.mu = mu
-        self.model_settings.use_network = use_network
-        self.model_settings.use_binary_vector = True
-        self.model_settings.dim = dim
-
+        
+        self.other_settings = Other_Settings()
         if other_settings is not None:
-            self._output_settings = other_settings.output_settings
-            self._network_settings = other_settings.network_settings
-        else:
-            self._output_settings = seldoncore.OutputSettings()
-            self._network_settings = seldoncore.InitialNetworkSettings()
+            self.other_settings = other_settings
 
         self._options = seldoncore.SimulationOptions()
         self._options.model_string = "Deffuant"
-        self._options.model_settings = self.model_settings
-        self._options.output_settings = self._output_settings
-        self._options.network_settings = self._network_settings
+        self._options.model_settings = seldoncore.DeffuantSettings()
+        self._options.output_settings = self.output_settings
+        self._options.network_settings = self.network_settings
         self._options.model = seldoncore.Model.DeffuantModel
 
         if rng_seed is not None:
             self._options.rng_seed = rng_seed
+
+        self._options.model_settings.max_iterations = max_iterations
+        self._options.model_settings.homophily_threshold = homophily_threshold
+        self._options.model_settings.mu = mu
+        self._options.model_settings.use_network = use_network
+        self._options.model_settings.use_binary_vector = True
+        self._options.model_settings.dim = dim
+
         self._simulation = seldoncore.SimulationDiscreteVectorAgent(
             options=self._options,
             cli_agent_file=agent_file,
@@ -94,6 +92,26 @@ class Deffuant_Vector_Model:
         )
 
         self.Network = self._simulation.network
+    
+    def __getattr__(self, name):
+        if '_options' in self.__dict__ and hasattr(self.__dict__['_options'].model_settings, name):
+            return getattr(self.__dict__['_options'].model_settings, name)
+        elif name == "rng_seed":
+            return self.__dict__['_options'].rng_seed
+        elif name == "other_settings":
+            return self.__dict__['other_settings']
+        else:
+            return self.__dict__[name]
+
+    def __setattr__(self, name, value):
+        if '_options' in self.__dict__ and hasattr(self.__dict__['_options'].model_settings, name):
+            setattr(self.__dict__['_options'].model_settings, name, value)
+        elif name == "rng_seed":
+            self.__dict__['_options'].rng_seed = value
+        elif name == "other_settings":
+            self.__dict__['other_settings'] = value
+        else:
+            self.__dict__[name] = value
 
     def run(self, output_dir: str = None):
         """
@@ -101,27 +119,20 @@ class Deffuant_Vector_Model:
 
         Parameters:
         -----------
-        output_dir : str, default="./ouput"
+        output_dir : str, default="./output"
           The directory to output the files to.
         """
         seldoncore.validate_settings(self._options)
         seldoncore.print_settings(self._options)
         cwd = pathlib.Path.cwd()
-        if output_dir is not None:
-            output_path = cwd / pathlib.Path(output_dir)
-            if output_path.exists():
-                user_input = input(
-                    "The directory already exists. Do you want to overwrite it? (y/n): "
-                )
-                if user_input.lower() != "y":
-                    raise Exception("Ouput Directory Exists. Simulation Terminated!!")
-            print(f"Output directory path set to: {output_path}\n")
-            output_path.mkdir(parents=True, exist_ok=True)
-            self._simulation.run(output_dir)
-
-        else:
-            self._simulation.run("./output")
-
+        if output_dir is None:
+            output_dir = "./output"
+        output_path = cwd / pathlib.Path(output_dir)
+        if output_path.exists():
+          raise Exception("Output Directory already Exists!! Either delete it or change the path!!")
+        print(f"Output directory path set to: {output_path}\n")
+        output_path.mkdir(parents=True, exist_ok=True)
+        self._simulation.run(output_dir )
         self.Network = self._simulation.network
 
     def print_settings(self):
@@ -141,7 +152,7 @@ class Deffuant_Vector_Model:
         """
         return self.Network
 
-    def agents_opinions(self, index: int = None):
+    def agent_opinion(self, index: int = None):
         """
         Access the agents data from the simulation.
 
@@ -151,9 +162,25 @@ class Deffuant_Vector_Model:
           The index of the agent to access. The index is 0-based. If not provided, all agents are returned.
         """
         if index is None:
-            result = []
-            for agent in self.Network.agent:
-                result.append(agent.data.opinion)
+            result = [agent.data.opinion for agent in self.Network.agent]
             return result
         else:
+            if index < 0 or index >= self.Network.n_agents():
+                raise IndexError("Agent index is out of range.")
             return self.Network.agent[index].data.opinion
+
+    def set_agent_opinion(self, index: int, opinion: float):
+        """
+        Set the opinion of a specific agent.
+
+        Parameters
+        ----------
+        index : int
+            The index of the agent whose opinion is to be set.
+        opinion : float
+            The new opinion value for the agent.
+        """        
+        if index < 0 or index >= self.Network.n_agents():
+            raise IndexError("Agent index is out of range.")
+        
+        self.Network.agent[index].data.opinion = opinion

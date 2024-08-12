@@ -89,7 +89,7 @@ def test_deffuant_vector_model():
     input_file = str(proj_root / "tests" / "res" / "deffuant_vector_2agents.toml")
     options = pyseldon.seldoncore.parse_config_file(input_file)
 
-    simulation = pyseldon.seldoncore.SimulationDiscreteVector(options=options)
+    simulation = pyseldon.seldoncore.SimulationDiscreteVectorAgent(options=options)
 
     output_dir_path = str(proj_root / "tests" / "output_deffuant_vector")
 
