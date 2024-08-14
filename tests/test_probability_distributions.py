@@ -25,9 +25,13 @@ def test_probability_distributions():
         pyseldon.seldoncore.Truncated_Normal_Distribution(1.0, 0.5, 0.75),
         "truncated_normal.txt",
     )
-    write_results_to_file(10000, pyseldon.seldoncore.Power_Law_Distribution(0.01, 2.1), "power_law.txt")
     write_results_to_file(
-        10000, pyseldon.seldoncore.Bivariate_Normal_Distribution(0.5), "bivariate_normal.txt"
+        10000, pyseldon.seldoncore.Power_Law_Distribution(0.01, 2.1), "power_law.txt"
+    )
+    write_results_to_file(
+        10000,
+        pyseldon.seldoncore.Bivariate_Normal_Distribution(0.5),
+        "bivariate_normal.txt",
     )
 
 
@@ -35,4 +39,4 @@ def test_bivariate_gaussian_copula():
     dist1 = pyseldon.seldoncore.Power_Law_Distribution(0.02, 2.5)
     dist2 = pyseldon.seldoncore.Truncated_Normal_Distribution(1.0, 0.75, 0.2)
     copula = pyseldon.seldoncore.Bivariate_Gaussian_Copula(0.5, dist1, dist2)
-    write_results_to_file(10000, copula, "gaussian_copula.txt" )
+    write_results_to_file(10000, copula, "gaussian_copula.txt")

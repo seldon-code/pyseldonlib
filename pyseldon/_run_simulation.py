@@ -10,7 +10,7 @@ def run_simulation_from_config_file(
 ):
     """Run the simulation using the configuration(toml) file.
 
-    Parameters:
+    Parameters
     -----------
     config_file_path : str
         The path to the configuration(toml) file.
@@ -41,13 +41,20 @@ def run_simulation_from_options(
     """
     Run the simulation using the simulation options object.
 
-    Note: The options object must be created using the SimulationOptions class.
+    Note
+    ----
+      The options object must be created using the SimulationOptions class.
 
-    Args:
-        options (object): The simulation options object.
-        agent_file_path (str, optional): The path to the agent file.
-        network_file_path (str, optional): The path to the network file.
-        output_dir_path (str, optional): The path to the output directory.
+    Parameters
+    -----------
+    options : object 
+        The simulation options object.
+    agent_file_path : str, optional
+        The path to the agent file.
+    network_file_path : str, optional
+        The path to the network file.
+    output_dir_path : str, optional
+        The path to the output directory.
     """
     seldoncore.run_simulation(
         options=options.options,
@@ -61,10 +68,13 @@ def run_simulation_from_options(
 def parse_config_file(file_path: str):
     """Parse the toml file and create the simulation options object.
 
-    Args:
-        file_path (str): The path to the toml file.
+    Parameters
+    -----------
+    file_path : str
+        The path to the toml file.
 
-    Returns:
-        Simulation: The simulation object.
+    Returns
+    -------
+    Simulation: The simulation object.
     """
     return seldoncore.parse_config_file(file_path)

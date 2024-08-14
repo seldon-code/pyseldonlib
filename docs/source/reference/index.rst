@@ -6,4 +6,7 @@ This is the class and function reference of PySeldon. Please refer to the full u
 ..  toctree::
     :maxdepth: 4
 
-    pyseldon
+    introduction
+    models
+    packagereference
+    extras

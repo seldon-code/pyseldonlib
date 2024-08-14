@@ -61,7 +61,9 @@ def test_settings():
     output_settings = pyseldon.seldoncore.OutputSettings()
     deffuant_settings = pyseldon.seldoncore.DeffuantSettings()
     activitydriven_settings = pyseldon.seldoncore.ActivityDrivenSettings()
-    activitydriveninertial_settings = pyseldon.seldoncore.ActivityDrivenInertialSettings()
+    activitydriveninertial_settings = (
+        pyseldon.seldoncore.ActivityDrivenInertialSettings()
+    )
     initial_network_settings = pyseldon.seldoncore.InitialNetworkSettings()
 
     assert degroot_settings is not None

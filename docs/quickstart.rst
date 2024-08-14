@@ -28,8 +28,8 @@ TOML file Format
 .. code-block:: toml
 
     [simulation]
-    model = "DeGroot"
-    # rng_seed = 120 # Leaving this empty will pick a random seed
+    model = "" # The model to run. Options are DeGroot, Deffuant, DeffuantVector, ActivityDriven, Inertial
+    rng_seed = 120 # Leaving this empty will pick a random seed
 
     [io]
     n_output_network = 20 # Write the network every 20 iterations
@@ -39,7 +39,7 @@ TOML file Format
     start_output = 1 # Start writing out opinions and/or network files from this iteration. If not set, this is 1 + start_numbering_from.
     start_numbering_from = 0 # The initial step number, before the simulation runs, is this value. The first step would be (1+start_numbering_from). By default, 0
 
-    [model]
+    [model] # Model specific parameters
     max_iterations = 20 # If not set, max iterations is infinite
 
     [DeGroot]

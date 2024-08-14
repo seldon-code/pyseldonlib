@@ -18,11 +18,13 @@ def test_draw_unique_k_from_n():
     n = 100
     ignore_idx = 11
 
-    histogram = [0] * n 
+    histogram = [0] * n
     buffer = []
     gen = pyseldon.seldoncore.RandomGenerator(random.randint(0, 2**32 - 1))
-    for _i in range(0,N_RUNS):
-        pyseldon.seldoncore.draw_unique_k_from_n(ignore_idx =ignore_idx, k=k, n=n, buffer=buffer,gen = gen)
+    for _i in range(0, N_RUNS):
+        pyseldon.seldoncore.draw_unique_k_from_n(
+            ignore_idx=ignore_idx, k=k, n=n, buffer=buffer, gen=gen
+        )
         for num in buffer:
             histogram[num] += 1
 
@@ -38,11 +40,11 @@ def test_draw_unique_k_from_n():
 
     number_outside_three_sigma = 0
     for n in histogram:
-        if n==0:
+        if n == 0:
             continue
-        
-        if abs( float( n ) - float( mean ) ) > 3.0 * sigma:
-            number_outside_three_sigma+=1
+
+        if abs(float(n) - float(mean)) > 3.0 * sigma:
+            number_outside_three_sigma += 1
 
         assert n == pytest.approx(mean, abs=5 * sigma)
 
@@ -51,6 +53,7 @@ def test_draw_unique_k_from_n():
             UserWarning,
             f"Many deviations beyond the 3 sigma range. {number_outside_three_sigma} out of {N_RUNS}",
         )
+
 
 # to-do
 # def test_weighted_reservoir_sampling():

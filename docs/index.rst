@@ -31,6 +31,6 @@ To cite PySeldon please ask what to write
    install
    quickstart
    source/reference/index
-   examples
+   examples/index
    contributing.md
    LICENSE.md

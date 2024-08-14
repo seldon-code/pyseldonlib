@@ -34,7 +34,7 @@ class Network:
         3. By providing the list of neighbours, weights, and direction.
         4. Default constructor.
 
-        Parameters:
+        Parameters
         -----------
         model_string : str, default=None
           The model string.
@@ -144,7 +144,7 @@ class Network:
     def n_edges(self, agent_idx: int):
         """The number of edges going out/coming in at `agent_idx` in the network.
 
-        Parameters:
+        Parameters
         -----------
         agent_idx : int
           The index of the agent. If not provided, the total number of edges in the network is returned.
@@ -163,7 +163,7 @@ class Network:
     def strongly_connected_components(self):
         """The strongly connected components of the network.
 
-        Returns:
+        Returns
             list: The strongly connected components of the network.
         """
         return self.network.strongly_connected_components()
@@ -171,7 +171,7 @@ class Network:
     def get_neighbours(self, index: int):
         """The neighbours of the node/agent in the network.
 
-        Parameters:
+        Parameters
         -----------
         index : int
           The index of the agent.
@@ -182,7 +182,7 @@ class Network:
     def get_weights(self, index: int):
         """The weights of the agent.
 
-        Parameters:
+        Parameters
         -----------
         index : int
           The index of the agent.
@@ -194,7 +194,7 @@ class Network:
     def set_weights(self, agent_idx: int, weights: list):
         """Set the weights of the agent.
 
-        Parameters:
+        Parameters
         -----------
         index : int
           The index of the agent.
@@ -210,7 +210,7 @@ class Network:
     ):
         """Sets the neighbour indices and weights at agent_idx
 
-        Parameters:
+        Parameters
         -----------
         agent_idx : int
           The index of the agent.
@@ -229,7 +229,7 @@ class Network:
     ):
         """Sets the neighbour indices and sets the weight to a constant value at agent_idx in the network.
 
-        Parameters:
+        Parameters
         -----------
         agent_idx : int
           The index of the agent.
@@ -248,7 +248,7 @@ class Network:
     ):
         """Adds an edge between agent_idx_i and agent_idx_j with weight w
 
-        Parameters:
+        Parameters
         ------------
         agent_idx_i : int
           The index of the agent.

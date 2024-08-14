@@ -59,6 +59,17 @@ html_theme_options = {
    "pygments_dark_style": "monokai",
 }
 
+html_sidebars = {
+    "**": ["sidebar-nav-bs", "sidebar-ethical-ads"],
+    "index": [],
+    "install": [],
+    "examples": [],
+    "quickstart": [],
+    "contributing": [],
+    "LICENSE": [],
+    "examples": [],
+}
+
 myst_enable_extensions = [
     "amsmath",
     "attrs_inline",

@@ -19,7 +19,7 @@ def test_network_class_tests():
     assert network is not None
     assert network.n_agents() == n_agents
     print(network.n_edges())
-    assert network.n_edges() == n_agents * n_connections
+    assert network.n_edges() == n_agents * (n_connections + 1)
 
     # Check that the function for setting neighbours and a single weight work
     # Agent 3
@@ -97,7 +97,9 @@ def test_network_class_tests():
     neighbour_no_double_counting = [[0, 1, 2], [0, 1, 2], [0, 1, 2], [], [1, 3]]
     weights_no_double_counting = [[0, 3, -1], [1, 2, -2], [2, 1, 3], [], [1, 1]]
 
-    network = pyseldon.seldoncore.generate_n_connections(neighbour_list, weights, "Incoming")
+    network = pyseldon.seldoncore.generate_n_connections(
+        neighbour_list, weights, "Incoming"
+    )
     network.remove_double_counting()
 
     for i_agent in range(network.n_agents()):
