@@ -15,7 +15,7 @@ Initial opinions of the agents in the network in the range of [0,1] are shown be
 ![initial opinions](./examples/ouput_20_agents_10_connections_each/initial.png)
 
 Final opinions of the agents in the network after the simulation are shown below:
-![final opinions](./examples/ouput_20_agents_10_connections_each/initial.png)
+![final opinions](./examples/ouput_20_agents_10_connections_each/final.png)
 
 And we can conclude that the agents have reached a consensus after the simulation.
 
