@@ -1,34 +1,41 @@
 """
-DeGroot Model
--------------
+The DeGroot Model is a fundamental framework in social influence theory, illustrating how agents in a network update their opinions based on the opinions of their neighbors. At its core, the model posits that each agent revises their opinion by taking the weighted average of their neighbors' opinions. This iterative process continues until the opinions converge to a consensus or a stable state.
 
-This is the implementation of the Classical DeGroot Model in Opinion Dynamics.
+In practical terms, consider a group of individuals—such as a committee or a team—each holding a subjective probability distribution for an unknown parameter. The DeGroot Model describes how these individuals might converge on a unified subjective probability distribution through iterative opinion updates, effectively pooling their individual insights.
 
-The DeGroot Model is a model of social influence that describes how agents in a network update their opinions based on the opinions of their neighbors.
-The model is based on the idea that agents update their opinions by taking the average of the opinions of their neighbors.
-The model is iterative, with agents updating their opinions in each iteration based on the opinions of their neighbors.
+Additionally, the model is versatile and can be applied to scenarios where opinions are represented as point estimates rather than probability distributions. In such cases, the DeGroot Model helps illustrate how a group can achieve consensus on a specific parameter estimate, reflecting the collective judgment of the group.
 
-Consider a group of Individuals (committee or team), with individuals having subjective probability distribution for some unknown value of a parameter.
-This Model describes how the group might reach agreement on a common subjective probability distribution for the parameter by pooling their individual opinions.
-The model can also be applied to problems of reaching a consensus when the opinion of each member of the group is represented simply as a point estimate of the parameter rather than as a probability distribution.
+Key features
+~~~~~~~~~~~~
+
+    Opinion Averaging:
+        Agents update their opinions based on the average opinions of their neighbors, fostering convergence and consensus.
+
+    Iterative Process:
+        The model operates through a series of iterations, with opinions being refined each step until stability is achieved.
+
+    Consensus Formation:
+        Applicable to both probability distributions and point estimates, showing how diverse opinions can be aggregated into a common view.
+
+The DeGroot Model provides a clear and elegant approach to understanding how social influence and information sharing lead to collective agreement within a network of agents.
 
 Example:
 ---------
->>> from pyseldon import DeGrootModel
+>>> from pyseldon import DeGroot_Model
 >>> # Create the DeGroot Model
->>> degroot = DeGrootModel(max_iterations=1000, convergence_tol=1e-6)
+>>> model = DeGroot_Model(max_iterations=1000, convergence_tol=1e-6)
 >>> # Run the simulation
->>> degroot.run("output_dir")
+>>> model.run("output_dir")
 >>> # Access the network
->>> network = degroot.get_Network()
+>>> network = model.get_Network()
 >>> # Access the opinions of the agents
->>> opinions = degroot.agents_opinions()
-
-Read also: Network, Other_Settings
+>>> opinions = model.agents_opinions()
 
 Reference:
 ----------
 - DeGroot, Morris H. (1974). "Reaching a Consensus". Journal of the American Statistical Association. 69 (345): 118–121. doi:10.2307/2286313. JSTOR 2286313.
+
+---
 """
 
 from bindings import seldoncore

@@ -9,8 +9,6 @@ class Other_Settings:
     Parameters
     -----------
 
-    output_settings
-    ----------------
     n_output_agents :  int, default=None
       Write out the agents every n iterations.
 
@@ -29,8 +27,6 @@ class Other_Settings:
     start_numbering_from : int, default=0
       The initial step number, before the simulation runs, is this value. The first step would be (1+start_numbering_from).
 
-    network_settings
-    -----------------
     number_of_agents : int, default=200
       The number of agents in the network.
 

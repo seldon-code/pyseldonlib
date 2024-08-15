@@ -19,12 +19,16 @@ extensions = [
     'nbsphinx',
     'myst_nb',
     'sphinx_copybutton',
+    'sphinx.ext.viewcode',
     # 'sphinx-jsonschema',
-    'sphinx-pydantic',
+    # 'sphinx-pydantic',
     "numpydoc",
+    # "myst_parser",
 ]
 
+nbsphinx_execute = 'never'
 autosummary_generate = True
+numpydoc_show_class_members = False 
 
 autodoc_default_options = {
     'members': True,
@@ -60,28 +64,27 @@ html_theme_options = {
 }
 
 html_sidebars = {
-    "**": ["sidebar-nav-bs", "sidebar-ethical-ads"],
+    "**": ["sidebar-nav-bs"],
     "index": [],
     "install": [],
-    "examples": [],
     "quickstart": [],
     "contributing": [],
     "LICENSE": [],
-    "examples": [],
+    "examples/index": [],
 }
 
-myst_enable_extensions = [
-    "amsmath",
-    "attrs_inline",
-    "colon_fence",
-    "deflist",
-    "dollarmath",
-    "fieldlist",
-    "html_admonition",
-    "html_image",
-    "replacements",
-    "smartquotes",
-    "strikethrough",
-    "substitution",
-    "tasklist",
-]
+# myst_enable_extensions = [
+#     "amsmath",
+#     "attrs_inline",
+#     "colon_fence",
+#     "deflist",
+#     "dollarmath",
+#     "fieldlist",
+#     "html_admonition",
+#     "html_image",
+#     "replacements",
+#     "smartquotes",
+#     "strikethrough",
+#     "substitution",
+#     "tasklist",
+# ]

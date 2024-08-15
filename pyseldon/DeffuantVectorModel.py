@@ -1,4 +1,35 @@
-"""This is the implementation of the multi-dimensional Deffuant Vector Model in Opinion Dynamics."""
+"""
+The Deffuant Vector Model extends the traditional Deffuant Model to multi-dimensional binary vectors. In this model, each agent’s opinion is represented as a binary vector, where each dimension of the vector can have a value of either 0 or 1. The model describes how agents adjust their binary opinions through random binary encounters, similar to the classical Deffuant approach.
+
+Model Dynamics
+~~~~~~~~~~~~~~
+
+  Binary Opinions:
+    Each opinion is represented as a binary vector, where the values are restricted to 0 or 1. The interaction and adjustment process involves comparing these vectors and updating them based on the Homophily Threshold.
+
+  Homophily Threshold:
+    Agents will only adjust their opinions if the difference between their opinion vectors is below a specified threshold. This difference is computed in a way that considers the multi-dimensional nature of the opinion vectors.
+
+The Deffuant Model provides insight into how personal interactions and opinion thresholds influence the dynamics of opinion formation and clustering within a group of agents.
+
+Example:
+---------
+>>> from pyseldon import Deffuant_Vector_Model
+>>> # Create the Deffuant Vector Model
+>>> deffuant = Deffuant_Vector_Model(max_iterations=1000, homophily_threshold=0.2, mu=0.5)
+>>> # Run the simulation
+>>> deffuant.run("output_dir")
+>>> # Access the network
+>>> network = deffuant.get_Network()
+>>> # Access the opinions of the agents
+>>> opinions = deffuant.agents_opinions()
+
+Reference:
+----------
+- Mixing beliefs among interacting agents. Guillaume Deffuant, David Neau, Frédéric Amblard, and Gérard Weisbuch. Advances in Complex Systems, 3(1-4):87-98, 2000. DOI: 10.1142/S0219525900000078
+
+***
+"""
 
 from bindings import seldoncore
 import pathlib
@@ -47,8 +78,6 @@ class Deffuant_Vector_Model:
 
     Opinion : Float
       The opinions of the agents or nodes of the network.
-
-    see also: seldoncore.Network
     """
 
     def __init__(

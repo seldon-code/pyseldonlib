@@ -1,18 +1,23 @@
 """
-Deffuant Model
---------------
+The Deffuant Model, also known as the "Mixing of Beliefs among Interacting Agents," describes how agents update their continuous opinions through random binary encounters. In this model, agents only adjust their opinions if the difference between their opinions is below a specified threshold, known as the Homophily Threshold.
 
-This is the implementation of the Deffuant Model in Opinion Dynamics.
+Model Dynamics
+~~~~~~~~~~~~~~
 
-In this model, referred to as "Mixing of Beliefs among Interacting Agents" in various papers, agents adjust their continuous opinions through random binary encounters, provided their difference in opinion is below a given threshold known as the Homophily Threshold.
+  Homophily Threshold:
+  If the difference in opinions between two interacting agents is less than this threshold, they will update their opinions towards each other. This process leads to opinion convergence or clustering depending on the value of the threshold.
 
-High thresholds lead to the convergence of opinions towards an average opinion, while low thresholds result in the formation of several opinion clusters. Members of the same cluster share a similar opinion but are no longer influenced by members of other clusters.
+  High Thresholds:
+  When the Homophily Threshold is high, opinions tend to converge towards an average opinion, as agents are more selective about whom they interact with.
+
+  Low Thresholds:
+  When the Homophily Threshold is low, the model results in the formation of several distinct opinion clusters. Agents within the same cluster share similar opinions and are less influenced by agents outside their cluster.
 
 Example:
 ---------
->>> from pyseldon import DeffuantModel
+>>> from pyseldon import Deffuant_Model
 >>> # Create the Deffuant Model
->>> deffuant = DeffuantModel(max_iterations=1000, homophily_threshold=0.2, mu=0.5)
+>>> deffuant = Deffuant_Model(max_iterations=1000, homophily_threshold=0.2, mu=0.5)
 >>> # Run the simulation
 >>> deffuant.run("output_dir")
 >>> # Access the network
@@ -20,11 +25,11 @@ Example:
 >>> # Access the opinions of the agents
 >>> opinions = deffuant.agents_opinions()
 
-read also: Network, Other_Settings
-
 Reference:
 ----------
 - Mixing beliefs among interacting agents. Guillaume Deffuant, David Neau, Frédéric Amblard, and Gérard Weisbuch. Advances in Complex Systems, 3(1-4):87-98, 2000. DOI: 10.1142/S0219525900000078
+
+***
 """
 
 from bindings import seldoncore
@@ -71,8 +76,6 @@ class Deffuant_Model:
 
     Opinion : Float
       The opinions of the agents or nodes of the network.
-
-    see also: seldoncore.Network
     """
 
     def __init__(
