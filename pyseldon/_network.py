@@ -2,9 +2,7 @@ from bindings import seldoncore
 
 
 class Network:
-    """The Network class provides functions to create a network object.
-    
-    """
+    """The Network class provides functions to create a network object."""
 
     def __init__(
         self,
@@ -136,9 +134,7 @@ class Network:
 
     @property
     def n_agents(self):
-        """The number of nodes/agents in the network.
-
-        """
+        """The number of nodes/agents in the network."""
         return self.network.n_agents()
 
     def n_edges(self, agent_idx: int):
@@ -154,9 +150,7 @@ class Network:
 
     @property
     def get_direction(self):
-        """The direction of the network.
-
-        """
+        """The direction of the network."""
         return self.network.direction()
 
     @property
@@ -290,7 +284,7 @@ class Network:
         """Only switches the direction flag. This effectively transposes the network and, simultaneously, changes its representation.
 
         Example:
-        -------- 
+        --------
           N(inc) -> N^T(out)
 
         """
@@ -298,15 +292,11 @@ class Network:
 
     @property
     def remove_double_counting(self):
-        """Sorts the neighbours by index and removes doubly counted edges by summing the weights of the corresponding edges.
-
-        """
+        """Sorts the neighbours by index and removes doubly counted edges by summing the weights of the corresponding edges."""
         return self.network.remove_double_counting()
 
     @property
     def clear(self):
-        """Clears the network.
-        
-        """
-        
+        """Clears the network."""
+
         return self.network.clear()

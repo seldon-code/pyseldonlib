@@ -47,7 +47,7 @@ def run_simulation_from_options(
 
     Parameters
     -----------
-    options : object 
+    options : object
         The simulation options object.
     agent_file_path : str, optional
         The path to the agent file.

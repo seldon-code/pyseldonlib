@@ -546,6 +546,8 @@ PYBIND11_MODULE(seldoncore, m) {
         "weight"_a,
         "seed"_a);
 
+    m.def("generate_from_file", &Seldon::NetworkGeneration::generate_from_file<double>, "file"_a);
+
     m.def("generate_from_file_simple_agent", &Seldon::NetworkGeneration::generate_from_file<Seldon::SimpleAgent>, "file"_a);
 
     m.def("generate_from_file_discrete_agent", &Seldon::NetworkGeneration::generate_from_file<Seldon::DiscreteVectorAgent>, "file"_a);
@@ -554,37 +556,43 @@ PYBIND11_MODULE(seldoncore, m) {
 
     m.def("generate_from_file_inertial_agent", &Seldon::NetworkGeneration::generate_from_file<Seldon::InertialAgent>, "file"_a);
 
-    m.def("generate_square_lattice_simple_agent", &Seldon::NetworkGeneration::generate_square_lattice<Seldon::SimpleAgent>, "n_edge"_a, "weight"_a);
+    m.def("generate_square_lattice", &Seldon::NetworkGeneration::generate_square_lattice<double>, "n_edge"_a, "weight"_a= 0.0);
+
+    m.def("generate_square_lattice_simple_agent", &Seldon::NetworkGeneration::generate_square_lattice<Seldon::SimpleAgent>, "n_edge"_a, "weight"_a= 0.0);
 
     m.def("generate_square_lattice_discrete_vector_agent",
           &Seldon::NetworkGeneration::generate_square_lattice<Seldon::DiscreteVectorAgent>,
           "n_edge"_a,
-          "weight"_a);
+          "weight"_a = 0.0);
 
     m.def(
-        "generate_square_lattice_activity_agent", &Seldon::NetworkGeneration::generate_square_lattice<Seldon::ActivityAgent>, "n_edge"_a, "weight"_a);
+        "generate_square_lattice_activity_agent", &Seldon::NetworkGeneration::generate_square_lattice<Seldon::ActivityAgent>, "n_edge"_a, "weight"_a= 0.0);
 
     m.def(
-        "generate_square_lattice_inertial_agent", &Seldon::NetworkGeneration::generate_square_lattice<Seldon::InertialAgent>, "n_edge"_a, "weight"_a);
+        "generate_square_lattice_inertial_agent", &Seldon::NetworkGeneration::generate_square_lattice<Seldon::InertialAgent>, "n_edge"_a, "weight"_a= 0.0);
 
     m.def("parse_config_file", &Seldon::Config::parse_config_file, "file"_a);
 
     // network
+    m.def("network_to_dot_file", &Seldon::network_to_dot_file<double>, "network"_a, "file_path"_a);
     m.def("network_to_dot_file_simple_agent", &Seldon::network_to_dot_file<Seldon::SimpleAgent>, "network"_a, "file_path"_a);
     m.def("network_to_dot_file_discrete_agent", &Seldon::network_to_dot_file<Seldon::DiscreteVectorAgent>, "network"_a, "file_path"_a);
     m.def("network_to_dot_file_activity_agent", &Seldon::network_to_dot_file<Seldon::ActivityAgent>, "network"_a, "file_path"_a);
     m.def("network_to_dot_file_inertial_agent", &Seldon::network_to_dot_file<Seldon::InertialAgent>, "network"_a, "file_path"_a);
 
+    m.def("network_to_file", &Seldon::network_to_file<double>, "network"_a, "file_path"_a);
     m.def("network_to_file_simple_agent", &Seldon::network_to_file<Seldon::SimpleAgent>, "network"_a, "file_path"_a);
     m.def("network_to_file_discrete_agent", &Seldon::network_to_file<Seldon::DiscreteVectorAgent>, "network"_a, "file_path"_a);
     m.def("network_to_file_activity_agent", &Seldon::network_to_file<Seldon::ActivityAgent>, "network"_a, "file_path"_a);
     m.def("network_to_file_inertial_agent", &Seldon::network_to_file<Seldon::InertialAgent>, "network"_a, "file_path"_a);
 
+    m.def("agents_from_file", &Seldon::agents_from_file<double>, "file"_a);
     m.def("agents_from_file_simple_agent", &Seldon::agents_from_file<Seldon::SimpleAgent>, "file"_a);
     m.def("agents_from_file_discrete_agent", &Seldon::agents_from_file<Seldon::DiscreteVectorAgent>, "file"_a);
     m.def("agents_from_file_activity_agent", &Seldon::agents_from_file<Seldon::ActivityAgent>, "file"_a);
     m.def("agents_from_file_inertial_agent", &Seldon::agents_from_file<Seldon::InertialAgent>, "file"_a);
 
+    m.def("agents_to_file", &Seldon::agents_to_file<double>, "network"_a, "file_path"_a);
     m.def("agents_to_file_simple_agent", &Seldon::agents_to_file<Seldon::SimpleAgent>, "network"_a, "file_path"_a);
     m.def("agents_to_file_discrete_agent", &Seldon::agents_to_file<Seldon::DiscreteVectorAgent>, "network"_a, "file_path"_a);
     m.def("agents_to_file_activity_agent", &Seldon::agents_to_file<Seldon::ActivityAgent>, "network"_a, "file_path"_a);

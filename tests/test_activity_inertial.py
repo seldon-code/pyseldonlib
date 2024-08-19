@@ -2,40 +2,61 @@ import pyseldon
 import pathlib
 import pytest
 import cmath
+import shutil
 
 
 # Test the probabilistic inertial activity driven model with one bot and one agent
 def test_inertial1Bot1Agent():
     proj_root_path = pathlib.Path.cwd()
-    input_file = str(proj_root_path / "tests" / "res" / "1bot_1agent_inertial.toml")
-
-    options = pyseldon.seldoncore.parse_config_file(input_file)
-    simulation = pyseldon.seldoncore.SimulationInertialAgent(options=options)
-
+    other_settings = pyseldon.Other_Settings(
+        print_progress=False, number_of_agents=2, connections_per_agent=1
+    )
+    model = pyseldon.Inertial_Model(
+        max_iterations=1000,
+        dt=0.001,
+        m=1,
+        eps=1,
+        gamma=2.1,
+        reciprocity=1,
+        homophily=0.5,
+        alpha=1.5,
+        K=2.0,
+        mean_activities=False,
+        mean_weights=False,
+        use_reluctances=True,
+        reluctance_mean=1.5,
+        reluctance_sigma=0.1,
+        reluctance_eps=0.01,
+        n_bots=1,
+        bot_m=[1],
+        bot_homophily=[0.7],
+        bot_activity=[1.0],
+        bot_opinion=[2],
+        friction_coefficient=0.5,
+        other_settings=other_settings,
+        rng_seed=120,
+    )
     output_dir_path = str(proj_root_path / "tests" / "output_inertial")
 
     # Get the bot opinion (which won't change)
-    bot = simulation.network.agent[0]
-    x_bot = bot.data.opinion  # bot opinion
+    x_bot = model.agent_opinion(0)  # bot opinion
 
     # Get the initial agent opinion
-    agent = simulation.network.agent[1]
-    x_0 = agent.data.opinion  # agent opinion
+    x_0 = model.agent_opinion(1)  # agent opinion
 
-    simulation.run(output_dir_path)
+    model.run(output_dir_path)
 
-    model_settings = options.model_settings
-    K = model_settings.K
-    alpha = model_settings.alpha
-    iterations = model_settings.max_iterations
-    dt = model_settings.dt
-    mu = model_settings.friction_coefficient
+    K = model.K
+    alpha = model.alpha
+    iterations = model.max_iterations
+    dt = model.dt
+    mu = model.friction_coefficient
     time_elapsed = iterations * dt
 
     # Final agent and bot opinions after the simulation run
-    x_t = agent.data.opinion
-    x_t_bot = bot.data.opinion
-    reluctance = agent.data.reluctance
+    x_t = model.agent_opinion(1)
+    x_t_bot = model.agent_opinion(0)
+    reluctance = model.agent_reluctance(1)
 
     # The bot opinion should not change during the simulation
     assert x_t_bot == pytest.approx(x_bot, abs=1e-16)
@@ -56,6 +77,7 @@ def test_inertial1Bot1Agent():
     )
 
     assert x_t == pytest.approx(x_t_analytical, 1e-5)
+    shutil.rmtree(output_dir_path)
 
 
 if __name__ == "__main__":

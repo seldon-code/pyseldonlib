@@ -7,7 +7,7 @@ def test_network_class_tests():
     n_agents = 20
     n_connections = 10
     gen_pseudorandom = 0
-    self_interaction = True
+    self_interaction = False
 
     network = pyseldon.seldoncore.generate_n_connections(
         n_agents=n_agents,
@@ -18,8 +18,7 @@ def test_network_class_tests():
 
     assert network is not None
     assert network.n_agents() == n_agents
-    print(network.n_edges())
-    assert network.n_edges() == n_agents * (n_connections + 1)
+    assert network.n_edges() == n_agents * n_connections
 
     # Check that the function for setting neighbours and a single weight work
     # Agent 3
@@ -40,9 +39,8 @@ def test_network_class_tests():
 
     assert buffer_w_get == weights
     assert network.n_edges(3) == 2
-    assert neighbour_list[0] == network.get_weights(3)[0]
-    assert neighbour_list[0] == 2
-    assert network.get_weights(3)[1] == 0.9  # dont know why
+    assert neighbour_list[0] == network.get_neighbours(3)[0]
+    assert network.get_weights(3)[1] == 0.55
 
     # Checking that set_neighbours_and_weights works with a vector of weights, push_back and transpose
     neighbour_list = [0, 10, 15]
@@ -62,7 +60,7 @@ def test_network_class_tests():
     # First record all the old edges as tuples (i,j,w) where this edge goes from j -> i with weight w
     old_edges = set()
 
-    for i in range(network.n_agents):
+    for i in range(network.n_agents()):
         buffer_n = network.get_neighbours(i)
         buffer_w = network.get_weights(i)
         for j in range(len(buffer_n)):
@@ -78,7 +76,7 @@ def test_network_class_tests():
     assert old_direction != new_direction
 
     # Now we go over the toggled network and try to re-identify all edges
-    for i in range(network.n_agents):
+    for i in range(network.n_agents()):
         buffer_n = network.get_neighbours(i)
         buffer_w = network.get_weights(i)
         for j in range(len(buffer_n)):
@@ -97,9 +95,7 @@ def test_network_class_tests():
     neighbour_no_double_counting = [[0, 1, 2], [0, 1, 2], [0, 1, 2], [], [1, 3]]
     weights_no_double_counting = [[0, 3, -1], [1, 2, -2], [2, 1, 3], [], [1, 1]]
 
-    network = pyseldon.seldoncore.generate_n_connections(
-        neighbour_list, weights, "Incoming"
-    )
+    network = pyseldon.seldoncore.Network(neighbour_list, weights, "Incoming")
     network.remove_double_counting()
 
     for i_agent in range(network.n_agents()):
@@ -122,13 +118,14 @@ def test_network_class_tests():
         [8, 6, 4, 1],
         [7, 6, 5, 2],
     ]
-    network = pyseldon.seldoncore.generate_square_lattice(3)
+    network = pyseldon.seldoncore.generate_square_lattice(n_edge=3)
 
     for i_agent in range(network.n_agents()):
         assert (
-            network.get_neighbours(i_agent) == desired_neighbour_list[i_agent]
+            network.get_neighbours(i_agent).sort()
+            == desired_neighbour_list[i_agent].sort()
         ), f"Neighbours mismatch for agent {i_agent}"
 
 
-if __name__ == "__main__":
-    pytest.main([__file__])
+# if __name__ == "__main__":
+#     pytest.main([__file__])

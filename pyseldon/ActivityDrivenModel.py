@@ -3,78 +3,78 @@ In the study of Social Opinion Dynamics, it is crucial to consider multiple fact
 
 This model is highly configurable, allowing users to explore a wide range of scenarios and behaviors by adjusting parameters related to agent activity, social influence, homophily, and more. It also incorporates recent considerations, such as the role of bots—agents with fixed opinions—who interact with humans on social media platforms, thereby influencing human-machine interactions and their effects on opinion dynamics.
 
-As the name suggests, the `Activity Driven` Model focuses on the activities of agents, which represent the interactions they perform within a social network. 
+As the name suggests, the `Activity Driven` Model focuses on the activities of agents, which represent the interactions they perform within a social network.
 
 The key features of this models are :
 
 Temporal Dynamics
-~~~~~~~~~~~~~~~~~
+-----------------
 
-  max_iterations:
+max_iterations:
     Limits the total number of simulation steps.
     If set to None, the model runs indefinitely, allowing for long-term analysis of opinion evolution.
 
-  dt:
+dt:
     Defines the time step for each iteration, controlling the pace at which the simulation progresses.
     Smaller values lead to more granular updates, while larger values speed up the simulation but might miss finer details.
 
 Agent Behavior and Interaction
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------
 
-  m:
+m:
     Determines how many agents an active agent interacts with during each time step.
     Influences the rate of opinion spreading; higher values mean more interactions and potentially faster consensus or polarization.
 
-  eps:
+eps:
     Sets the minimum activity level for agents, ensuring no agent is completely inactive.
     Helps prevent stagnation in the model by keeping all agents engaged at some level.
 
-  gamma:
+gamma:
     Controls the distribution of agent activity, typically following a power-law where few agents are very active, and many are less active.
     Affects how central or peripheral agents influence the overall opinion dynamics.
-  
-  homophily:
+
+homophily:
     Measures the tendency of agents to interact with others who share similar opinions.
     High homophily can lead to echo chambers, while low homophily promotes diverse interactions.
 
-  reciprocity:
+reciprocity:
     Determines whether agents are likely to reciprocate interactions, creating more mutual or one-sided connections.
     High reciprocity strengthens bidirectional relationships, potentially stabilizing opinion clusters.
 
-  K:
+K:
     Represents the strength of social influence between agents.
     A higher K means opinions are more strongly influenced by interactions, which can accelerate consensus or deepen polarization.
 
 Social Context and Controversialness
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------------
 
-  alpha:
+alpha:
     Controls the degree of controversialness of the issue being simulated.
     A higher alpha can lead to more polarized opinions, as agents might have stronger reactions to the issue.
 
 Bots and External Influence
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------
 
-  n_bots:
+n_bots:
     Specifies the number of bots in the simulation, which are fixed in their opinions.
     Bots influence the network without being influenced, potentially driving opinion shifts or reinforcing certain views.
 
-  bot_m, bot_activity, bot_opinion, bot_homophily:
+bot_m, bot_activity, bot_opinion, bot_homophily:
     Define the specific behaviors and characteristics of bots, such as how often they interact or how similar they are to other agents.
     These parameters allow bots to mimic or diverge from regular agents, providing a controlled way to study external influence.
-  
-Reluctance and Activity Correlation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  use_reluctances:
+Reluctance and Activity Correlation
+-----------------------------------
+
+use_reluctances:
     Activates the feature where agents have a reluctance to change their opinions.
     Adds complexity by simulating resistance to change, affecting how quickly or slowly opinions evolve.
 
-  reluctance_mean, reluctance_sigma, reluctance_eps:
+reluctance_mean, reluctance_sigma, reluctance_eps:
     Define the distribution of reluctance across agents, determining the average resistance and its variability.
     These parameters help model heterogeneous populations where some agents are more resistant to change than others.
 
-  covariance_factor:
+covariance_factor:
     Introduces a correlation between an agent's activity level and its reluctance, meaning that activity might influence or be influenced by reluctance.
     Allows for more realistic scenarios where active agents may be more or less open to changing their opinions, depending on the sign of the covariance.
 
@@ -89,7 +89,7 @@ Example:
 >>> network = model.get_Network()
 >>> # Access the opinions of the agents
 >>> opinions = model.agents_opinions()
-    
+
 Reference
 ---------
 
@@ -99,11 +99,12 @@ Reference
 from bindings import seldoncore
 import pathlib
 from typing import Optional
+from ._basemodel import Base_Model
 
 from ._othersettings import Other_Settings
 
 
-class Activity_Driven_Model:
+class Activity_Driven_Model(Base_Model):
     """
     Activity Driven Model base class for Simulation.
 
@@ -228,12 +229,11 @@ class Activity_Driven_Model:
         network_file: Optional[str] = None,
         other_settings: Other_Settings = None,
     ):
-
-        self.other_settings = Other_Settings()
+        # Other settings and Simulation Options are already intialised in super
+        super().__init__()
         if other_settings is not None:
             self.other_settings = other_settings
 
-        self._options = seldoncore.SimulationOptions()
         self._options.model_string = "ActivityDriven"
         self._options.model_settings = seldoncore.ActivityDrivenSettings()
         self._options.output_settings = self.other_settings.output_settings
@@ -271,79 +271,7 @@ class Activity_Driven_Model:
             cli_network_file=network_file,
         )
 
-        self.Network = self._simulation.network
-
-    def run(self, output_dir: str = None):
-        """
-        Run the simulation.
-        
-        Parameters
-        -----------
-        output_dir : str, default="./output"
-          The directory to output the files to.
-        """
-        seldoncore.validate_settings(self._options)
-        seldoncore.print_settings(self._options)
-        cwd = pathlib.Path.cwd()
-        if output_dir is None:
-            output_dir = "./output"
-        output_path = cwd / pathlib.Path(output_dir)
-        if output_path.exists():
-          raise Exception("Output Directory already Exists!! Either delete it or change the path!!")
-        print(f"Output directory path set to: {output_path}\n")
-        output_path.mkdir(parents=True, exist_ok=True)
-        self._simulation.run(output_dir )
-        self.Network = self._simulation.network
-
-    def print_settings(self):
-        """
-        Print the settings of the simulation.
-        """
-        seldoncore.print_settings(self._options)
-
-    def get_Network(self):
-        """
-        Access the network generated by the simulation.
-
-        Returns
-        -------
-        seldoncore.Network
-          The network generated by the simulation.
-        """
-        return self.Network
-
-    def agent_opinion(self, index: int = None):
-        """
-        Access the agents opinion data from the simulated network.
-
-        Parameters
-        -----------
-        index : int
-          The index of the agent to access. The index is 0-based. If not provided, all agents are returned.
-        """
-        if index is None:
-            result = [agent.data.opinion for agent in self._simulation.network.agent]
-            return result
-        else:
-            if index < 0 or index >= self.Network.n_agents():
-                raise IndexError("Agent index is out of range.")
-            return self._simulation.network.agent[index].data.opinion
-    
-    def set_agent_opinion(self, index: int, opinion: float):
-        """
-        Set the opinion of a specific agent.
-
-        Parameters
-        ----------
-        index : int
-            The index of the agent whose opinion is to be set.
-        opinion : float
-            The new opinion value for the agent.
-        """        
-        if index < 0 or index >= self.Network.n_agents():
-            raise IndexError("Agent index is out of range.")
-        
-        self._simulation.network.agent[index].data.opinion = opinion
+        self._network = self._simulation.network
 
     def agent_activity(self, index: int = None):
         """
@@ -372,10 +300,10 @@ class Activity_Driven_Model:
           The index of the agent whose opinion is to be set.
         activity : float
           The new activity value for the agent.
-        """        
+        """
         if index < 0 or index >= self.Network.n_agents():
             raise IndexError("Agent index is out of range.")
-        
+
         self._simulation.network.agent[index].data.activity = activity
 
     def agent_reluctance(self, index: int = None):
@@ -405,28 +333,8 @@ class Activity_Driven_Model:
             The index of the agent whose opinion is to be set.
         reluctance : float
             The new reluctance value for the agent.
-        """        
+        """
         if index < 0 or index >= self.Network.n_agents():
             raise IndexError("Agent index is out of range.")
-        
-        self._simulation.network.agent[index].data.reluctance =reluctance
 
-    def __getattr__(self, name):
-        if '_options' in self.__dict__ and hasattr(self.__dict__['_options'].model_settings, name):
-            return getattr(self.__dict__['_options'].model_settings, name)
-        elif name == "rng_seed":
-            return self.__dict__['_options'].rng_seed
-        elif name == "other_settings":
-            return self.__dict__['other_settings']
-        else:
-            return self.__dict__[name]
-
-    def __setattr__(self, name, value):
-        if '_options' in self.__dict__ and hasattr(self.__dict__['_options'].model_settings, name):
-            setattr(self.__dict__['_options'].model_settings, name, value)
-        elif name == "rng_seed":
-            self.__dict__['_options'].rng_seed = value
-        elif name == "other_settings":
-            self.__dict__['other_settings'] = value
-        else:
-            self.__dict__[name] = value
+        self._simulation.network.agent[index].data.reluctance = reluctance

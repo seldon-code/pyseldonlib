@@ -6,8 +6,6 @@ _deps = []
 
 
 cppc = meson.get_compiler('cpp')
-
-# TODO(USER-DK)- change the repo name in git wrap
 seldon_subproj = subproject('seldon', default_options: ['default_library=static','build_tests=false', 
                                                         'build_exe=false'])
 seldon_dep = seldon_subproj.get_variable('seldon_static_dep')
@@ -17,7 +15,6 @@ _deps += seldon_dep
 py = import('python').find_installation('python')
 _deps += py.dependency()
 
-# todo: might require numpy dependency
 fmt_dep = dependency('fmt')
 _deps += fmt_dep
 
@@ -27,7 +24,6 @@ pyb11_dep = [
 ]
 _deps += pyb11_dep
 
-# ask: name of the module
 py.extension_module(
   'seldoncore',
   sources : [
@@ -50,7 +46,8 @@ py.install_sources(
     'pyseldon/_network.py',
     'pyseldon/_othersettings.py',
     'pyseldon/_run_simulation.py',
+    'pyseldon/_basemodel.py'
   ],
-  pure: false, # install next to compiled extension
+  pure: false, # do not install next to compiled extension
   subdir: 'pyseldon'
 )

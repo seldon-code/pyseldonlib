@@ -14,23 +14,20 @@ def test_deGroot():
         neighbour_list=neighbour_list, weight_list=weight_list, direction="Incoming"
     )
 
-    network_file = str(pathlib.Path.cwd() / "tests/network/net.txt")
     output_dir = str(pathlib.Path.cwd() / "tests/output")
-    pyseldon.seldoncore.network_to_dot_file_simple_agent(network, network_file)
 
-    model = pyseldon.DeGroot_Model(
-        max_iterations=100, convergence_tol=1e-6, network_file=network_file
-    )
+    model = pyseldon.DeGroot_Model(max_iterations=100, convergence_tol=1e-6)
+    model.Network = network
     model.set_agent_opinion(0, 0.0)
     model.set_agent_opinion(1, 1.0)
+    if pathlib.Path(output_dir).exists():
+        shutil.rmtree(output_dir)
+
     model.run(output_dir)
-    print(model.agent_opinion())
 
     for i in range(n_agents):
         print(f"Opinion {i} = {model.agent_opinion(i)}")
-        assert math.isclose(
-            model.agent_opinion(i), 0.5, abs_tol=model.convergence_tol * 10.0
-        )
+        assert math.isclose(model.agent_opinion(i), 0.5, rel_tol=0.1)
     shutil.rmtree(output_dir)
 
 

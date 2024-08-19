@@ -11,9 +11,9 @@ release = '1.0'
 # -- General configuration ---------------------------------------------------
 
 extensions = [
+    'sphinx.ext.napoleon', # from https://stackoverflow.com/a/66930447/22039471
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
-    'sphinx.ext.napoleon',
     'sphinx.ext.viewcode',
     'sphinx.ext.coverage',
     'nbsphinx',
