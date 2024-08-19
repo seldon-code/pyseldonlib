@@ -1,12 +1,24 @@
-name : build pyseldon and test
+name: Documentation Workflow
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  testing:
+  build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: micromamba-shell {0}
+
     steps:
-    - uses: actions/checkout@v4.1.5
+    - name: Checkout repository
+      uses: actions/checkout@v4  # Updated to latest stable version
+
     - name: micromamba setup
       uses: mamba-org/setup-micromamba@v1
       with:
@@ -14,28 +26,29 @@ jobs:
         generate-run-shell: true
         cache-environment: true
         init-shell: bash
-    - name: build-and-install
-      shell: micromamba-shell {0}
+
+    - name: Install project dependencies
       run: |
         meson setup build
         pip install .
 
-    - name: Install dependencies
+    - name: Run tests 
+      run: |
+        pytest tests/
+
+    - name: Install documentation dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r docs/requirements.txt
+
     - name: Build the documentation
       run: |
         cd docs
         make html
+
     - name: Deploy the documentation
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./docs/source/_build/html
+        publish_dir: docs/source_build/html
         keep_files: true     
-    
-    - name: test
-      shell: micromamba-shell {0}
-      run: |
-        pytest tests/
