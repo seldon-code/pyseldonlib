@@ -50,5 +50,5 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: docs/source_build/html
+        publish_dir: docs/source/_build/html
         keep_files: true     
