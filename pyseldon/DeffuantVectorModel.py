@@ -2,13 +2,13 @@
 The Deffuant Vector Model extends the traditional Deffuant Model to multi-dimensional binary vectors. In this model, each agent’s opinion is represented as a binary vector, where each dimension of the vector can have a value of either 0 or 1. The model describes how agents adjust their binary opinions through random binary encounters, similar to the classical Deffuant approach.
 
 Model Dynamics
-~~~~~~~~~~~~~~
+--------------
 
-  Binary Opinions:
-    Each opinion is represented as a binary vector, where the values are restricted to 0 or 1. The interaction and adjustment process involves comparing these vectors and updating them based on the Homophily Threshold.
+Binary Opinions:
+  Each opinion is represented as a binary vector, where the values are restricted to 0 or 1. The interaction and adjustment process involves comparing these vectors and updating them based on the Homophily Threshold.
 
-  Homophily Threshold:
-    Agents will only adjust their opinions if the difference between their opinion vectors is below a specified threshold. This difference is computed in a way that considers the multi-dimensional nature of the opinion vectors.
+Homophily Threshold:
+  Agents will only adjust their opinions if the difference between their opinion vectors is below a specified threshold. This difference is computed in a way that considers the multi-dimensional nature of the opinion vectors.
 
 The Deffuant Model provides insight into how personal interactions and opinion thresholds influence the dynamics of opinion formation and clustering within a group of agents.
 
@@ -26,9 +26,12 @@ Example:
 
 Reference:
 ----------
-- Mixing beliefs among interacting agents. Guillaume Deffuant, David Neau, Frédéric Amblard, and Gérard Weisbuch. Advances in Complex Systems, 3(1-4):87-98, 2000. DOI: 10.1142/S0219525900000078
+.. bibliography::
+   :style: plain
 
-***
+   Deffuant_2000
+
+*************
 """
 
 from bindings import seldoncore

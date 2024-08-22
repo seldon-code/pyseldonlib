@@ -93,12 +93,19 @@ Example:
 >>> network = model.get_Network()
 >>> # Access the opinions of the agents
 >>> opinions = model.agents_opinions()
+>>> activity = model.agents_activity()
+>>> reluctance = model.agents_reluctance()
+>>> velocity = model.agent_velocity()
 
 Reference:
 ----------
+.. bibliography::
+   :style: plain
 
+   Baumann_2020
+   Baumann_2021
 
-***
+*************
 """
 
 from bindings import seldoncore

@@ -8,5 +8,5 @@ This is the class and function reference of PySeldon. Please refer to the full u
 
     introduction
     models
+    network
     packagereference
-    extras

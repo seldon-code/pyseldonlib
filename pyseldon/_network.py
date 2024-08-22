@@ -5,8 +5,6 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class Network:
-    """The Network class provides functions to create a network object."""
-
     def __init__(
         self,
         model_string: str = None,
@@ -16,9 +14,8 @@ class Network:
         weight_list: list[float] = [],
         direction: str = "Incoming",
     ):
-        """Initialize the Network object.
-
-        Note: This class is used to create a network object that can be used to run the simulation by writing it out to a file and then using it.
+        """
+        Initialize the Network object.
 
         There are six types of networks that can be created using this class:
         1. DeGroot: The DeGroot network. (opinions only)
@@ -28,8 +25,8 @@ class Network:
         5. Inertial: The Inertial network. (opinions, activity, reluctance, and velocity)
         6. Float: The float network. (just nodes and edges)
 
-        Also it can be instantiated in different ways:
-        model_string(str): Is Compulsory, The model string.
+        Also, it can be instantiated in different ways:
+        - model_string (str): Is compulsory, the model string.
         1. By providing the number of agents.
         2. By providing the list of agents.
         3. By providing the list of neighbours, weights, and direction.
@@ -303,3 +300,25 @@ class Network:
         """Clears the network."""
 
         return self.network.clear()
+
+
+def generate_n_connections(model_string, n_agents:int, n_connections:int, self_iteration:bool= False, rng_seed:int=None):
+    """
+    Generate n_connections Network for n_agents.
+
+    Parameters
+    -----------
+    n_agents : int
+      The number of agents.
+    n_connections : int
+      The number of connections.
+    self_iteration : bool, default=False
+      If True, self iteration is allowed.
+    rng_seed : int, default=None
+      The seed for the random number generator. If not provided, a random seed is picked.
+
+    Returns
+    -----------
+    list: The list of connections.
+    """
+    return seldoncore.generate_n_connections(n_agents, n_connections, self_iteration, rng_seed)

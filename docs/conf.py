@@ -23,8 +23,9 @@ extensions = [
     'sphinx.ext.viewcode',
     "numpydoc",
 ]
-
-bibtex_bibfiles = ['refs.bib']
+bibtex_bibfiles = [
+  'refs.bib',
+  ]
 nbsphinx_execute = 'never'
 autosummary_generate = True
 numpydoc_show_class_members = False 

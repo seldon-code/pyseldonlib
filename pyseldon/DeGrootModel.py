@@ -6,16 +6,16 @@ In practical terms, consider a group of individuals—such as a committee or a t
 Additionally, the model is versatile and can be applied to scenarios where opinions are represented as point estimates rather than probability distributions. In such cases, the DeGroot Model helps illustrate how a group can achieve consensus on a specific parameter estimate, reflecting the collective judgment of the group.
 
 Key features
-~~~~~~~~~~~~
+------------
 
-    Opinion Averaging:
-        Agents update their opinions based on the average opinions of their neighbors, fostering convergence and consensus.
+Opinion Averaging:
+  Agents update their opinions based on the average opinions of their neighbors, fostering convergence and consensus.
 
-    Iterative Process:
-        The model operates through a series of iterations, with opinions being refined each step until stability is achieved.
+Iterative Process:
+  The model operates through a series of iterations, with opinions being refined each step until stability is achieved.
 
-    Consensus Formation:
-        Applicable to both probability distributions and point estimates, showing how diverse opinions can be aggregated into a common view.
+Consensus Formation:
+  Applicable to both probability distributions and point estimates, showing how diverse opinions can be aggregated into a common view.
 
 The DeGroot Model provides a clear and elegant approach to understanding how social influence and information sharing lead to collective agreement within a network of agents.
 
@@ -33,9 +33,12 @@ Example:
 
 Reference:
 ----------
-- DeGroot, Morris H. (1974). "Reaching a Consensus". Journal of the American Statistical Association. 69 (345): 118–121. doi:10.2307/2286313. JSTOR 2286313.
+.. bibliography:: 
+   :style: plain
+   
+   DeGroot_1974
 
----
+*************
 """
 
 from bindings import seldoncore

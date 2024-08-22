@@ -2,15 +2,15 @@
 The Deffuant Model, also known as the "Mixing of Beliefs among Interacting Agents," describes how agents update their continuous opinions through random binary encounters. In this model, agents only adjust their opinions if the difference between their opinions is below a specified threshold, known as the Homophily Threshold.
 
 Model Dynamics
-~~~~~~~~~~~~~~
+--------------
 
-  Homophily Threshold:
+Homophily Threshold:
   If the difference in opinions between two interacting agents is less than this threshold, they will update their opinions towards each other. This process leads to opinion convergence or clustering depending on the value of the threshold.
 
-  High Thresholds:
+High Thresholds:
   When the Homophily Threshold is high, opinions tend to converge towards an average opinion, as agents are more selective about whom they interact with.
 
-  Low Thresholds:
+Low Thresholds:
   When the Homophily Threshold is low, the model results in the formation of several distinct opinion clusters. Agents within the same cluster share similar opinions and are less influenced by agents outside their cluster.
 
 Example:
@@ -27,9 +27,12 @@ Example:
 
 Reference:
 ----------
-- Mixing beliefs among interacting agents. Guillaume Deffuant, David Neau, Frédéric Amblard, and Gérard Weisbuch. Advances in Complex Systems, 3(1-4):87-98, 2000. DOI: 10.1142/S0219525900000078
+.. bibliography::
+   :style: plain
 
-***
+   Deffuant_2000
+
+*************
 """
 
 from bindings import seldoncore
