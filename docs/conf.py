@@ -4,8 +4,8 @@ import sys
 sys.path.insert(0, os.path.abspath('../pyseldon'))
 
 project = 'pyseldon'
-copyright = '2024, Amrita Goswami, Moritz Sallermann, Rohit Goswami, Daivik Karbhari'
-author = 'Amrita Goswami, Moritz Sallermann, Rohit Goswami, Daivik Karbhari'
+copyright = '2024, PySeldon Developers'
+author = 'Amrita Goswami, Daivik Karbhari, Moritz Sallermann, Rohit Goswami'
 release = '1.0'
 
 # -- General configuration ---------------------------------------------------
@@ -17,15 +17,14 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx.ext.coverage',
     'nbsphinx',
+    'sphinxcontrib.bibtex',
     'myst_nb',
     'sphinx_copybutton',
     'sphinx.ext.viewcode',
-    # 'sphinx-jsonschema',
-    # 'sphinx-pydantic',
     "numpydoc",
-    # "myst_parser",
 ]
 
+bibtex_bibfiles = ['refs.bib']
 nbsphinx_execute = 'never'
 autosummary_generate = True
 numpydoc_show_class_members = False 
@@ -72,19 +71,3 @@ html_sidebars = {
     "LICENSE": [],
     "examples/index": [],
 }
-
-# myst_enable_extensions = [
-#     "amsmath",
-#     "attrs_inline",
-#     "colon_fence",
-#     "deflist",
-#     "dollarmath",
-#     "fieldlist",
-#     "html_admonition",
-#     "html_image",
-#     "replacements",
-#     "smartquotes",
-#     "strikethrough",
-#     "substitution",
-#     "tasklist",
-# ]

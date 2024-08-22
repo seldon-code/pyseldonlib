@@ -172,11 +172,7 @@ void bind_Network(py::module &m, const std::string &name) {
             "agent_idx"_a,
             "buffer_neighbours"_a,
             "weight"_a)
-        .def("push_back_neighbour_and_weight",
-             &Seldon::Network<AgentT>::push_back_neighbour_and_weight,
-             "agent_idx_i"_a,
-             "agent_idx_j"_a,
-             "w"_a)
+        .def("push_back_neighbour_and_weight", &Seldon::Network<AgentT>::push_back_neighbour_and_weight, "agent_idx_i"_a, "agent_idx_j"_a, "w"_a)
         .def("transpose", &Seldon::Network<AgentT>::transpose)
         .def("toggle_incoming_outgoing", &Seldon::Network<AgentT>::toggle_incoming_outgoing)
         .def("switch_direction_flag", &Seldon::Network<AgentT>::switch_direction_flag)
@@ -556,20 +552,27 @@ PYBIND11_MODULE(seldoncore, m) {
 
     m.def("generate_from_file_inertial_agent", &Seldon::NetworkGeneration::generate_from_file<Seldon::InertialAgent>, "file"_a);
 
-    m.def("generate_square_lattice", &Seldon::NetworkGeneration::generate_square_lattice<double>, "n_edge"_a, "weight"_a= 0.0);
+    m.def("generate_square_lattice", &Seldon::NetworkGeneration::generate_square_lattice<double>, "n_edge"_a, "weight"_a = 0.0);
 
-    m.def("generate_square_lattice_simple_agent", &Seldon::NetworkGeneration::generate_square_lattice<Seldon::SimpleAgent>, "n_edge"_a, "weight"_a= 0.0);
+    m.def("generate_square_lattice_simple_agent",
+          &Seldon::NetworkGeneration::generate_square_lattice<Seldon::SimpleAgent>,
+          "n_edge"_a,
+          "weight"_a = 0.0);
 
     m.def("generate_square_lattice_discrete_vector_agent",
           &Seldon::NetworkGeneration::generate_square_lattice<Seldon::DiscreteVectorAgent>,
           "n_edge"_a,
           "weight"_a = 0.0);
 
-    m.def(
-        "generate_square_lattice_activity_agent", &Seldon::NetworkGeneration::generate_square_lattice<Seldon::ActivityAgent>, "n_edge"_a, "weight"_a= 0.0);
+    m.def("generate_square_lattice_activity_agent",
+          &Seldon::NetworkGeneration::generate_square_lattice<Seldon::ActivityAgent>,
+          "n_edge"_a,
+          "weight"_a = 0.0);
 
-    m.def(
-        "generate_square_lattice_inertial_agent", &Seldon::NetworkGeneration::generate_square_lattice<Seldon::InertialAgent>, "n_edge"_a, "weight"_a= 0.0);
+    m.def("generate_square_lattice_inertial_agent",
+          &Seldon::NetworkGeneration::generate_square_lattice<Seldon::InertialAgent>,
+          "n_edge"_a,
+          "weight"_a = 0.0);
 
     m.def("parse_config_file", &Seldon::Config::parse_config_file, "file"_a);
 

@@ -1,4 +1,4 @@
-name: Documentation Workflow
+name: Test and Documentation workflow
 
 on:
   push:
@@ -44,11 +44,11 @@ jobs:
     - name: Build the documentation
       run: |
         cd docs
-        make html
+        sphinx-build -b html . source/_build/html
 
     - name: Deploy the documentation
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: docs/source/_build/html
-        keep_files: true     
+        keep_files: true

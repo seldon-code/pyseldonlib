@@ -1,9 +1,12 @@
 from bindings import seldoncore
 import pathlib
+import logging
 from typing import Optional
 
 from ._othersettings import Other_Settings
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 class Base_Model:
     def __init__(self):
@@ -31,7 +34,7 @@ class Base_Model:
             raise Exception(
                 "Output Directory already Exists!! Either delete it or change the path!!"
             )
-        print(f"Output directory path set to: {output_path}\n")
+        logger.info(f"Output directory path set to: {output_path}\n")
         output_path.mkdir(parents=True, exist_ok=True)
         self._simulation.run(output_dir)
         self._network = self._simulation.network

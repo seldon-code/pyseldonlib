@@ -7,3 +7,4 @@ sphinx-copybutton
 numpydoc
 pydata-sphinx-theme
 myst-nb
+sphinxcontrib-bibtex

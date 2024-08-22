@@ -1,4 +1,4 @@
-<!-- Adapted from d-SEAMS: https://github.com/d-SEAMS/seams-core -->
+<!-- Adapted from seldon: https://github.com/seldon-code/seldon -->
 # Contributing
 
 We love pull requests from everyone. By participating in this project, you

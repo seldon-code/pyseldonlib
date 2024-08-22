@@ -2,7 +2,8 @@ name: pyseldonenv
 channels:
   - conda-forge
 
-dependencies:
+# adapted from the Seldon Code Repository
+dependencies: 
   - meson
   - ninja
   - python
@@ -16,3 +17,8 @@ dependencies:
   - tomlplusplus
   - catch2 
   - pkg-config
+  - pre-commit
+  - clang-format
+  - pip
+  - pip:
+      - ruff

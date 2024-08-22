@@ -1,4 +1,4 @@
-<!-- Adapted from d-SEAMS: https://github.com/d-SEAMS/seams-core -->
+<!-- Adapted from seldon: https://github.com/seldon-code/seldon -->
 # Contributing
 
 We love pull requests from everyone. By participating in this project, you
@@ -12,7 +12,7 @@ unless you are fixing a bug.
 
 Push to your fork and [submit a pull request][pr].
 
-[pr]: https://github.com/Seldon-code/pyseldon/compare
+[pr]: https://github.com/Seldon-code/seldon/compare
 
 At this point you're waiting on us. We like to at least comment on pull requests
 within four business days (and, typically, three business day). We may suggest

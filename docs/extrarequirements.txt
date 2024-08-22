@@ -1,6 +1,0 @@
-sphinxcontrib-bibtex
-autodoc_pydantic
-pydantic
-sphinx-jsonschema
-myst-nb
-myst-parser

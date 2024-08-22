@@ -1,9 +1,7 @@
 project('pyseldon', 'cpp', 
     default_options: ['cpp_std=c++20', 'warning_level=3'])
 
-_args = ['-fPIC']
 _deps = []
-
 
 cppc = meson.get_compiler('cpp')
 seldon_subproj = subproject('seldon', default_options: ['default_library=static','build_tests=false', 
@@ -30,7 +28,6 @@ py.extension_module(
     'python_bindings/bindings.cpp'
   ],
   dependencies: _deps,
-  cpp_args : _args,
   install: true,
   subdir: 'bindings/',
 )
@@ -38,6 +35,7 @@ py.extension_module(
 py.install_sources(
    [
     'pyseldon/__init__.py',
+    'pyseldon/_basemodel.py',
     'pyseldon/DeGrootModel.py',
     'pyseldon/DeffuantModel.py',
     'pyseldon/DeffuantVectorModel.py',
@@ -46,7 +44,6 @@ py.install_sources(
     'pyseldon/_network.py',
     'pyseldon/_othersettings.py',
     'pyseldon/_run_simulation.py',
-    'pyseldon/_basemodel.py'
   ],
   pure: false, # do not install next to compiled extension
   subdir: 'pyseldon'

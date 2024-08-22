@@ -29,14 +29,14 @@ We will create a network of 20 agents with random opinions and random connection
 
 Initial opinions of the agents in the network in the range of [0,1] are shown below:
 
-.. image:: ../examples/ouput_20_agents_10_connections_each/initial.png
+.. image:: ../visualisations/ouput_20_agents_10_connections_each/initial.png
    :align: center
    :width: 600px
    :alt: Initial Opinions
 
 Final opinions of the agents in the network after the simulation are shown below:
 
-.. image:: ../examples/ouput_20_agents_10_connections_each/final.png
+.. image:: ../visualisations/ouput_20_agents_10_connections_each/final.png
    :align: center
    :width: 600px
    :alt: Final opinions

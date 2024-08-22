@@ -1,5 +1,8 @@
 from bindings import seldoncore
+import logging
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 class Network:
     """The Network class provides functions to create a network object."""
@@ -115,7 +118,7 @@ class Network:
                 self.network = seldoncore.InertialAgentNetwork()
 
         else:
-            print(
+            logger.warning(
                 "This is a float type network that can't be used for the simulation as it doesn't contain any agents and their data like opinions, etc."
             )
             if n_agents:
