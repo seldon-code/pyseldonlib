@@ -7,13 +7,11 @@ def test_network_class_tests():
     n_agents = 20
     n_connections = 10
     gen_pseudorandom = 0
-    self_interaction = False
 
-    network = pyseldon.seldoncore.generate_n_connections(
+    network = pyseldon.seldoncore.generate_n_connections_(
         n_agents=n_agents,
         n_connections=n_connections,
-        self_interaction=self_interaction,
-        seed=gen_pseudorandom,
+        self_interaction = False,
     )
 
     assert network is not None
@@ -118,7 +116,7 @@ def test_network_class_tests():
         [8, 6, 4, 1],
         [7, 6, 5, 2],
     ]
-    network = pyseldon.seldoncore.generate_square_lattice(n_edge=3)
+    network = pyseldon.seldoncore.generate_square_lattice_(n_edge=3)
 
     for i_agent in range(network.n_agents()):
         assert (
