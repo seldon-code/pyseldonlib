@@ -1,5 +1,5 @@
 [project]
-name = "pyseldon"
+name = "pyseldon-1.0"
 version = "1.0"
 description="Python Bindings for the Seldon Framework"
 authors = [
