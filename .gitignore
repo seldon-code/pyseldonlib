@@ -58,3 +58,6 @@ build/
 *.out
 *.app
 
+# dist folder
+dist/
+

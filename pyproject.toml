@@ -1,7 +1,7 @@
 [project]
 name = "pyseldon"
 version = "1.0"
-description=""
+description="Python Bindings for the Seldon Framework"
 authors = [
     {name = "Amrita Goswami", email = "amrita16thaug646@gmail.com"},
     {name = "Moritz Sallermann", email = "moritzsallermann@gmail.com"},
@@ -11,6 +11,7 @@ authors = [
 dependencies=[
     "pybind11>=2.12.0"
 ]
+keywords = ['seldon', 'opinion-dynamics','opinion-dynamics-simulation', 'seldon-code', 'social-influence', 'social-dynamics']
 requires-python = ">=3.9"
 readme = 'README.md'
 license = {text = "GPL v3"}  # just mention the license text to not clutter the metadata
