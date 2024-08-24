@@ -2,6 +2,7 @@
 /subprojects/seldon/
 # If we need something, we'll add it with -f
 /subprojects/*
+/wheelhouse/
 
 #vscode
 .vscode/
