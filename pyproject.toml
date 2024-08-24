@@ -24,13 +24,18 @@ build-backend= "mesonpy"
 [tool.meson-python.args]
 install = ['--skip-subprojects']
 
+
+[tool.cibuildwheel]
+skip = [ "pp*" ]
+
 [tool.cibuildwheel.linux]
+archs = ["auto64"]
 manylinux-x86_64-image = "manylinux2014"
 manylinux-aarch64-image = "manylinux2014"
-musllinux-x86_64-image = "musllinux_1_1"
+musllinux-x86_64-image = "musllinux_1_2"
 
 [tool.cibuildwheel.macos]
-archs = "x86_64 arm64"
+archs = [ "auto64" ]
 
 [tool.cibuildwheel.windows]
-archs = ['AMD64']
+archs = [ "auto64" ]

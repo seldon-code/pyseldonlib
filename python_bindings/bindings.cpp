@@ -53,7 +53,7 @@ void run_simulation(const std::optional<std::string> &config_file_path,
                     const std::optional<std::string> agent_file_path,
                     const std::optional<std::string> network_file_path,
                     const std::optional<std::string> output_dir_path) {
-    fs::path _output_dir_path = output_dir_path.value_or(fs::path("./output"));
+    std::string _output_dir_path = output_dir_path.value_or((fs::current_path() / fs::path("output")).string());
     fs::remove_all(_output_dir_path);
     fs::create_directories(_output_dir_path);
     Seldon::Config::SimulationOptions simulation_options;
