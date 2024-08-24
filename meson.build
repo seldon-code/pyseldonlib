@@ -13,9 +13,6 @@ _deps += seldon_dep
 py = import('python').find_installation('python')
 _deps += py.dependency()
 
-fmt_dep = dependency('fmt')
-_deps += fmt_dep
-
 pyb11_dep = [
   py.dependency(),
   dependency('pybind11')

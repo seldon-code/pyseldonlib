@@ -1,5 +1,7 @@
 #subprojects
 /subprojects/seldon/
+# If we need something, we'll add it with -f
+/subprojects/*
 
 #vscode
 .vscode/
