@@ -17,7 +17,6 @@ jobs:
   get_commit_message:
     name: Get commit message
     runs-on: ubuntu-latest
-    if: "github.repository == 'seldon-code/pyseldon'"
     outputs:
       message: ${{ steps.commit_message.outputs.message }}
     steps:
