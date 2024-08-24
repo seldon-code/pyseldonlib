@@ -11,7 +11,7 @@ authors = [
 dependencies=[
     "pybind11>=2.12.0"
 ]
-keywords = ['seldon', 'opinion-dynamics','opinion-dynamics-simulation', 'seldon-code', 'social-influence', 'social-dynamics']
+keywords = ['seldon', 'opinion-dynamics','opinion-dynamics-simulation', 'seldon-code', 'social-influence', 'social-dynamics', 'DeGroot Model', 'Inertial Model', 'Activity Driven Model', 'Deffuant Model', 'Deffuant Vector Model']
 requires-python = ">=3.9"
 readme = 'README.md'
 license = {text = "GPL v3"}  # just mention the license text to not clutter the metadata
