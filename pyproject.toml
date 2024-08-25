@@ -27,7 +27,7 @@ dynamic = [
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
-    "Intended Audience :: Researchers, Developers, Data Scientists, Students",
+    "Intended Audience :: Developers",
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
@@ -35,7 +35,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Topic :: Software Development :: Libraries",
-    "Topic :: Scientific/Engineering :: Simulation, Social Dynamics, Opinion Dynamics",
+    "Topic :: Scientific/Engineering :: Mathematics",
 ]
 
 [project.urls]
