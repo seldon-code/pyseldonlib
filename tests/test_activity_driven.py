@@ -188,182 +188,95 @@ def test_activity1Bot1AgentReluctance():
 
 
 # Test the meanfield activity driven model with 10 agents
-# def test_activityMeanfield10Agents():
-#     proj_root = pathlib.Path.cwd()
+@pytest.mark.xfail(reason="Test is not passing, future work needed")
+def test_activityMeanfield10Agents():
+    proj_root = pathlib.Path.cwd()
 
-#     other_settings = pyseldon.Other_Settings(
-#         number_of_agents=50, connections_per_agent=1, print_progress=False
-#     )
+    other_settings = pyseldonlib.Other_Settings(
+        number_of_agents=50, connections_per_agent=1, print_progress=False
+    )
 
-#     model = pyseldon.Activity_Driven_Model(
-#         max_iterations=1000,
-#         dt=0.01,  # Timestep for the integration of the coupled ODEs
-#         m=10,  # Number of agents contacted, when the agent is active
-#         eps=0.01,  # Minimum activity epsilon; a_i belongs to [epsilon,1]
-#         gamma=2.1,  # Exponent of activity power law distribution of activities
-#         reciprocity=1.0,  # Probability that when agent i contacts j via weighted reservoir sampling, j also sends feedback to i. So every agent can have more than m incoming connections
-#         homophily=0.0,  # aka beta. if zero, agents pick their interaction partners at random
-#         alpha=1.01,  # Controversialness of the issue, must be greater than 0.
-#         K=2.0,  # Social interaction strength
-#         mean_activities=True,  # Use the mean value of the powerlaw distribution for the activities of all agents
-#         mean_weights=True,  # Use the meanfield approximation of the network edges
-#         other_settings=other_settings,
-#     )
+    model = pyseldonlib.Activity_Driven_Model(
+        max_iterations=1000,
+        dt=0.01,  # Timestep for the integration of the coupled ODEs
+        m=10,  # Number of agents contacted, when the agent is active
+        eps=0.01,  # Minimum activity epsilon; a_i belongs to [epsilon,1]
+        gamma=2.1,  # Exponent of activity power law distribution of activities
+        reciprocity=1.0,  # Probability that when agent i contacts j via weighted reservoir sampling, j also sends feedback to i. So every agent can have more than m incoming connections
+        homophily=0.0,  # aka beta. if zero, agents pick their interaction partners at random
+        alpha=1.01,  # Controversialness of the issue, must be greater than 0.
+        K=2.0,  # Social interaction strength
+        mean_activities=True,  # Use the mean value of the powerlaw distribution for the activities of all agents
+        mean_weights=True,  # Use the meanfield approximation of the network edges
+        other_settings=other_settings,
+    )
 
-#     output_dir_path = str(proj_root / "tests" / "output")
+    output_dir_path = str(proj_root / "tests" / "output")
 
-#     assert model.mean_weights == True
-#     assert model.mean_activities == True
-#     # We require zero homophily, since we only know the critical controversialness in that case
-#     assert model.homophily == pytest.approx(0, abs=1e-16)
+    assert model.mean_weights == True
+    assert model.mean_activities == True
+    # We require zero homophily, since we only know the critical controversialness in that case
+    assert model.homophily == pytest.approx(0, abs=1e-16)
 
-#     K = model.K
-#     n_agents = model.Network.n_agents()
-#     reciprocity = model.reciprocity
-#     m = model.m
-#     eps = model.eps
-#     gamma = model.gamma
+    K = model.K
+    n_agents = model.Network.n_agents()
+    reciprocity = model.reciprocity
+    m = model.m
+    eps = model.eps
+    gamma = model.gamma
 
-#     dist = pyseldon.seldoncore.Power_Law_Distribution(eps, gamma)
-#     mean_activity = dist.mean()
-#     print(mean_activity)
-#     print(type(mean_activity))
+    dist = pyseldonlib.seldoncore.Power_Law_Distribution(eps, gamma)
+    mean_activity = dist.mean()
+    print(mean_activity)
+    print(type(mean_activity))
 
-#     def set_opinions_and_run(above_critical_controversialness):
-#         initial_opinion_delta = 0.1  # Set the initial opinion in the interval [-delta, delta]
+    def set_opinions_and_run(above_critical_controversialness):
+        initial_opinion_delta = 0.1  # Set the initial opinion in the interval [-delta, delta]
 
-#         for i in range(0, n_agents):
-#             _model = model
-#             assert mean_activity == pytest.approx(_model.agent_activity(i), abs=1e-16)
-#             opinion = -initial_opinion_delta + 2.0 * i / (n_agents - 1) * (
-#                 initial_opinion_delta
-#             )
-#             _model.set_agent_opinion(i, opinion)
+        for i in range(0, n_agents):
+            _model = model
+            assert mean_activity == pytest.approx(_model.agent_activity(i), abs=1e-16)
+            opinion = -initial_opinion_delta + 2.0 * i / (n_agents - 1) * (
+                initial_opinion_delta
+            )
+            _model.set_agent_opinion(i, opinion)
 
-#         output_dir_p = str(proj_root / "tests" / "output_meanfield_test")
-#         if pathlib.Path(output_dir_p).exists():
-#             shutil.rmtree(output_dir_p)
+        output_dir_p = str(proj_root / "tests" / "output_meanfield_test")
+        if pathlib.Path(output_dir_p).exists():
+            shutil.rmtree(output_dir_p)
 
-#         _model.run(output_dir_p)
+        _model.run(output_dir_p)
 
-#         # Check the opinions after the run, if alpha is above the critical controversialness,
-#         # the opinions need to deviate from zero
-#         avg_deviation = 0.0
-#         for i in range(0, n_agents):
-#             if above_critical_controversialness is False:
-#                 assert abs(_model.agent_opinion(i)) > abs(initial_opinion_delta)
-#             else:
-#                 assert abs(_model.agent_opinion(i)) < abs(initial_opinion_delta)
+        # Check the opinions after the run, if alpha is above the critical controversialness,
+        # the opinions need to deviate from zero
+        avg_deviation = 0.0
+        for i in range(0, n_agents):
+            if above_critical_controversialness is False:
+                assert abs(_model.agent_opinion(i)) > abs(initial_opinion_delta)
+            else:
+                assert abs(_model.agent_opinion(i)) < abs(initial_opinion_delta)
 
-#             avg_deviation += abs(_model.agent_opinion(i))
-#         print(f"Average deviation of agents = { avg_deviation / n_agents}\n")
-#         shutil.rmtree(output_dir_p)
+            avg_deviation += abs(_model.agent_opinion(i))
+        print(f"Average deviation of agents = { avg_deviation / n_agents}\n")
+        shutil.rmtree(output_dir_p)
 
-#     alpha_critical = (
-#         float(n_agents)
-#         / (float(n_agents) - 1.0)
-#         * 1.0
-#         / ((1.0 + reciprocity) * K * m * mean_activity)
-#     )
-#     print(f"Critical controversialness = { alpha_critical}\n")
-#     delta_alpha = 0.1
+    alpha_critical = (
+        float(n_agents)
+        / (float(n_agents) - 1.0)
+        * 1.0
+        / ((1.0 + reciprocity) * K * m * mean_activity)
+    )
+    print(f"Critical controversialness = { alpha_critical}\n")
+    delta_alpha = 0.1
 
-#     # Set the critical controversialness to a little above the critical alpha
-#     model.alpha = alpha_critical + delta_alpha
-#     set_opinions_and_run(True)
+    # Set the critical controversialness to a little above the critical alpha
+    model.alpha = alpha_critical + delta_alpha
+    set_opinions_and_run(True)
 
-#     # Set the critical controversialness to a little above the critical alpha
-#     model.alpha = alpha_critical - delta_alpha
-#     set_opinions_and_run(False)
-#     shutil.rmtree(output_dir_path)
-
-
-# def test_activityMeanfield10Agents():
-#     proj_root = pathlib.Path.cwd()
-
-#     other_settings = pyseldon.Other_Settings(
-#         number_of_agents=10,  # Corrected to 10 agents
-#         connections_per_agent=1,
-#         print_progress=False
-#     )
-
-#     model = pyseldon.Activity_Driven_Model(
-#         max_iterations=1000,
-#         dt=0.01,
-#         m=10,
-#         eps=0.01,
-#         gamma=2.1,
-#         reciprocity=1.0,
-#         homophily=0.0,
-#         alpha=1.01,
-#         K=2.0,
-#         mean_activities=True,
-#         mean_weights=True,
-#         other_settings=other_settings,
-#     )
-
-#     output_dir_path = str(proj_root / "tests" / "output")
-
-#     assert model.mean_weights == True
-#     assert model.mean_activities == True
-#     assert model.homophily == pytest.approx(0, abs=1e-16)
-
-#     K = model.K
-#     n_agents = model.Network.n_agents()
-#     reciprocity = model.reciprocity
-#     m = model.m
-#     eps = model.eps
-#     gamma = model.gamma
-
-#     dist = pyseldon.seldoncore.Power_Law_Distribution(eps, gamma)
-#     mean_activity = dist.mean()
-#     print(mean_activity)
-#     print(type(mean_activity))
-
-#     def set_opinions_and_run(above_critical_controversialness):
-#         _model = model
-#         initial_opinion_delta = 0.1
-
-#         for i in range(0, n_agents):
-#             assert mean_activity == pytest.approx(_model.agent_activity(i), abs=1e-16)
-#             opinion = -initial_opinion_delta + 2.0 * i / (n_agents - 1) * initial_opinion_delta
-#             _model.set_agent_opinion(i, opinion)
-
-#         output_dir_p = str(proj_root / "tests" / "output_meanfield_test")
-#         if pathlib.Path(output_dir_p).exists():
-#             shutil.rmtree(output_dir_p)
-
-#         _model.run(output_dir_p)
-
-#         avg_deviation = 0.0
-#         for i in range(0, n_agents):
-#             if above_critical_controversialness:
-#                 print("true passing")
-#                 assert abs(_model.agent_opinion(i)) > abs(initial_opinion_delta)
-
-#             else:
-#                 print("true failing")
-#                 assert abs(_model.agent_opinion(i)) < abs(initial_opinion_delta)
-
-#             avg_deviation += abs(_model.agent_opinion(i))
-#         print(f"Average deviation of agents = {avg_deviation / n_agents}\n")
-#         shutil.rmtree(output_dir_p)
-
-#     alpha_critical = (
-#         float(n_agents)
-#         / (float(n_agents) - 1.0)
-#         * 1.0
-#         / ((1.0 + reciprocity) * K * m * mean_activity)
-#     )
-#     print(f"Critical controversialness = {alpha_critical}\n")
-#     delta_alpha = 0.1
-
-#     model.alpha = alpha_critical + delta_alpha
-#     set_opinions_and_run(True)
-
-#     model.alpha = alpha_critical - delta_alpha
-#     set_opinions_and_run(False)
-#     shutil.rmtree(output_dir_path)
+    # Set the critical controversialness to a little above the critical alpha
+    model.alpha = alpha_critical - delta_alpha
+    set_opinions_and_run(False)
+    shutil.rmtree(output_dir_path)
 
 if __name__ == "__main__":
     pytest.main([__file__])
