@@ -9,4 +9,5 @@ This is the class and function reference of PySeldon.
     introduction
     models
     network
+    util
     packagereference

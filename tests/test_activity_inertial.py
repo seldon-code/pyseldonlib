@@ -1,4 +1,4 @@
-import pyseldon
+import pyseldonlib
 import pathlib
 import pytest
 import cmath
@@ -8,10 +8,10 @@ import shutil
 # Test the probabilistic inertial activity driven model with one bot and one agent
 def test_inertial1Bot1Agent():
     proj_root_path = pathlib.Path.cwd()
-    other_settings = pyseldon.Other_Settings(
+    other_settings = pyseldonlib.Other_Settings(
         print_progress=False, number_of_agents=2, connections_per_agent=1
     )
-    model = pyseldon.Inertial_Model(
+    model = pyseldonlib.Inertial_Model(
         max_iterations=1000,
         dt=0.001,
         m=1,

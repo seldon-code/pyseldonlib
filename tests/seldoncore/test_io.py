@@ -1,4 +1,4 @@
-import pyseldon
+import pyseldonlib
 import pytest
 import pathlib
 
@@ -7,7 +7,7 @@ import pathlib
 def test_io_network():
     proj_root_path = pathlib.Path.cwd()
     network_file = str(proj_root_path / "tests" / "res" / "network.txt")
-    network = pyseldon.seldoncore.generate_from_file_activity_agent(network_file)
+    network = pyseldonlib.seldoncore.generate_from_file_activity_agent(network_file)
 
     assert network.n_agents() == 3
 
@@ -23,7 +23,7 @@ def test_io_agents():
     proj_root_path = pathlib.Path.cwd()
     agent_file = str(proj_root_path / "tests" / "res" / "opinions.txt")
 
-    agents = pyseldon.seldoncore.agents_from_file_activity_agent(agent_file)
+    agents = pyseldonlib.seldoncore.agents_from_file_activity_agent(agent_file)
     opinions_expected = [2.1127107987061544, 0.8088982488089491, -0.8802809369462433]
     activities_expected = [
         0.044554683389757696,

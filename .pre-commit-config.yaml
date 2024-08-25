@@ -9,4 +9,4 @@ repos:
     rev: v0.0.241
     hooks:
       - id: ruff
-        files: ^tests/|^pyseldon/
+        files: ^tests/|^pyseldonlib/

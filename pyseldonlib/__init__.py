@@ -1,4 +1,4 @@
-"""This module provides the main interface to the pyseldon package.
+"""This module provides the main interface to the pyseldonlib package.
 
 It includes the following classes and functions:
 - DeGrootModel
@@ -20,7 +20,8 @@ from .DeffuantVectorModel import Deffuant_Vector_Model
 from .InertialModel import Inertial_Model
 from .ActivityDrivenModel import Activity_Driven_Model
 from ._othersettings import Other_Settings
-from .network import *
+from .utils import *
+from .network import Network
 from ._run_simulation import (
     run_simulation_from_config_file,
     run_simulation_from_options,

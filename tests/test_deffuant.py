@@ -1,4 +1,4 @@
-import pyseldon
+import pyseldonlib
 import pytest
 from pathlib import Path
 import shutil
@@ -6,10 +6,10 @@ import shutil
 
 def test_basic_deffuant_model_two_agents():
     proj_root = Path.cwd()
-    other_settings = pyseldon.Other_Settings(
+    other_settings = pyseldonlib.Other_Settings(
         number_of_agents=2, connections_per_agent=0
     )
-    model = pyseldon.Deffuant_Model(
+    model = pyseldonlib.Deffuant_Model(
         max_iterations=10,
         homophily_threshold=0.2,
         mu=0.5,
@@ -51,10 +51,10 @@ def test_basic_deffuant_model_two_agents():
 
 def test_lattice_deffuant_model_16X16_agents():
     proj_root = Path.cwd()
-    other_settings = pyseldon.Other_Settings(
+    other_settings = pyseldonlib.Other_Settings(
         number_of_agents=256, connections_per_agent=0
     )
-    model = pyseldon.Deffuant_Model(
+    model = pyseldonlib.Deffuant_Model(
         max_iterations=10000,
         homophily_threshold=1.0,
         mu=0.5,
@@ -98,10 +98,10 @@ def test_lattice_deffuant_model_16X16_agents():
 # Test the multi-dimensional Deffuant vector model, with 3-dimensional binary opinions, for two agents
 def test_deffuant_vector_model():
     proj_root = Path.cwd()
-    other_settings = pyseldon.Other_Settings(
+    other_settings = pyseldonlib.Other_Settings(
         number_of_agents=2, connections_per_agent=0
     )
-    model = pyseldon.Deffuant_Vector_Model(
+    model = pyseldonlib.Deffuant_Vector_Model(
         max_iterations=10,
         homophily_threshold=2,
         mu=0.5,

@@ -1,12 +1,12 @@
 .. image:: ../res/PySeldon_1.svg
    :align: left
    :width: 800px
-   :alt: PySeldon
+   :alt: PySeldonlib
 
-PySeldon Documentation
-=======================
+PySeldonlib Documentation
+=========================
 
-Welcome to the **PySeldon** Documentation. PySeldon is a Python Package for Opinion Dynamics Simulation, an extension of the `Seldon Framework <https://github.com/seldon-code/seldon>`_.
+Welcome to the **PySeldonlib** Documentation. PySeldonlib is a Python Package for Opinion Dynamics Simulation, an extension of the `Seldon Framework <https://github.com/seldon-code/seldon>`_.
 It provides:
 
 - tools for simulation of various Opinion Dynamics Models like the classical DeGroot Model, Deffuant Model, Activity Driven Model, etc.

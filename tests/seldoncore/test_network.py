@@ -1,5 +1,5 @@
 import pytest
-import pyseldon
+import pyseldonlib
 
 
 def test_network_class_tests():
@@ -8,7 +8,7 @@ def test_network_class_tests():
     n_connections = 10
     gen_pseudorandom = 0
 
-    network = pyseldon.seldoncore.generate_n_connections_(
+    network = pyseldonlib.seldoncore.generate_n_connections_(
         n_agents=n_agents,
         n_connections=n_connections,
         self_interaction = False,
@@ -93,7 +93,7 @@ def test_network_class_tests():
     neighbour_no_double_counting = [[0, 1, 2], [0, 1, 2], [0, 1, 2], [], [1, 3]]
     weights_no_double_counting = [[0, 3, -1], [1, 2, -2], [2, 1, 3], [], [1, 1]]
 
-    network = pyseldon.seldoncore.Network(neighbour_list, weights, "Incoming")
+    network = pyseldonlib.seldoncore.Network(neighbour_list, weights, "Incoming")
     network.remove_double_counting()
 
     for i_agent in range(network.n_agents()):
@@ -116,7 +116,7 @@ def test_network_class_tests():
         [8, 6, 4, 1],
         [7, 6, 5, 2],
     ]
-    network = pyseldon.seldoncore.generate_square_lattice_(n_edge=3)
+    network = pyseldonlib.seldoncore.generate_square_lattice_(n_edge=3)
 
     for i_agent in range(network.n_agents()):
         assert (

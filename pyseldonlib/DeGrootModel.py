@@ -7,7 +7,6 @@ Additionally, the model is versatile and can be applied to scenarios where opini
 
 Key features
 ------------
-
 Opinion Averaging:
   Agents update their opinions based on the average opinions of their neighbors, fostering convergence and consensus.
 
@@ -21,7 +20,7 @@ The DeGroot Model provides a clear and elegant approach to understanding how soc
 
 Example:
 ---------
->>> from pyseldon import DeGroot_Model
+>>> from pyseldonlib import DeGroot_Model
 >>> # Create the DeGroot Model
 >>> model = DeGroot_Model(max_iterations=1000, convergence_tol=1e-6)
 >>> # Run the simulation

@@ -1,9 +1,9 @@
-import pyseldon
+import pyseldonlib
 import pytest
 
 
 def test_output_settings():
-    settings = pyseldon.seldoncore.OutputSettings()
+    settings = pyseldonlib.seldoncore.OutputSettings()
     assert settings.n_output_agents is None
     assert settings.n_output_network is None
     assert settings.print_progress is False

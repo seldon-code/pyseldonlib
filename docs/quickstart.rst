@@ -1,7 +1,7 @@
 Quick Start Guide
 =================
 
-This guide will help you get started with the basics of using the `pyseldon` package.
+This guide will help you get started with the basics of using the `pyseldonlib` package.
 
 Installation
 ------------
@@ -16,9 +16,9 @@ Usage
 
 .. code-block:: python
 
-    import pyseldon
+    import pyseldonlib
 
-    pyseldon.run_simulation_from_config_file(
+    pyseldonlib.run_simulation_from_config_file(
         config_file_path="path/to/config.toml",
         agent_file_path="path/to/agent.csv",
         network_file_path="path/to/network.csv",

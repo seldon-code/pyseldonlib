@@ -1,7 +1,7 @@
 DeGroot Model
 =============
 
-.. automodule:: pyseldon.DeGrootModel
+.. automodule:: pyseldonlib.DeGrootModel
    :members: True
    :undoc-members: True
    :show-inheritance: True

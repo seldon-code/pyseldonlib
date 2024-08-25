@@ -1,4 +1,4 @@
-# pyseldon
+# pyseldonlib
 ![](https://raw.githubusercontent.com/User-DK/pyseldon/main/res/logotext.png)
 
 ## Python bindings for the Seldon framework

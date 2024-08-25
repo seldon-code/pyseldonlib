@@ -1,22 +1,22 @@
 """
-The Deffuant Vector Model extends the traditional Deffuant Model to multi-dimensional binary vectors. In this model, each agent’s opinion is represented as a binary vector, where each dimension of the vector can have a value of either 0 or 1. The model describes how agents adjust their binary opinions through random binary encounters, similar to the classical Deffuant approach.
+The Deffuant Model, also known as the "Mixing of Beliefs among Interacting Agents," describes how agents update their continuous opinions through random binary encounters. In this model, agents only adjust their opinions if the difference between their opinions is below a specified threshold, known as the Homophily Threshold.
 
 Model Dynamics
 --------------
-
-Binary Opinions:
-  Each opinion is represented as a binary vector, where the values are restricted to 0 or 1. The interaction and adjustment process involves comparing these vectors and updating them based on the Homophily Threshold.
-
 Homophily Threshold:
-  Agents will only adjust their opinions if the difference between their opinion vectors is below a specified threshold. This difference is computed in a way that considers the multi-dimensional nature of the opinion vectors.
+  If the difference in opinions between two interacting agents is less than this threshold, they will update their opinions towards each other. This process leads to opinion convergence or clustering depending on the value of the threshold.
 
-The Deffuant Model provides insight into how personal interactions and opinion thresholds influence the dynamics of opinion formation and clustering within a group of agents.
+High Thresholds:
+  When the Homophily Threshold is high, opinions tend to converge towards an average opinion, as agents are more selective about whom they interact with.
+
+Low Thresholds:
+  When the Homophily Threshold is low, the model results in the formation of several distinct opinion clusters. Agents within the same cluster share similar opinions and are less influenced by agents outside their cluster.
 
 Example:
 ---------
->>> from pyseldon import Deffuant_Vector_Model
->>> # Create the Deffuant Vector Model
->>> deffuant = Deffuant_Vector_Model(max_iterations=1000, homophily_threshold=0.2, mu=0.5)
+>>> from pyseldonlib import Deffuant_Model
+>>> # Create the Deffuant Model
+>>> deffuant = Deffuant_Model(max_iterations=1000, homophily_threshold=0.2, mu=0.5)
 >>> # Run the simulation
 >>> deffuant.run("output_dir")
 >>> # Access the network
@@ -41,9 +41,9 @@ from ._basemodel import Base_Model
 from ._othersettings import Other_Settings
 
 
-class Deffuant_Vector_Model(Base_Model):
+class Deffuant_Model(Base_Model):
     """
-    Deffuant Vector Model base class for Simulation.
+    Deffuant Model base class for Simulation.
 
     Parameters
     -----------
@@ -57,10 +57,7 @@ class Deffuant_Vector_Model(Base_Model):
       The convergence rate of the agents.
 
     use_network : bool, default=False
-      For using a square lattice network. Will throw if sqrt(n_agents) is not an integer.
-
-    dim : int, default=1
-      For the multi-dimensional binary vector Deffuant model, define the number of dimensions in each opinion vector
+      For using a square lattice network. Will throw error if sqrt(n_agents) is not an integer.
 
     rng_seed : int, default=None
       The seed for the random number generator. If not provided, a random seed is picked.
@@ -89,7 +86,6 @@ class Deffuant_Vector_Model(Base_Model):
         homophily_threshold: float = 0.2,
         mu: float = 0.5,
         use_network: bool = False,
-        dim: int = 1,
         rng_seed: Optional[int] = None,
         agent_file: Optional[str] = None,
         network_file: Optional[str] = None,
@@ -97,6 +93,7 @@ class Deffuant_Vector_Model(Base_Model):
     ):
         # Other settings and Simulation Options are already intialised in super
         super().__init__()
+        self.other_settings = Other_Settings()
         if other_settings is not None:
             self.other_settings = other_settings
 
@@ -113,10 +110,9 @@ class Deffuant_Vector_Model(Base_Model):
         self._options.model_settings.homophily_threshold = homophily_threshold
         self._options.model_settings.mu = mu
         self._options.model_settings.use_network = use_network
-        self._options.model_settings.use_binary_vector = True
-        self._options.model_settings.dim = dim
+        self._options.model_settings.use_binary_vector = False
 
-        self._simulation = seldoncore.SimulationDiscreteVectorAgent(
+        self._simulation = seldoncore.SimulationSimpleAgent(
             options=self._options,
             cli_agent_file=agent_file,
             cli_network_file=network_file,

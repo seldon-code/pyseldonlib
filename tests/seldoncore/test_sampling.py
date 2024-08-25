@@ -1,7 +1,7 @@
 import math
 import pytest
 import random
-import pyseldon
+import pyseldonlib
 
 
 def compute_p(k, n):
@@ -20,9 +20,9 @@ def test_draw_unique_k_from_n():
 
     histogram = [0] * n
     buffer = []
-    gen = pyseldon.seldoncore.RandomGenerator(random.randint(0, 2**32 - 1))
+    gen = pyseldonlib.seldoncore.RandomGenerator(random.randint(0, 2**32 - 1))
     for _i in range(0, N_RUNS):
-        pyseldon.seldoncore.draw_unique_k_from_n(
+        pyseldonlib.seldoncore.draw_unique_k_from_n(
             ignore_idx=ignore_idx, k=k, n=n, buffer=buffer, gen=gen
         )
         for num in buffer:

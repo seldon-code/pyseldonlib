@@ -7,7 +7,7 @@ You can install the package from PYPI using `pip`:
 
 .. code-block:: bash
 
-    $ pip install pyseldon
+    $ pip install pyseldonlib
 
 
 From Source

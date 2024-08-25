@@ -1,9 +1,9 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath('../pyseldon'))
+sys.path.insert(0, os.path.abspath('../pyseldonlib'))
 
-project = 'pyseldon'
+project = 'pyseldonlib'
 copyright = '2024, PySeldon Developers'
 author = 'Amrita Goswami, Daivik Karbhari, Moritz Sallermann, Rohit Goswami'
 release = '1.0'
@@ -51,10 +51,10 @@ html_favicon = "../res/favicon.ico"
 html_theme_options = {
   "show_toc_level": 2,
     "icon_links": [
-        {"name": "Home Page", "url": "https://github.com/seldon-code/pyseldon", "icon": "fas fa-home"},
+        {"name": "Home Page", "url": "https://github.com/seldon-code/pyseldonlib", "icon": "fas fa-home"},
         {
             "name": "GitHub",
-            "url": "https://github.com/seldon-code/pyseldon",
+            "url": "https://github.com/seldon-code/pyseldonlib",
             "icon": "fab fa-github-square",
         },
     ],

@@ -39,8 +39,8 @@ classifiers = [
 ]
 
 [project.urls]
-"Source Code" = "https://github.com/seldon-code/pyseldon"
-Documentation = "https://seldon-code.github.io/pyseldon"
+"Source Code" = "https://github.com/seldon-code/pyseldonlib"
+Documentation = "https://seldon-code.github.io/pyseldonlib/"
 
 [build-system]
 requires = ["pybind11","meson-python","setuptools>=42", "wheel", "setuptools_scm"]

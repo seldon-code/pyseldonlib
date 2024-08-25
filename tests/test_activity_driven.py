@@ -1,4 +1,4 @@
-import pyseldon
+import pyseldonlib
 import pathlib
 import pytest
 import shutil
@@ -8,14 +8,14 @@ import math
 def test_activity_driven():
     # using ./tests/res/activity_probabilistic_conf.toml
 
-    other_settings = pyseldon.Other_Settings(
+    other_settings = pyseldonlib.Other_Settings(
         number_of_agents=1000,
         connections_per_agent=10,
         n_output_agents=1,
         print_progress=False,
     )
 
-    model = pyseldon.Activity_Driven_Model(
+    model = pyseldonlib.Activity_Driven_Model(
         max_iterations=20,
         dt=0.01,  # Timestep for the integration of the coupled ODEs
         m=10,  # Number of agents contacted, when the agent is active
@@ -46,7 +46,7 @@ def test_activity_driven():
 
     # By using a config file
     config_file_path = str(base_dir / "res/activity_probabilistic_conf.toml")
-    pyseldon.run_simulation_from_config_file(
+    pyseldonlib.run_simulation_from_config_file(
         config_file_path=config_file_path, output_dir_path=output_dir
     )
     assert pathlib.Path(output_dir).exists()
@@ -57,7 +57,7 @@ def test_activity_driven():
 def test_activityProb():
     proj_root = pathlib.Path.cwd()
     input_file = str(proj_root / "tests" / "res" / "activity_probabilistic_conf.toml")
-    options = pyseldon.parse_config_file(input_file)
+    options = pyseldonlib.parse_config_file(input_file)
 
     output_dir_path = proj_root / "tests" / "output"
 
@@ -65,7 +65,7 @@ def test_activityProb():
         shutil.rmtree(output_dir_path)
     output_dir_path.mkdir(parents=True, exist_ok=True)
 
-    simulation = pyseldon.seldoncore.SimulationActivityAgent(options=options)
+    simulation = pyseldonlib.seldoncore.SimulationActivityAgent(options=options)
     simulation.run(str(output_dir_path))
 
     assert any(output_dir_path.iterdir()), "Output directory is empty after simulation."
@@ -79,11 +79,11 @@ def test_activityProbTwoAgents():
 
     output_dir_path = str(proj_root / "tests" / "output")
 
-    other_settings = pyseldon.Other_Settings(
+    other_settings = pyseldonlib.Other_Settings(
         number_of_agents=2, connections_per_agent=1, print_progress=False
     )
 
-    model = pyseldon.Activity_Driven_Model(
+    model = pyseldonlib.Activity_Driven_Model(
         max_iterations=10000,
         dt=0.005,  # Timestep for the integration of the coupled ODEs
         m=1,  # Number of agents contacted, when the agent is active
@@ -120,11 +120,11 @@ def test_activityProbTwoAgents():
 def test_activity1Bot1AgentReluctance():
     proj_root = pathlib.Path.cwd()
 
-    other_settings = pyseldon.Other_Settings(
+    other_settings = pyseldonlib.Other_Settings(
         number_of_agents=2, connections_per_agent=1, print_progress=False
     )
 
-    model = pyseldon.Activity_Driven_Model(
+    model = pyseldonlib.Activity_Driven_Model(
         max_iterations=1000,
         dt=0.001,  # Timestep for the integration of the coupled ODEs
         m=1,  # Number of agents contacted, when the agent is active

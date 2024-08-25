@@ -1,15 +1,14 @@
 """
-In the study of Social Opinion Dynamics, it is essential to consider various factors that influence the formation and dissemination of opinions within networks of agents. The Activity Driven Inertial Model (or just Inertial Model) expands upon the traditional Activity Driven Model by introducing an additional parameter: the friction coefficient. This model simulates the evolution of opinions over time, capturing the complex interactions that lead to consensus formation, polarization, and the influence of external entities such as bots.
+In the study of Social Opinion Dynamics, it is crucial to consider multiple factors that significantly influence the formation and spread of opinions within networks of agents. The Activity Driven Model addresses this by simulating the evolution of opinions over time, capturing the complex interactions that lead to consensus formation, polarization, and the influence of external entities such as bots.
 
-The friction coefficient in this model represents the resistance to change in an agent's opinion, introducing an inertial effect. This concept is akin to physical inertia, where an agent's opinion resists sudden changes, leading to smoother transitions in the opinion landscape. This feature adds realism by modeling how strongly held beliefs or social inertia can slow the pace of opinion change, even in the face of active social interactions.
+This model is highly configurable, allowing users to explore a wide range of scenarios and behaviors by adjusting parameters related to agent activity, social influence, homophily, and more. It also incorporates recent considerations, such as the role of bots—agents with fixed opinions—who interact with humans on social media platforms, thereby influencing human-machine interactions and their effects on opinion dynamics.
 
-Like the traditional Activity Driven Model, the Inertial Model is highly configurable, allowing users to explore a wide range of scenarios and behaviors by adjusting parameters related to agent activity, social influence, homophily, and now, opinion inertia. The model also considers the role of bots—agents with fixed opinions—who interact with humans on social media platforms, influencing human-machine interactions in opinion dynamics.
+As the name suggests, the `Activity Driven` Model focuses on the activities of agents, which represent the interactions they perform within a social network.
 
-Key features as discussed in the Activity Driven Model:
+The key features of this models are :
 
 Temporal Dynamics
 -----------------
-
 max_iterations:
     Limits the total number of simulation steps.
     If set to None, the model runs indefinitely, allowing for long-term analysis of opinion evolution.
@@ -20,10 +19,9 @@ dt:
 
 Agent Behavior and Interaction
 ------------------------------
-
 m:
-  Determines how many agents an active agent interacts with during each time step.
-  Influences the rate of opinion spreading; higher values mean more interactions and potentially faster consensus or polarization.
+    Determines how many agents an active agent interacts with during each time step.
+    Influences the rate of opinion spreading; higher values mean more interactions and potentially faster consensus or polarization.
 
 eps:
     Sets the minimum activity level for agents, ensuring no agent is completely inactive.
@@ -47,14 +45,12 @@ K:
 
 Social Context and Controversialness
 ------------------------------------
-
 alpha:
     Controls the degree of controversialness of the issue being simulated.
     A higher alpha can lead to more polarized opinions, as agents might have stronger reactions to the issue.
 
 Bots and External Influence
 ---------------------------
-
 n_bots:
     Specifies the number of bots in the simulation, which are fixed in their opinions.
     Bots influence the network without being influenced, potentially driving opinion shifts or reinforcing certain views.
@@ -65,7 +61,6 @@ bot_m, bot_activity, bot_opinion, bot_homophily:
 
 Reluctance and Activity Correlation
 -----------------------------------
-
 use_reluctances:
     Activates the feature where agents have a reluctance to change their opinions.
     Adds complexity by simulating resistance to change, affecting how quickly or slowly opinions evolve.
@@ -78,15 +73,11 @@ covariance_factor:
     Introduces a correlation between an agent's activity level and its reluctance, meaning that activity might influence or be influenced by reluctance.
     Allows for more realistic scenarios where active agents may be more or less open to changing their opinions, depending on the sign of the covariance.
 
-Friction Coefficient
---------------------
-The friction coefficient in the Activity Driven Inertial Model represents the resistance to change in an agent's opinion, akin to physical inertia. It introduces an inertial effect that causes opinions to change more gradually, reflecting the persistence of strongly held beliefs and social inertia in opinion dynamics.
-
 Example:
 ---------
->>> from pyseldon import Inertial_Model
->>> # Create the Inertial Model
->>> model = Inertial_Model(max_iterations=1000, convergence_tol=1e-6)
+>>> from pyseldonlib import Activity_Driven_Model
+>>> # Create the Activity Driven Model
+>>> model = Activity_Driven_Model(max_iterations=1000, convergence_tol=1e-6)
 >>> # Run the simulation
 >>> model.run("output_dir")
 >>> # Access the network
@@ -95,10 +86,9 @@ Example:
 >>> opinions = model.agents_opinions()
 >>> activity = model.agents_activity()
 >>> reluctance = model.agents_reluctance()
->>> velocity = model.agent_velocity()
 
-Reference:
-----------
+Reference
+---------
 .. bibliography::
    :style: plain
 
@@ -111,13 +101,14 @@ Reference:
 from bindings import seldoncore
 import pathlib
 from typing import Optional
-from .ActivityDrivenModel import Activity_Driven_Model
+from ._basemodel import Base_Model
+
 from ._othersettings import Other_Settings
 
 
-class Inertial_Model(Activity_Driven_Model):
+class Activity_Driven_Model(Base_Model):
     """
-    Inertial Model base class for Simulation.
+    Activity Driven Model base class for Simulation.
 
     Parameters
     -----------
@@ -203,9 +194,6 @@ class Inertial_Model(Activity_Driven_Model):
     other_settings : Other_Settings, default=None
       The other settings for the simulation. If None, the default settings are used.
 
-    friction_coefficient : float, default=1.0
-      The friction coefficient for the inertial model.
-
     Attributes
     -----------
     Network : Network (Object)
@@ -213,12 +201,6 @@ class Inertial_Model(Activity_Driven_Model):
 
     Opinion : Float
       The opinions of the agents or nodes of the network.
-
-    Activity : Float
-      The activity of the agents or nodes of the network.
-
-    Reluctance : Float
-      The reluctance of the agents or nodes of the network.
     """
 
     def __init__(
@@ -244,7 +226,6 @@ class Inertial_Model(Activity_Driven_Model):
         reluctance_sigma: float = 0.25,
         reluctance_eps: float = 0.01,
         covariance_factor: float = 0.0,
-        friction_coefficient: float = 1.0,
         rng_seed: Optional[int] = None,
         agent_file: Optional[str] = None,
         network_file: Optional[str] = None,
@@ -255,14 +236,11 @@ class Inertial_Model(Activity_Driven_Model):
         if other_settings is not None:
             self.other_settings = other_settings
 
-        self._options.model_string = "ActivityDrivenInertial"
-        self._options.model_settings = seldoncore.ActivityDrivenInertialSettings()
+        self._options.model_string = "ActivityDriven"
+        self._options.model_settings = seldoncore.ActivityDrivenSettings()
         self._options.output_settings = self.other_settings.output_settings
         self._options.network_settings = self.other_settings.network_settings
-        self._options.model = seldoncore.Model.ActivityDrivenInertial
-
-        if rng_seed is not None:
-            self._options.rng_seed = rng_seed
+        self._options.model = seldoncore.Model.ActivityDrivenModel
 
         self._options.model_settings.max_iterations = max_iterations
         self._options.model_settings.dt = dt
@@ -285,9 +263,11 @@ class Inertial_Model(Activity_Driven_Model):
         self._options.model_settings.reluctance_sigma = reluctance_sigma
         self._options.model_settings.reluctance_eps = reluctance_eps
         self._options.model_settings.covariance_factor = covariance_factor
-        self._options.model_settings.friction_coefficient = friction_coefficient
 
-        self._simulation = seldoncore.SimulationInertialAgent(
+        if rng_seed is not None:
+            self._options.rng_seed = rng_seed
+
+        self._simulation = seldoncore.SimulationActivityAgent(
             options=self._options,
             cli_agent_file=agent_file,
             cli_network_file=network_file,
@@ -295,7 +275,40 @@ class Inertial_Model(Activity_Driven_Model):
 
         self._network = self._simulation.network
 
-    def agent_velocity(self, index: int = None):
+    def agent_activity(self, index: int = None):
+        """
+        Access the agents activity data from the simulated network.
+
+        Parameters
+        -----------
+        index : int
+          The index of the agent to access. The index is 0-based. If not provided, all agents are returned.
+        """
+        if index is None:
+            result = [agent.data.activity for agent in self._simulation.network.agent]
+            return result
+        else:
+            if index < 0 or index >= self.Network.n_agents():
+                raise IndexError("Agent index is out of range.")
+            return self._simulation.network.agent[index].data.activity
+
+    def set_agent_activity(self, index: int, activity: float):
+        """
+        Set the activity of a specific agent.
+
+        Parameters
+        ----------
+        index : int
+          The index of the agent whose opinion is to be set.
+        activity : float
+          The new activity value for the agent.
+        """
+        if index < 0 or index >= self.Network.n_agents():
+            raise IndexError("Agent index is out of range.")
+
+        self._simulation.network.agent[index].data.activity = activity
+
+    def agent_reluctance(self, index: int = None):
         """
         Access the agents reluctance data from the simulated network.
 
@@ -305,25 +318,25 @@ class Inertial_Model(Activity_Driven_Model):
           The index of the agent to access. The index is 0-based. If not provided, all agents are returned.
         """
         if index is None:
-            result = [agent.data.velocity for agent in self._simulation.network.agent]
+            result = [agent.data.reluctance for agent in self._simulation.network.agent]
             return result
         else:
             if index < 0 or index >= self.Network.n_agents():
                 raise IndexError("Agent index is out of range.")
-            return self._simulation.network.agent[index].data.velocity
+            return self._simulation.network.agent[index].data.reluctance
 
-    def set_agent_velocity(self, index: int, velocity: float):
+    def set_agent_reluctance(self, index: int, reluctance: float):
         """
-        Set the velocity of a specific agent.
+        Set the reluctance of a specific agent.
 
         Parameters
         ----------
         index : int
             The index of the agent whose opinion is to be set.
-        velocity : float
-            The new velocity value for the agent.
+        reluctance : float
+            The new reluctance value for the agent.
         """
         if index < 0 or index >= self.Network.n_agents():
             raise IndexError("Agent index is out of range.")
 
-        self._simulation.network.agent[index].data.velocity = velocity
+        self._simulation.network.agent[index].data.reluctance = reluctance

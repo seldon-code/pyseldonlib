@@ -1,6 +1,6 @@
-# PySeldon
-![pyseldon](https://raw.githubusercontent.com/User-DK/pyseldon/main/res/logotext.png)
-PySeldon is a Python Package for Opinion Dynamics Simulation, an extension of the [`Seldon Framework`](https://github.com/seldon-code/seldon). It provides:
+# PySeldonlib
+![pyseldonlib](https://raw.githubusercontent.com/User-DK/pyseldon/main/res/logotext.png)
+PySeldonlib is a Python Package for Opinion Dynamics Simulation, an extension of the [`Seldon Framework`](https://github.com/seldon-code/seldon). It provides:
 
 - Tools for the simulation of various Opinion Dynamics Models like the classical DeGroot Model, Deffuant Model, Activity Driven Model, etc.
 - Tools to create, manipulate, and study complex networks which are either randomly generated or provided by the user.
@@ -39,15 +39,15 @@ We can conclude that the agents have reached a consensus after the simulation.
 ### Usage
 
 ```python
-import pyseldon
+import pyseldonlib
 
 pyseldonlib.run_simulation_from_config_file(config_file_path = '/path/to/config/file')
 ```
 
 ```python
-import pyseldon
+import pyseldonlib
 
-model = pyseldon.DeGroot_Model(max_iterations=1000,
+model = pyseldonlib.DeGroot_Model(max_iterations=1000,
                                convergence_tol=1e-6,
                                rng_seed=120, 
                                other_settings=other_settings)

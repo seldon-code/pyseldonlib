@@ -1,7 +1,7 @@
 Activity Driven Inertial Model
 ==============================
 
-.. automodule:: pyseldon.InertialModel
+.. automodule:: pyseldonlib.InertialModel
    :members: True
    :undoc-members: True
    :show-inheritance: True

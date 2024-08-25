@@ -1,7 +1,7 @@
 import csv
 
-input_file = '/home/parrot_user/Desktop/pyseldon/examples/ouput_20_agents/network_0.txt'  # Your CSV file
-output_file ='/home/parrot_user/Desktop/pyseldon/examples/ouput_20_agents/network.csv'   # Output file for Cytoscape
+input_file = '/home/parrot_user/Desktop/pyseldonlib/examples/ouput_20_agents/network_0.txt'  # Your CSV file
+output_file ='/home/parrot_user/Desktop/pyseldonlib/examples/ouput_20_agents/network.csv'   # Output file for Cytoscape
 
 with open(input_file, 'r') as csvfile, open(output_file, 'w', newline='') as out_csv:
     reader = csv.reader(csvfile)

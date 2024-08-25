@@ -1,7 +1,7 @@
-Deffuant Vector Model
-======================
+util
+====
 
-.. automodule:: pyseldonlib.DeffuantVectorModel
+.. automodule:: pyseldonlib.utils
    :members: True
    :undoc-members: True
    :show-inheritance: True

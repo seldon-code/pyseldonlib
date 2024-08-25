@@ -1,6 +1,6 @@
 Models
 ======
-The following models are available in the `pyseldon` package:
+The following models are available in the `pyseldonlib` package:
 
 ..  toctree::
     :maxdepth: 4

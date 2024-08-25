@@ -20,7 +20,7 @@ jobs:
     outputs:
       message: ${{ steps.commit_message.outputs.message }}
     steps:
-      - name: Checkout pyseldon
+      - name: Checkout pyseldonlib
         uses: actions/checkout@v4
         # Gets the correct commit message for pull request
         with:

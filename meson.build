@@ -1,4 +1,4 @@
-project('pyseldon', 'cpp', 
+project('pyseldonlib', 'cpp', 
     version: '1.0.0',
     default_options: ['cpp_std=c++20', 'warning_level=3'])
 
@@ -32,17 +32,19 @@ py.extension_module(
 
 py.install_sources(
    [
-    'pyseldon/__init__.py',
-    'pyseldon/_basemodel.py',
-    'pyseldon/DeGrootModel.py',
-    'pyseldon/DeffuantModel.py',
-    'pyseldon/DeffuantVectorModel.py',
-    'pyseldon/ActivityDrivenModel.py',
-    'pyseldon/InertialModel.py',
-    'pyseldon/network.py',
-    'pyseldon/_othersettings.py',
-    'pyseldon/_run_simulation.py',
+    'pyseldonlib/__init__.py',
+    'pyseldonlib/_basemodel.py',
+    'pyseldonlib/DeGrootModel.py',
+    'pyseldonlib/DeffuantModel.py',
+    'pyseldonlib/DeffuantVectorModel.py',
+    'pyseldonlib/ActivityDrivenModel.py',
+    'pyseldonlib/InertialModel.py',
+    'pyseldonlib/network.py',
+    'pyseldonlib/_othersettings.py',
+    'pyseldonlib/_run_simulation.py',
+    'pyseldonlib/utils.py',
+
   ],
   pure: false, # do not install next to compiled extension
-  subdir: 'pyseldon'
+  subdir: 'pyseldonlib'
 )
