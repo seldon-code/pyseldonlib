@@ -1,0 +1,54 @@
+name: Test and Documentation workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: micromamba-shell {0}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4  # Updated to latest stable version
+
+    - name: micromamba setup
+      uses: mamba-org/setup-micromamba@v1
+      with:
+        environment-file: environment.yml
+        generate-run-shell: true
+        cache-environment: true
+        init-shell: bash
+
+    - name: Install project dependencies
+      run: |
+        meson setup build
+        pip install .
+
+    - name: Run tests 
+      run: |
+        pytest tests/
+
+    - name: Install documentation dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r docs/requirements.txt
+
+    - name: Build the documentation
+      run: |
+        cd docs
+        sphinx-build -b html . source/_build/html
+
+    - name: Deploy the documentation
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: docs/source/_build/html
+        keep_files: true

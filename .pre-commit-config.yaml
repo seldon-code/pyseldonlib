@@ -1,0 +1,12 @@
+repos:
+  - repo: https://github.com/pre-commit/mirrors-clang-format
+    rev: v12.0.0
+    hooks:
+      - id: clang-format
+        files: python_bindings/bindings.cpp
+
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.0.241
+    hooks:
+      - id: ruff
+        files: ^tests/|^pyseldonlib/

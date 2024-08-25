@@ -1,0 +1,71 @@
+[project]
+name = "pyseldonlib"
+description="Python Bindings for the Seldon Framework"
+authors = [
+    {name = "Daivik Karbhari", email="daivikkarbhari01@gmail.com"},
+    ]
+maintainers = [
+    {name = "Amrita Goswami", email = "amrita16thaug646@gmail.com"},
+    {name = "Daivik Karbhari", email="daivikkarbhari01@gmail.com"},
+    {name = "Moritz Sallermann", email = "moritzsallermann@gmail.com"},
+    {name = "Rohit Goswami", email = "rgoswami@ieee.org"},
+]
+dependencies=[
+    "pybind11>=2.12.0"
+]
+keywords = [
+    "Seldon-Code","Seldon", "Opinion Dynamics", "Opinion Dynamics Simulation",
+    "Social Influence", "Social Dynamics", 
+    "DeGroot Model", "Inertial Model", "Activity Driven Model", 
+    "Deffuant Model", "Deffuant Vector Model"
+]
+requires-python = ">=3.9"
+readme = 'Project.md'  # different for pypi package
+license = {text = "GPL v3"}  # just mention the license text to not clutter the metadata
+dynamic = [
+    "version",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Researchers, Developers, Data Scientists, Students",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Scientific/Engineering :: Simulation, Social Dynamics, Opinion Dynamics",
+]
+
+[project.urls]
+"Source Code" = "https://github.com/seldon-code/pyseldonlib"
+Documentation = "https://seldon-code.github.io/pyseldonlib/"
+
+[build-system]
+requires = ["pybind11","meson-python","setuptools>=42", "wheel", "setuptools_scm"]
+build-backend= "mesonpy"
+
+[tool.setuptools_scm]
+
+[tool.setuptools]
+packages = ["pyseldon"]
+
+[tool.meson-python.args]
+install = ['--skip-subprojects']
+
+
+[tool.cibuildwheel]
+skip = [ "pp*" ]
+
+[tool.cibuildwheel.linux]
+archs = ["auto64"]
+manylinux-x86_64-image = "manylinux2014"
+manylinux-aarch64-image = "manylinux2014"
+musllinux-x86_64-image = "musllinux_1_2"
+
+[tool.cibuildwheel.macos]
+archs = [ "auto64" ]
+
+[tool.cibuildwheel.windows]
+archs = [ "auto64" ]

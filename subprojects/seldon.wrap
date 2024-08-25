@@ -1,0 +1,5 @@
+[wrap-git]
+directory = seldon
+url = https://github.com/seldon-code/seldon.git
+revision = b4c479a295431f41ecfe121a752d0bcc3465333f
+depth = 1

@@ -1,0 +1,24 @@
+name: pyseldonenv
+channels:
+  - conda-forge
+
+# adapted from the Seldon Code Repository
+dependencies: 
+  - meson
+  - ninja
+  - python
+  - pybind11
+  - pytest
+  - meson-python
+  - fmt
+  - cmake
+  - cpp-argparse
+  - clang-format=18.1.1
+  - tomlplusplus
+  - catch2 
+  - pkg-config
+  - pre-commit
+  - clang-format
+  - pip
+  - pip:
+      - ruff
