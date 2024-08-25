@@ -39,7 +39,20 @@ We can conclude that the agents have reached a consensus after the simulation.
 ### Usage
 
 ```python
-import pyseldonlib
+import pyseldon
 
 pyseldonlib.run_simulation_from_config_file(config_file_path = '/path/to/config/file')
+```
+
+```python
+import pyseldon
+
+model = pyseldon.DeGroot_Model(max_iterations=1000,
+                               convergence_tol=1e-6,
+                               rng_seed=120, 
+                               other_settings=other_settings)
+
+output_dir_path = str("./output")
+
+model.run(output_dir_path)
 ```

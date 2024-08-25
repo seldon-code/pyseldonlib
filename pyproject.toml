@@ -1,5 +1,5 @@
 [project]
-name = "pyseldon-lib"
+name = "pyseldonlib"
 description="Python Bindings for the Seldon Framework"
 authors = [
     {name = "Daivik Karbhari", email="daivikkarbhari01@gmail.com"},
