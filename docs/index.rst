@@ -5,8 +5,6 @@
 
 PySeldon Documentation
 =======================
-:Release: |release|
-:Date: |today|
 
 Welcome to the **PySeldon** Documentation. PySeldon is a Python Package for Opinion Dynamics Simulation, an extension of the `Seldon Framework <https://github.com/seldon-code/seldon>`_.
 It provides:
@@ -43,6 +41,12 @@ Final opinions of the agents in the network after the simulation are shown below
 
 And we can conclude that the agents have reached a consensus after the simulation.
 
+Reference:
+----------
+.. bibliography:: 
+   :style: plain
+   
+   DeGroot_1974
 
 .. Citing
 .. ------

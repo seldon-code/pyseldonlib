@@ -6,3 +6,4 @@ This is a collection of examples that demonstrate how to use the library.
     :maxdepth: 4
 
     degrootmodel
+    network

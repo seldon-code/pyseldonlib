@@ -18,15 +18,22 @@ Usage
 
     import pyseldon
 
-    pyseldon.run_simulation_from_config_file(config_file_path ="path/to/config.toml", agent_file_path="path/to/agent.csv", network_file_path="path/to/network.csv", output_dir_path="path/to/output")
+    pyseldon.run_simulation_from_config_file(
+        config_file_path="path/to/config.toml",
+        agent_file_path="path/to/agent.csv",
+        network_file_path="path/to/network.csv",
+        output_dir_path="path/to/output"
+    )
 
-TOML file Format
-----------------
+This will run the simulation as per the configuration file and save the output files in the specified directory.
+
+Configuration TOML file Format
+------------------------------
 
 .. code-block:: toml
 
     [simulation]
-    model = "" 
+    model = "DeGroot" 
     rng_seed = 120
 
     [io]
@@ -47,18 +54,29 @@ TOML file Format
     number_of_agents = 300
     connections_per_agent = 10
 
+Specifications
+--------------
 
-# The model to run. Options are DeGroot, Deffuant, DeffuantVector, ActivityDriven, Inertial
-# The model specific parameters are given in the model section
-# The network parameters are given in the network section
-# The output parameters are given in the io section
-# Leaving this empty will pick a random seed
-# Write the network every 20 iterations
-# Write the opinions of agents after every iteration
-# Print the iteration time ; if not set, then does not prints
-# Print the initial opinions and network file from step 0. If not set, this is true by default.
-# Start writing out opinions and/or network files from this iteration. If not set, this is 1 + start_numbering_from.
-# The initial step number, before the simulation runs, is this value. The first step would be (1+start_numbering_from). By default, 0
- # Model specific parameters
-# If not set, max iterations is infinite
-# If not set, the default 1e-6 is used
+- **[simulation]**
+  - `model`: The model to run. Options are DeGroot, Deffuant, ActivityDriven, ActivityDrivenInertial.
+  - `rng_seed`: Seed for random number generation. If left empty, a random seed is used.
+
+- **[io]**
+  - `n_output_network`: Number of iterations between writing network files.
+  - `n_output_agents`: Number of iterations between writing agent opinion files.
+  - `print_progress`: Whether to print the iteration time. Default is false.
+  - `output_initial`: Whether to print the initial opinions and network file from step 0. Default is true.
+  - `start_output`: Iteration number from which to start writing outputs.
+  - `start_numbering_from`: Initial step number before the simulation starts. Default is 0.
+
+- **[model]**
+  - `max_iterations`: Maximum number of iterations. If not set, the maximum is infinite.
+
+- **[DeGroot]**
+  - `convergence`: Convergence threshold for the DeGroot model.
+
+- **[network]**
+  - `number_of_agents`: Number of agents in the network.
+  - `connections_per_agent`: Number of connections each agent has.
+
+

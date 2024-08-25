@@ -1,5 +1,5 @@
 # pyseldon
-![](./res/logotext.png)
+![](https://raw.githubusercontent.com/User-DK/pyseldon/main/res/logotext.png)
 
 ## Python bindings for the Seldon framework
 
@@ -12,15 +12,17 @@ And here is the example of reaching consensus in a network using the DeGroot mod
 We will create a network of 20 agents with random opinions and random connections between them. We will then conduct the simulation. as can be seen in the notebook file [here](./examples/ouput_20_agents_10_connections_each/degrootmodel.ipynb).
 
 Initial opinions of the agents in the network in the range of [0,1] are shown below:
-![initial opinions](./visualisations/ouput_20_agents_10_connections_each/initial.png)
+![initial opinions](https://github.com/User-DK/pyseldon/raw/main/visualisations/ouput_20_agents_10_connections_each/initial.png)
 
 Final opinions of the agents in the network after the simulation are shown below:
-![final opinions](./visualisations/ouput_20_agents_10_connections_each/final.png)
+![final opinions](https://github.com/User-DK/pyseldon/raw/main/visualisations/ouput_20_agents_10_connections_each/final.png)
 
 And we can conclude that the agents have reached a consensus after the simulation.
 
 ### Reference
 - DeGroot, M. H. (1974). Reaching a Consensus. Journal of the American Statistical Association, 69(345), 118–121. https://doi.org/10.2307/2285509
+
+visualisations generated with the help of `cytoscape` some of the visualisations normalisation code can be found [here](./visualisations/)
 
 ### Steps to Install and Compile the code
 

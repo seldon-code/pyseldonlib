@@ -1,7 +1,7 @@
-Network
+network
 =======
 
-.. automodule:: pyseldon._network
+.. automodule:: pyseldon.network
    :members: True
    :undoc-members: True
    :show-inheritance: True

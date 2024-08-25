@@ -1,4 +1,4 @@
-"""The Network module contains the Network class and functions to generate networks and save them to files."""
+"""The network module contains the Network class and functions to generate networks and save them to files."""
 
 from bindings import seldoncore
 import logging
