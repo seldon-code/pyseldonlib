@@ -16,7 +16,7 @@ extensions = [
     'sphinx.ext.autosummary',
     'sphinx.ext.viewcode',
     'sphinx.ext.coverage',
-    'nbsphinx',
+    # 'nbsphinx',
     'sphinxcontrib.bibtex',
     'myst_nb',
     'sphinx_copybutton',
@@ -26,7 +26,8 @@ extensions = [
 bibtex_bibfiles = [
   'refs.bib',
   ]
-nbsphinx_execute = 'never'
+
+jupyter_execute_notebooks = "auto"
 autosummary_generate = True
 numpydoc_show_class_members = False 
 

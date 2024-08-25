@@ -21,4 +21,3 @@ with open(input_file, 'r') as csvfile, open(output_file, 'w', newline='') as out
             writer.writerow([idx_agent, target.strip(), weight.strip()])
 
 print("Edge list saved to edges.csv")
-
