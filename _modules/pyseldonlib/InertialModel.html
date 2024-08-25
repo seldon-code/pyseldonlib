@@ -1,0 +1,855 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyseldonlib.InertialModel &#8212; PySeldon</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pyseldonlib/InertialModel';</script>
+    <link rel="icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logotext.png" class="logo__image only-light" alt="PySeldon - Home"/>
+    <script>document.write(`<img src="../../_static/logotext.png" class="logo__image only-dark" alt="PySeldon - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../source/reference/index.html">
+    Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributing.html">
+    Contributing
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../LICENSE.html">
+    GNU GENERAL PUBLIC LICENSE
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/seldon-code/pyseldonlib" title="Home Page" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-home fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Home Page</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/seldon-code/pyseldonlib" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../source/reference/index.html">
+    Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributing.html">
+    Contributing
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../LICENSE.html">
+    GNU GENERAL PUBLIC LICENSE
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/seldon-code/pyseldonlib" title="Home Page" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-home fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Home Page</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/seldon-code/pyseldonlib" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">pyseldonlib....</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for pyseldonlib.InertialModel</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">In the study of Social Opinion Dynamics, it is essential to consider various factors that influence the formation and dissemination of opinions within networks of agents. The Activity Driven Inertial Model (or just Inertial Model) expands upon the traditional Activity Driven Model by introducing an additional parameter: the friction coefficient. This model simulates the evolution of opinions over time, capturing the complex interactions that lead to consensus formation, polarization, and the influence of external entities such as bots.</span>
+
+<span class="sd">The friction coefficient in this model represents the resistance to change in an agent&#39;s opinion, introducing an inertial effect. This concept is akin to physical inertia, where an agent&#39;s opinion resists sudden changes, leading to smoother transitions in the opinion landscape. This feature adds realism by modeling how strongly held beliefs or social inertia can slow the pace of opinion change, even in the face of active social interactions.</span>
+
+<span class="sd">Like the traditional Activity Driven Model, the Inertial Model is highly configurable, allowing users to explore a wide range of scenarios and behaviors by adjusting parameters related to agent activity, social influence, homophily, and now, opinion inertia. The model also considers the role of bots—agents with fixed opinions—who interact with humans on social media platforms, influencing human-machine interactions in opinion dynamics.</span>
+
+<span class="sd">Key features as discussed in the Activity Driven Model:</span>
+
+<span class="sd">Temporal Dynamics</span>
+<span class="sd">-----------------</span>
+<span class="sd">max_iterations:</span>
+<span class="sd">    Limits the total number of simulation steps.</span>
+<span class="sd">    If set to None, the model runs indefinitely, allowing for long-term analysis of opinion evolution.</span>
+
+<span class="sd">dt:</span>
+<span class="sd">    Defines the time step for each iteration, controlling the pace at which the simulation progresses.</span>
+<span class="sd">    Smaller values lead to more granular updates, while larger values speed up the simulation but might miss finer details.</span>
+
+<span class="sd">Agent Behavior and Interaction</span>
+<span class="sd">------------------------------</span>
+<span class="sd">m:</span>
+<span class="sd">  Determines how many agents an active agent interacts with during each time step.</span>
+<span class="sd">  Influences the rate of opinion spreading; higher values mean more interactions and potentially faster consensus or polarization.</span>
+
+<span class="sd">eps:</span>
+<span class="sd">    Sets the minimum activity level for agents, ensuring no agent is completely inactive.</span>
+<span class="sd">    Helps prevent stagnation in the model by keeping all agents engaged at some level.</span>
+
+<span class="sd">gamma:</span>
+<span class="sd">    Controls the distribution of agent activity, typically following a power-law where few agents are very active, and many are less active.</span>
+<span class="sd">    Affects how central or peripheral agents influence the overall opinion dynamics.</span>
+
+<span class="sd">homophily:</span>
+<span class="sd">    Measures the tendency of agents to interact with others who share similar opinions.</span>
+<span class="sd">    High homophily can lead to echo chambers, while low homophily promotes diverse interactions.</span>
+
+<span class="sd">reciprocity:</span>
+<span class="sd">    Determines whether agents are likely to reciprocate interactions, creating more mutual or one-sided connections.</span>
+<span class="sd">    High reciprocity strengthens bidirectional relationships, potentially stabilizing opinion clusters.</span>
+
+<span class="sd">K:</span>
+<span class="sd">    Represents the strength of social influence between agents.</span>
+<span class="sd">    A higher K means opinions are more strongly influenced by interactions, which can accelerate consensus or deepen polarization.</span>
+
+<span class="sd">Social Context and Controversialness</span>
+<span class="sd">------------------------------------</span>
+<span class="sd">alpha:</span>
+<span class="sd">    Controls the degree of controversialness of the issue being simulated.</span>
+<span class="sd">    A higher alpha can lead to more polarized opinions, as agents might have stronger reactions to the issue.</span>
+
+<span class="sd">Bots and External Influence</span>
+<span class="sd">---------------------------</span>
+<span class="sd">n_bots:</span>
+<span class="sd">    Specifies the number of bots in the simulation, which are fixed in their opinions.</span>
+<span class="sd">    Bots influence the network without being influenced, potentially driving opinion shifts or reinforcing certain views.</span>
+
+<span class="sd">bot_m, bot_activity, bot_opinion, bot_homophily:</span>
+<span class="sd">    Define the specific behaviors and characteristics of bots, such as how often they interact or how similar they are to other agents.</span>
+<span class="sd">    These parameters allow bots to mimic or diverge from regular agents, providing a controlled way to study external influence.</span>
+
+<span class="sd">Reluctance and Activity Correlation</span>
+<span class="sd">-----------------------------------</span>
+<span class="sd">use_reluctances:</span>
+<span class="sd">    Activates the feature where agents have a reluctance to change their opinions.</span>
+<span class="sd">    Adds complexity by simulating resistance to change, affecting how quickly or slowly opinions evolve.</span>
+
+<span class="sd">reluctance_mean, reluctance_sigma, reluctance_eps:</span>
+<span class="sd">    Define the distribution of reluctance across agents, determining the average resistance and its variability.</span>
+<span class="sd">    These parameters help model heterogeneous populations where some agents are more resistant to change than others.</span>
+
+<span class="sd">covariance_factor:</span>
+<span class="sd">    Introduces a correlation between an agent&#39;s activity level and its reluctance, meaning that activity might influence or be influenced by reluctance.</span>
+<span class="sd">    Allows for more realistic scenarios where active agents may be more or less open to changing their opinions, depending on the sign of the covariance.</span>
+
+<span class="sd">Friction Coefficient</span>
+<span class="sd">--------------------</span>
+<span class="sd">The friction coefficient in the Activity Driven Inertial Model represents the resistance to change in an agent&#39;s opinion, akin to physical inertia. It introduces an inertial effect that causes opinions to change more gradually, reflecting the persistence of strongly held beliefs and social inertia in opinion dynamics.</span>
+
+<span class="sd">Example:</span>
+<span class="sd">---------</span>
+<span class="sd">&gt;&gt;&gt; from pyseldonlib import Inertial_Model</span>
+<span class="sd">&gt;&gt;&gt; # Create the Inertial Model</span>
+<span class="sd">&gt;&gt;&gt; model = Inertial_Model(max_iterations=1000, convergence_tol=1e-6)</span>
+<span class="sd">&gt;&gt;&gt; # Run the simulation</span>
+<span class="sd">&gt;&gt;&gt; model.run(&quot;output_dir&quot;)</span>
+<span class="sd">&gt;&gt;&gt; # Access the network</span>
+<span class="sd">&gt;&gt;&gt; network = model.get_Network()</span>
+<span class="sd">&gt;&gt;&gt; # Access the opinions of the agents</span>
+<span class="sd">&gt;&gt;&gt; opinions = model.agents_opinions()</span>
+<span class="sd">&gt;&gt;&gt; activity = model.agents_activity()</span>
+<span class="sd">&gt;&gt;&gt; reluctance = model.agents_reluctance()</span>
+<span class="sd">&gt;&gt;&gt; velocity = model.agent_velocity()</span>
+
+<span class="sd">Reference:</span>
+<span class="sd">----------</span>
+<span class="sd">.. bibliography::</span>
+<span class="sd">   :style: plain</span>
+
+<span class="sd">   Baumann_2020</span>
+<span class="sd">   Baumann_2021</span>
+
+<span class="sd">*************</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">bindings</span> <span class="kn">import</span> <span class="n">seldoncore</span>
+<span class="kn">import</span> <span class="nn">pathlib</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">.ActivityDrivenModel</span> <span class="kn">import</span> <span class="n">Activity_Driven_Model</span>
+<span class="kn">from</span> <span class="nn">._othersettings</span> <span class="kn">import</span> <span class="n">Other_Settings</span>
+
+
+<div class="viewcode-block" id="Inertial_Model">
+<a class="viewcode-back" href="../../source/reference/packagereference.html#pyseldonlib.InertialModel.Inertial_Model">[docs]</a>
+<span class="k">class</span> <span class="nc">Inertial_Model</span><span class="p">(</span><span class="n">Activity_Driven_Model</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Inertial Model base class for Simulation.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+<span class="sd">    max_iterations : int, default=None</span>
+<span class="sd">      The maximum number of iterations to run the simulation. If None, the simulation runs infinitely.</span>
+
+<span class="sd">    dt : float, default=0.01</span>
+<span class="sd">      The time step for the simulation.</span>
+
+<span class="sd">    m : int, default=10</span>
+<span class="sd">      Number of agents contacted, when the agent is active.</span>
+
+<span class="sd">    eps : float, default=0.01</span>
+<span class="sd">      The minimum activity epsilon.</span>
+
+<span class="sd">    gamma : float, default=2.1</span>
+<span class="sd">      Exponent of activity power law distribution of activities.</span>
+
+<span class="sd">    alpha : float default=3.0</span>
+<span class="sd">      Controversialness of the issue, must be greater than 0.</span>
+
+<span class="sd">    homophily : float, default=0.5</span>
+<span class="sd">      The extent to which similar agents interact with similar other.</span>
+<span class="sd">      Example: If 0.0, agents pick their interaction partners at random.</span>
+<span class="sd">               If 1.0, agents interact only with agents of the same opinion.</span>
+
+<span class="sd">    reciprocity : float, default=0.5</span>
+<span class="sd">      The extent to which agents reciprocate interactions.</span>
+<span class="sd">      Example: If 0.0, agents do not reciprocate interactions.</span>
+<span class="sd">               If 1.0, agents reciprocate all interactions.</span>
+
+<span class="sd">    K : float, default=3.0</span>
+<span class="sd">      Social interaction strength.</span>
+
+<span class="sd">    mean_activities : bool, default=False</span>
+<span class="sd">      Whether use the mean value of the powerlaw distribution for the activities of all agents.</span>
+
+<span class="sd">    mean_weights : bool, default=False</span>
+<span class="sd">      Whether use the meanfield approximation of the network edges, by default is False.</span>
+
+<span class="sd">    n_bots : int, default=0</span>
+<span class="sd">      Number of bots in the simulation.</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">      Bots are agents that are not influenced by the opinions of other agents, but they can influence the opinions of other agents. So they have fixed opinions and different parameters, the parameters are specified in the following lists.</span>
+
+<span class="sd">    bot_m : list[int], default=[]</span>
+<span class="sd">      Value of m for the bots, If not specified, defaults to `m`.</span>
+
+<span class="sd">    bot_activity : list[float], default=[],</span>
+<span class="sd">      The list of bot activities, If not specified, defaults to 0.</span>
+
+<span class="sd">    bot_opinion : list[float], default=[]</span>
+<span class="sd">      The fixed opinions of the bots.</span>
+
+<span class="sd">    bot_homophily : list[float], default=[]</span>
+<span class="sd">      The list of bot homophily, If not specified, defaults to `homophily`.</span>
+
+<span class="sd">    use_reluctances : int, default=False</span>
+<span class="sd">      Whether use reluctances, by default is False and every agent has a reluctance of 1.</span>
+
+<span class="sd">    reluctance_mean : float, default=1.0</span>
+<span class="sd">      Mean of distribution before drawing from a truncated normal distribution.</span>
+
+<span class="sd">    reluctance_sigma : float, default=0.25</span>
+<span class="sd">      Width of normal distribution (before truncating).</span>
+
+<span class="sd">    reluctance_eps : float, default=0.01</span>
+<span class="sd">      Minimum such that the normal distribution is truncated at this value.</span>
+
+<span class="sd">    covariance_factor : float, default=0.0</span>
+<span class="sd">      Covariance Factor, defines the correlation between reluctances and activities.</span>
+
+<span class="sd">    rng_seed : int, default=None</span>
+<span class="sd">      The seed for the random number generator. If not provided, a random seed is picked.</span>
+
+<span class="sd">    agent_file : str, default=None</span>
+<span class="sd">      The file to read the agents from. If None, the agents are generated randomly.</span>
+
+<span class="sd">    network_file : str, default=None</span>
+<span class="sd">      The file to read the network from. If None, the network is generated randomly</span>
+
+<span class="sd">    other_settings : Other_Settings, default=None</span>
+<span class="sd">      The other settings for the simulation. If None, the default settings are used.</span>
+
+<span class="sd">    friction_coefficient : float, default=1.0</span>
+<span class="sd">      The friction coefficient for the inertial model.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    -----------</span>
+<span class="sd">    Network : Network (Object)</span>
+<span class="sd">      The network generated by the simulation.</span>
+
+<span class="sd">    Opinion : Float</span>
+<span class="sd">      The opinions of the agents or nodes of the network.</span>
+
+<span class="sd">    Activity : Float</span>
+<span class="sd">      The activity of the agents or nodes of the network.</span>
+
+<span class="sd">    Reluctance : Float</span>
+<span class="sd">      The reluctance of the agents or nodes of the network.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">max_iterations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">dt</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span>
+        <span class="n">m</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="n">eps</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span>
+        <span class="n">gamma</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.1</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span><span class="p">,</span>
+        <span class="n">homophily</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">reciprocity</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">K</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span><span class="p">,</span>
+        <span class="n">mean_activities</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">mean_weights</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">n_bots</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">bot_m</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+        <span class="n">bot_activity</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+        <span class="n">bot_opinion</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+        <span class="n">bot_homophily</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+        <span class="n">use_reluctances</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">reluctance_mean</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">reluctance_sigma</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.25</span><span class="p">,</span>
+        <span class="n">reluctance_eps</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span>
+        <span class="n">covariance_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">friction_coefficient</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">rng_seed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">agent_file</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">network_file</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">other_settings</span><span class="p">:</span> <span class="n">Other_Settings</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="c1"># Other settings and Simulation Options are already intialised in super</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">other_settings</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">other_settings</span> <span class="o">=</span> <span class="n">other_settings</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">model_string</span> <span class="o">=</span> <span class="s2">&quot;ActivityDrivenInertial&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">model_settings</span> <span class="o">=</span> <span class="n">seldoncore</span><span class="o">.</span><span class="n">ActivityDrivenInertialSettings</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">output_settings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_settings</span><span class="o">.</span><span class="n">output_settings</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">network_settings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_settings</span><span class="o">.</span><span class="n">network_settings</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">seldoncore</span><span class="o">.</span><span class="n">Model</span><span class="o">.</span><span class="n">ActivityDrivenInertial</span>
+
+        <span class="k">if</span> <span class="n">rng_seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">rng_seed</span> <span class="o">=</span> <span class="n">rng_seed</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">model_settings</span><span class="o">.</span><span class="n">max_iterations</span> <span class="o">=</span> <span class="n">max_iterations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">model_settings</span><span class="o">.</span><span class="n">dt</span> <span class="o">=</span> <span class="n">dt</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">model_settings</span><span class="o">.</span><span class="n">m</span> <span class="o">=</span> <span class="n">m</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">model_settings</span><span class="o">.</span><span class="n">eps</span> <span class="o">=</span> <span class="n">eps</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">model_settings</span><span class="o">.</span><span class="n">gamma</span> <span class="o">=</span> <span class="n">gamma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">model_settings</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">model_settings</span><span class="o">.</span><span class="n">homophily</span> <span class="o">=</span> <span class="n">homophily</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">model_settings</span><span class="o">.</span><span class="n">reciprocity</span> <span class="o">=</span> <span class="n">reciprocity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">model_settings</span><span class="o">.</span><span class="n">K</span> <span class="o">=</span> <span class="n">K</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">model_settings</span><span class="o">.</span><span class="n">mean_activities</span> <span class="o">=</span> <span class="n">mean_activities</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">model_settings</span><span class="o">.</span><span class="n">mean_weights</span> <span class="o">=</span> <span class="n">mean_weights</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">model_settings</span><span class="o">.</span><span class="n">n_bots</span> <span class="o">=</span> <span class="n">n_bots</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">model_settings</span><span class="o">.</span><span class="n">bot_m</span> <span class="o">=</span> <span class="n">bot_m</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">model_settings</span><span class="o">.</span><span class="n">bot_activity</span> <span class="o">=</span> <span class="n">bot_activity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">model_settings</span><span class="o">.</span><span class="n">bot_opinion</span> <span class="o">=</span> <span class="n">bot_opinion</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">model_settings</span><span class="o">.</span><span class="n">bot_homophily</span> <span class="o">=</span> <span class="n">bot_homophily</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">model_settings</span><span class="o">.</span><span class="n">use_reluctances</span> <span class="o">=</span> <span class="n">use_reluctances</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">model_settings</span><span class="o">.</span><span class="n">reluctance_mean</span> <span class="o">=</span> <span class="n">reluctance_mean</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">model_settings</span><span class="o">.</span><span class="n">reluctance_sigma</span> <span class="o">=</span> <span class="n">reluctance_sigma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">model_settings</span><span class="o">.</span><span class="n">reluctance_eps</span> <span class="o">=</span> <span class="n">reluctance_eps</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">model_settings</span><span class="o">.</span><span class="n">covariance_factor</span> <span class="o">=</span> <span class="n">covariance_factor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="o">.</span><span class="n">model_settings</span><span class="o">.</span><span class="n">friction_coefficient</span> <span class="o">=</span> <span class="n">friction_coefficient</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span> <span class="o">=</span> <span class="n">seldoncore</span><span class="o">.</span><span class="n">SimulationInertialAgent</span><span class="p">(</span>
+            <span class="n">options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="p">,</span>
+            <span class="n">cli_agent_file</span><span class="o">=</span><span class="n">agent_file</span><span class="p">,</span>
+            <span class="n">cli_network_file</span><span class="o">=</span><span class="n">network_file</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_network</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="o">.</span><span class="n">network</span>
+
+<div class="viewcode-block" id="Inertial_Model.agent_velocity">
+<a class="viewcode-back" href="../../source/reference/packagereference.html#pyseldonlib.InertialModel.Inertial_Model.agent_velocity">[docs]</a>
+    <span class="k">def</span> <span class="nf">agent_velocity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Access the agents reluctance data from the simulated network.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        -----------</span>
+<span class="sd">        index : int</span>
+<span class="sd">          The index of the agent to access. The index is 0-based. If not provided, all agents are returned.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">index</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">agent</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">velocity</span> <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="o">.</span><span class="n">network</span><span class="o">.</span><span class="n">agent</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">result</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">index</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Network</span><span class="o">.</span><span class="n">n_agents</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&quot;Agent index is out of range.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="o">.</span><span class="n">network</span><span class="o">.</span><span class="n">agent</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">velocity</span></div>
+
+
+<div class="viewcode-block" id="Inertial_Model.set_agent_velocity">
+<a class="viewcode-back" href="../../source/reference/packagereference.html#pyseldonlib.InertialModel.Inertial_Model.set_agent_velocity">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_agent_velocity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">velocity</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the velocity of a specific agent.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        index : int</span>
+<span class="sd">            The index of the agent whose opinion is to be set.</span>
+<span class="sd">        velocity : float</span>
+<span class="sd">            The new velocity value for the agent.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">index</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Network</span><span class="o">.</span><span class="n">n_agents</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&quot;Agent index is out of range.&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="o">.</span><span class="n">network</span><span class="o">.</span><span class="n">agent</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">velocity</span> <span class="o">=</span> <span class="n">velocity</span></div>
+</div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, PySeldon Developers.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.0.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

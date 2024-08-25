@@ -1,0 +1,957 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Activity Driven Inertial Model &#8212; PySeldon</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'source/reference/inertial';</script>
+    <link rel="icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="network" href="network.html" />
+    <link rel="prev" title="Activity Driven Model" href="activitydriven.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logotext.png" class="logo__image only-light" alt="PySeldon - Home"/>
+    <script>document.write(`<img src="../../_static/logotext.png" class="logo__image only-dark" alt="PySeldon - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start Guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributing.html">
+    Contributing
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../LICENSE.html">
+    GNU GENERAL PUBLIC LICENSE
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/seldon-code/pyseldonlib" title="Home Page" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-home fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Home Page</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/seldon-code/pyseldonlib" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start Guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributing.html">
+    Contributing
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../LICENSE.html">
+    GNU GENERAL PUBLIC LICENSE
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/seldon-code/pyseldonlib" title="Home Page" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-home fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Home Page</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/seldon-code/pyseldonlib" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="models.html">Models</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="degroot.html">DeGroot Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deffuant.html">Deffuant Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deffuantvector.html">Deffuant Vector Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="activitydriven.html">Activity Driven Model</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Activity Driven Inertial Model</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="network.html">network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="util.html">util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packagereference.html">Complete Api Reference</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Reference</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="models.html" class="nav-link">Models</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Activity...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-pyseldonlib.InertialModel">
+<span id="activity-driven-inertial-model"></span><h1>Activity Driven Inertial Model<a class="headerlink" href="#module-pyseldonlib.InertialModel" title="Link to this heading">#</a></h1>
+<p>In the study of Social Opinion Dynamics, it is essential to consider various factors that influence the formation and dissemination of opinions within networks of agents. The Activity Driven Inertial Model (or just Inertial Model) expands upon the traditional Activity Driven Model by introducing an additional parameter: the friction coefficient. This model simulates the evolution of opinions over time, capturing the complex interactions that lead to consensus formation, polarization, and the influence of external entities such as bots.</p>
+<p>The friction coefficient in this model represents the resistance to change in an agent’s opinion, introducing an inertial effect. This concept is akin to physical inertia, where an agent’s opinion resists sudden changes, leading to smoother transitions in the opinion landscape. This feature adds realism by modeling how strongly held beliefs or social inertia can slow the pace of opinion change, even in the face of active social interactions.</p>
+<p>Like the traditional Activity Driven Model, the Inertial Model is highly configurable, allowing users to explore a wide range of scenarios and behaviors by adjusting parameters related to agent activity, social influence, homophily, and now, opinion inertia. The model also considers the role of bots—agents with fixed opinions—who interact with humans on social media platforms, influencing human-machine interactions in opinion dynamics.</p>
+<p>Key features as discussed in the Activity Driven Model:</p>
+<section id="temporal-dynamics">
+<h2>Temporal Dynamics<a class="headerlink" href="#temporal-dynamics" title="Link to this heading">#</a></h2>
+<dl class="simple">
+<dt>max_iterations:</dt><dd><p>Limits the total number of simulation steps.
+If set to None, the model runs indefinitely, allowing for long-term analysis of opinion evolution.</p>
+</dd>
+<dt>dt:</dt><dd><p>Defines the time step for each iteration, controlling the pace at which the simulation progresses.
+Smaller values lead to more granular updates, while larger values speed up the simulation but might miss finer details.</p>
+</dd>
+</dl>
+</section>
+<section id="agent-behavior-and-interaction">
+<h2>Agent Behavior and Interaction<a class="headerlink" href="#agent-behavior-and-interaction" title="Link to this heading">#</a></h2>
+<dl class="simple">
+<dt>m:</dt><dd><p>Determines how many agents an active agent interacts with during each time step.
+Influences the rate of opinion spreading; higher values mean more interactions and potentially faster consensus or polarization.</p>
+</dd>
+<dt>eps:</dt><dd><p>Sets the minimum activity level for agents, ensuring no agent is completely inactive.
+Helps prevent stagnation in the model by keeping all agents engaged at some level.</p>
+</dd>
+<dt>gamma:</dt><dd><p>Controls the distribution of agent activity, typically following a power-law where few agents are very active, and many are less active.
+Affects how central or peripheral agents influence the overall opinion dynamics.</p>
+</dd>
+<dt>homophily:</dt><dd><p>Measures the tendency of agents to interact with others who share similar opinions.
+High homophily can lead to echo chambers, while low homophily promotes diverse interactions.</p>
+</dd>
+<dt>reciprocity:</dt><dd><p>Determines whether agents are likely to reciprocate interactions, creating more mutual or one-sided connections.
+High reciprocity strengthens bidirectional relationships, potentially stabilizing opinion clusters.</p>
+</dd>
+<dt>K:</dt><dd><p>Represents the strength of social influence between agents.
+A higher K means opinions are more strongly influenced by interactions, which can accelerate consensus or deepen polarization.</p>
+</dd>
+</dl>
+</section>
+<section id="social-context-and-controversialness">
+<h2>Social Context and Controversialness<a class="headerlink" href="#social-context-and-controversialness" title="Link to this heading">#</a></h2>
+<dl class="simple">
+<dt>alpha:</dt><dd><p>Controls the degree of controversialness of the issue being simulated.
+A higher alpha can lead to more polarized opinions, as agents might have stronger reactions to the issue.</p>
+</dd>
+</dl>
+</section>
+<section id="bots-and-external-influence">
+<h2>Bots and External Influence<a class="headerlink" href="#bots-and-external-influence" title="Link to this heading">#</a></h2>
+<dl class="simple">
+<dt>n_bots:</dt><dd><p>Specifies the number of bots in the simulation, which are fixed in their opinions.
+Bots influence the network without being influenced, potentially driving opinion shifts or reinforcing certain views.</p>
+</dd>
+<dt>bot_m, bot_activity, bot_opinion, bot_homophily:</dt><dd><p>Define the specific behaviors and characteristics of bots, such as how often they interact or how similar they are to other agents.
+These parameters allow bots to mimic or diverge from regular agents, providing a controlled way to study external influence.</p>
+</dd>
+</dl>
+</section>
+<section id="reluctance-and-activity-correlation">
+<h2>Reluctance and Activity Correlation<a class="headerlink" href="#reluctance-and-activity-correlation" title="Link to this heading">#</a></h2>
+<dl class="simple">
+<dt>use_reluctances:</dt><dd><p>Activates the feature where agents have a reluctance to change their opinions.
+Adds complexity by simulating resistance to change, affecting how quickly or slowly opinions evolve.</p>
+</dd>
+<dt>reluctance_mean, reluctance_sigma, reluctance_eps:</dt><dd><p>Define the distribution of reluctance across agents, determining the average resistance and its variability.
+These parameters help model heterogeneous populations where some agents are more resistant to change than others.</p>
+</dd>
+<dt>covariance_factor:</dt><dd><p>Introduces a correlation between an agent’s activity level and its reluctance, meaning that activity might influence or be influenced by reluctance.
+Allows for more realistic scenarios where active agents may be more or less open to changing their opinions, depending on the sign of the covariance.</p>
+</dd>
+</dl>
+</section>
+<section id="friction-coefficient">
+<h2>Friction Coefficient<a class="headerlink" href="#friction-coefficient" title="Link to this heading">#</a></h2>
+<p>The friction coefficient in the Activity Driven Inertial Model represents the resistance to change in an agent’s opinion, akin to physical inertia. It introduces an inertial effect that causes opinions to change more gradually, reflecting the persistence of strongly held beliefs and social inertia in opinion dynamics.</p>
+</section>
+<section id="example">
+<h2>Example:<a class="headerlink" href="#example" title="Link to this heading">#</a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyseldonlib</span> <span class="kn">import</span> <span class="n">Inertial_Model</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create the Inertial Model</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">Inertial_Model</span><span class="p">(</span><span class="n">max_iterations</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">convergence_tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Run the simulation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;output_dir&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Access the network</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">network</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_Network</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Access the opinions of the agents</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">opinions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">agents_opinions</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">activity</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">agents_activity</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reluctance</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">agents_reluctance</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">velocity</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">agent_velocity</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="reference">
+<h2>Reference:<a class="headerlink" href="#reference" title="Link to this heading">#</a></h2>
+<div class="docutils container" id="id1">
+<div role="list" class="citation-list">
+<div class="citation" id="id3" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<p>Fabian Baumann, Philipp Lorenz-Spreen, Igor M. Sokolov, and Michele Starnini. Modeling echo chambers and polarization dynamics in social networks. <em>Physical Review Letters</em>, jan 2020. URL: <a class="reference external" href="http://dx.doi.org/10.1103/PhysRevLett.124.048301">http://dx.doi.org/10.1103/PhysRevLett.124.048301</a>, <a class="reference external" href="https://doi.org/10.1103/physrevlett.124.048301">doi:10.1103/physrevlett.124.048301</a>.</p>
+</div>
+<div class="citation" id="id2" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></span>
+<p>Fabian Baumann, Philipp Lorenz-Spreen, Igor M. Sokolov, and Michele Starnini. Emergence of polarized ideological opinions in multidimensional topic spaces. <em>Physical Review X</em>, jan 2021. URL: <a class="reference external" href="http://dx.doi.org/10.1103/PhysRevX.11.011012">http://dx.doi.org/10.1103/PhysRevX.11.011012</a>, <a class="reference external" href="https://doi.org/10.1103/physrevx.11.011012">doi:10.1103/physrevx.11.011012</a>.</p>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+</section>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyseldonlib.InertialModel.Inertial_Model">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyseldonlib.InertialModel.</span></span><span class="sig-name descname"><span class="pre">Inertial_Model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_iterations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">homophily</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reciprocity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">K</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean_activities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean_weights</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_bots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bot_m</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bot_activity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bot_opinion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bot_homophily</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_reluctances</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reluctance_mean</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reluctance_sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reluctance_eps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariance_factor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">friction_coefficient</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng_seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agent_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="packagereference.html#pyseldonlib.__init__.Other_Settings" title="pyseldonlib._othersettings.Other_Settings"><span class="pre">Other_Settings</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyseldonlib/InertialModel.html#Inertial_Model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyseldonlib.InertialModel.Inertial_Model" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="activitydriven.html#pyseldonlib.ActivityDrivenModel.Activity_Driven_Model" title="pyseldonlib.ActivityDrivenModel.Activity_Driven_Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Activity_Driven_Model</span></code></a></p>
+<p>Inertial Model base class for Simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>max_iterations</strong> (<em>int</em><em>, </em><em>default=None</em>) – The maximum number of iterations to run the simulation. If None, the simulation runs infinitely.</p></li>
+<li><p><strong>dt</strong> (<em>float</em><em>, </em><em>default=0.01</em>) – The time step for the simulation.</p></li>
+<li><p><strong>m</strong> (<em>int</em><em>, </em><em>default=10</em>) – Number of agents contacted, when the agent is active.</p></li>
+<li><p><strong>eps</strong> (<em>float</em><em>, </em><em>default=0.01</em>) – The minimum activity epsilon.</p></li>
+<li><p><strong>gamma</strong> (<em>float</em><em>, </em><em>default=2.1</em>) – Exponent of activity power law distribution of activities.</p></li>
+<li><p><strong>alpha</strong> (<em>float default=3.0</em>) – Controversialness of the issue, must be greater than 0.</p></li>
+<li><p><strong>homophily</strong> (<em>float</em><em>, </em><em>default=0.5</em>) – <p>The extent to which similar agents interact with similar other.
+Example: If 0.0, agents pick their interaction partners at random.</p>
+<blockquote>
+<div><p>If 1.0, agents interact only with agents of the same opinion.</p>
+</div></blockquote>
+</p></li>
+<li><p><strong>reciprocity</strong> (<em>float</em><em>, </em><em>default=0.5</em>) – <p>The extent to which agents reciprocate interactions.
+Example: If 0.0, agents do not reciprocate interactions.</p>
+<blockquote>
+<div><p>If 1.0, agents reciprocate all interactions.</p>
+</div></blockquote>
+</p></li>
+<li><p><strong>K</strong> (<em>float</em><em>, </em><em>default=3.0</em>) – Social interaction strength.</p></li>
+<li><p><strong>mean_activities</strong> (<em>bool</em><em>, </em><em>default=False</em>) – Whether use the mean value of the powerlaw distribution for the activities of all agents.</p></li>
+<li><p><strong>mean_weights</strong> (<em>bool</em><em>, </em><em>default=False</em>) – Whether use the meanfield approximation of the network edges, by default is False.</p></li>
+<li><p><strong>n_bots</strong> (<em>int</em><em>, </em><em>default=0</em>) – Number of bots in the simulation.</p></li>
+<li><p><strong>note::</strong> (<em>..</em>) – Bots are agents that are not influenced by the opinions of other agents, but they can influence the opinions of other agents. So they have fixed opinions and different parameters, the parameters are specified in the following lists.</p></li>
+<li><p><strong>bot_m</strong> (<em>list</em><em>[</em><em>int</em><em>]</em><em>, </em><em>default=</em><em>[</em><em>]</em>) – Value of m for the bots, If not specified, defaults to <cite>m</cite>.</p></li>
+<li><p><strong>bot_activity</strong> (<em>list</em><em>[</em><em>float</em><em>]</em><em>, </em><em>default=</em><em>[</em><em>]</em><em>,</em>) – The list of bot activities, If not specified, defaults to 0.</p></li>
+<li><p><strong>bot_opinion</strong> (<em>list</em><em>[</em><em>float</em><em>]</em><em>, </em><em>default=</em><em>[</em><em>]</em>) – The fixed opinions of the bots.</p></li>
+<li><p><strong>bot_homophily</strong> (<em>list</em><em>[</em><em>float</em><em>]</em><em>, </em><em>default=</em><em>[</em><em>]</em>) – The list of bot homophily, If not specified, defaults to <cite>homophily</cite>.</p></li>
+<li><p><strong>use_reluctances</strong> (<em>int</em><em>, </em><em>default=False</em>) – Whether use reluctances, by default is False and every agent has a reluctance of 1.</p></li>
+<li><p><strong>reluctance_mean</strong> (<em>float</em><em>, </em><em>default=1.0</em>) – Mean of distribution before drawing from a truncated normal distribution.</p></li>
+<li><p><strong>reluctance_sigma</strong> (<em>float</em><em>, </em><em>default=0.25</em>) – Width of normal distribution (before truncating).</p></li>
+<li><p><strong>reluctance_eps</strong> (<em>float</em><em>, </em><em>default=0.01</em>) – Minimum such that the normal distribution is truncated at this value.</p></li>
+<li><p><strong>covariance_factor</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Covariance Factor, defines the correlation between reluctances and activities.</p></li>
+<li><p><strong>rng_seed</strong> (<em>int</em><em>, </em><em>default=None</em>) – The seed for the random number generator. If not provided, a random seed is picked.</p></li>
+<li><p><strong>agent_file</strong> (<em>str</em><em>, </em><em>default=None</em>) – The file to read the agents from. If None, the agents are generated randomly.</p></li>
+<li><p><strong>network_file</strong> (<em>str</em><em>, </em><em>default=None</em>) – The file to read the network from. If None, the network is generated randomly</p></li>
+<li><p><strong>other_settings</strong> (<a class="reference internal" href="packagereference.html#pyseldonlib.__init__.Other_Settings" title="pyseldonlib.__init__.Other_Settings"><em>Other_Settings</em></a><em>, </em><em>default=None</em>) – The other settings for the simulation. If None, the default settings are used.</p></li>
+<li><p><strong>friction_coefficient</strong> (<em>float</em><em>, </em><em>default=1.0</em>) – The friction coefficient for the inertial model.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyseldonlib.InertialModel.Inertial_Model.Network">
+<span class="sig-name descname"><span class="pre">Network</span></span><a class="headerlink" href="#pyseldonlib.InertialModel.Inertial_Model.Network" title="Link to this definition">#</a></dt>
+<dd><p>The network generated by the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="network.html#pyseldonlib.network.Network" title="pyseldonlib.network.Network">Network</a> (Object)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyseldonlib.InertialModel.Inertial_Model.Opinion">
+<span class="sig-name descname"><span class="pre">Opinion</span></span><a class="headerlink" href="#pyseldonlib.InertialModel.Inertial_Model.Opinion" title="Link to this definition">#</a></dt>
+<dd><p>The opinions of the agents or nodes of the network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyseldonlib.InertialModel.Inertial_Model.Activity">
+<span class="sig-name descname"><span class="pre">Activity</span></span><a class="headerlink" href="#pyseldonlib.InertialModel.Inertial_Model.Activity" title="Link to this definition">#</a></dt>
+<dd><p>The activity of the agents or nodes of the network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyseldonlib.InertialModel.Inertial_Model.Reluctance">
+<span class="sig-name descname"><span class="pre">Reluctance</span></span><a class="headerlink" href="#pyseldonlib.InertialModel.Inertial_Model.Reluctance" title="Link to this definition">#</a></dt>
+<dd><p>The reluctance of the agents or nodes of the network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="id0">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Network</span></span><a class="headerlink" href="#id0" title="Link to this definition">#</a></dt>
+<dd><p>Access the network generated by the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The network generated by the simulation.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>seldoncore.Network</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.InertialModel.Inertial_Model.agent_activity">
+<span class="sig-name descname"><span class="pre">agent_activity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyseldonlib.InertialModel.Inertial_Model.agent_activity" title="Link to this definition">#</a></dt>
+<dd><p>Access the agents activity data from the simulated network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – The index of the agent to access. The index is 0-based. If not provided, all agents are returned.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.InertialModel.Inertial_Model.agent_opinion">
+<span class="sig-name descname"><span class="pre">agent_opinion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyseldonlib.InertialModel.Inertial_Model.agent_opinion" title="Link to this definition">#</a></dt>
+<dd><p>Access the agents data from the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – The index of the agent to access. The index is 0-based. If not provided, all agents are returned.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.InertialModel.Inertial_Model.agent_reluctance">
+<span class="sig-name descname"><span class="pre">agent_reluctance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyseldonlib.InertialModel.Inertial_Model.agent_reluctance" title="Link to this definition">#</a></dt>
+<dd><p>Access the agents reluctance data from the simulated network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – The index of the agent to access. The index is 0-based. If not provided, all agents are returned.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.InertialModel.Inertial_Model.agent_velocity">
+<span class="sig-name descname"><span class="pre">agent_velocity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyseldonlib/InertialModel.html#Inertial_Model.agent_velocity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyseldonlib.InertialModel.Inertial_Model.agent_velocity" title="Link to this definition">#</a></dt>
+<dd><p>Access the agents reluctance data from the simulated network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – The index of the agent to access. The index is 0-based. If not provided, all agents are returned.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.InertialModel.Inertial_Model.print_settings">
+<span class="sig-name descname"><span class="pre">print_settings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyseldonlib.InertialModel.Inertial_Model.print_settings" title="Link to this definition">#</a></dt>
+<dd><p>Print the settings of the simulation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.InertialModel.Inertial_Model.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyseldonlib.InertialModel.Inertial_Model.run" title="Link to this definition">#</a></dt>
+<dd><p>Run the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>output_dir</strong> (<em>str</em><em>, </em><em>default=&quot;./output&quot;</em>) – The directory to output the files to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.InertialModel.Inertial_Model.set_agent_activity">
+<span class="sig-name descname"><span class="pre">set_agent_activity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyseldonlib.InertialModel.Inertial_Model.set_agent_activity" title="Link to this definition">#</a></dt>
+<dd><p>Set the activity of a specific agent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – The index of the agent whose opinion is to be set.</p></li>
+<li><p><strong>activity</strong> (<em>float</em>) – The new activity value for the agent.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.InertialModel.Inertial_Model.set_agent_opinion">
+<span class="sig-name descname"><span class="pre">set_agent_opinion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opinion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyseldonlib.InertialModel.Inertial_Model.set_agent_opinion" title="Link to this definition">#</a></dt>
+<dd><p>Set the opinion of a specific agent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – The index of the agent whose opinion is to be set.</p></li>
+<li><p><strong>opinion</strong> (<em>float</em>) – The new opinion value for the agent.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.InertialModel.Inertial_Model.set_agent_reluctance">
+<span class="sig-name descname"><span class="pre">set_agent_reluctance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reluctance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyseldonlib.InertialModel.Inertial_Model.set_agent_reluctance" title="Link to this definition">#</a></dt>
+<dd><p>Set the reluctance of a specific agent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – The index of the agent whose opinion is to be set.</p></li>
+<li><p><strong>reluctance</strong> (<em>float</em>) – The new reluctance value for the agent.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.InertialModel.Inertial_Model.set_agent_velocity">
+<span class="sig-name descname"><span class="pre">set_agent_velocity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">velocity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyseldonlib/InertialModel.html#Inertial_Model.set_agent_velocity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyseldonlib.InertialModel.Inertial_Model.set_agent_velocity" title="Link to this definition">#</a></dt>
+<dd><p>Set the velocity of a specific agent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – The index of the agent whose opinion is to be set.</p></li>
+<li><p><strong>velocity</strong> (<em>float</em>) – The new velocity value for the agent.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="activitydriven.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Activity Driven Model</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="network.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">network</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#temporal-dynamics">Temporal Dynamics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#agent-behavior-and-interaction">Agent Behavior and Interaction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#social-context-and-controversialness">Social Context and Controversialness</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bots-and-external-influence">Bots and External Influence</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reluctance-and-activity-correlation">Reluctance and Activity Correlation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#friction-coefficient">Friction Coefficient</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference">Reference:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.InertialModel.Inertial_Model"><code class="docutils literal notranslate"><span class="pre">Inertial_Model</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.InertialModel.Inertial_Model.Network"><code class="docutils literal notranslate"><span class="pre">Inertial_Model.Network</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.InertialModel.Inertial_Model.Opinion"><code class="docutils literal notranslate"><span class="pre">Inertial_Model.Opinion</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.InertialModel.Inertial_Model.Activity"><code class="docutils literal notranslate"><span class="pre">Inertial_Model.Activity</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.InertialModel.Inertial_Model.Reluctance"><code class="docutils literal notranslate"><span class="pre">Inertial_Model.Reluctance</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id0"><code class="docutils literal notranslate"><span class="pre">Inertial_Model.Network</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.InertialModel.Inertial_Model.agent_activity"><code class="docutils literal notranslate"><span class="pre">Inertial_Model.agent_activity()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.InertialModel.Inertial_Model.agent_opinion"><code class="docutils literal notranslate"><span class="pre">Inertial_Model.agent_opinion()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.InertialModel.Inertial_Model.agent_reluctance"><code class="docutils literal notranslate"><span class="pre">Inertial_Model.agent_reluctance()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.InertialModel.Inertial_Model.agent_velocity"><code class="docutils literal notranslate"><span class="pre">Inertial_Model.agent_velocity()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.InertialModel.Inertial_Model.print_settings"><code class="docutils literal notranslate"><span class="pre">Inertial_Model.print_settings()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.InertialModel.Inertial_Model.run"><code class="docutils literal notranslate"><span class="pre">Inertial_Model.run()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.InertialModel.Inertial_Model.set_agent_activity"><code class="docutils literal notranslate"><span class="pre">Inertial_Model.set_agent_activity()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.InertialModel.Inertial_Model.set_agent_opinion"><code class="docutils literal notranslate"><span class="pre">Inertial_Model.set_agent_opinion()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.InertialModel.Inertial_Model.set_agent_reluctance"><code class="docutils literal notranslate"><span class="pre">Inertial_Model.set_agent_reluctance()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.InertialModel.Inertial_Model.set_agent_velocity"><code class="docutils literal notranslate"><span class="pre">Inertial_Model.set_agent_velocity()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../../_sources/source/reference/inertial.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, PySeldon Developers.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.0.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

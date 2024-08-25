@@ -1,0 +1,1607 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Complete Api Reference &#8212; PySeldon</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'source/reference/packagereference';</script>
+    <link rel="icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Examples" href="../../examples/index.html" />
+    <link rel="prev" title="util" href="util.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logotext.png" class="logo__image only-light" alt="PySeldon - Home"/>
+    <script>document.write(`<img src="../../_static/logotext.png" class="logo__image only-dark" alt="PySeldon - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start Guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributing.html">
+    Contributing
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../LICENSE.html">
+    GNU GENERAL PUBLIC LICENSE
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/seldon-code/pyseldonlib" title="Home Page" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-home fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Home Page</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/seldon-code/pyseldonlib" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../quickstart.html">
+    Quick Start Guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributing.html">
+    Contributing
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../LICENSE.html">
+    GNU GENERAL PUBLIC LICENSE
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/seldon-code/pyseldonlib" title="Home Page" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-home fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Home Page</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/seldon-code/pyseldonlib" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fab fa-github-square fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="models.html">Models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="degroot.html">DeGroot Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deffuant.html">Deffuant Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deffuantvector.html">Deffuant Vector Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="activitydriven.html">Activity Driven Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inertial.html">Activity Driven Inertial Model</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="network.html">network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="util.html">util</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Complete Api Reference</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Reference</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Complete...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-pyseldonlib.__init__">
+<span id="complete-api-reference"></span><h1>Complete Api Reference<a class="headerlink" href="#module-pyseldonlib.__init__" title="Link to this heading">#</a></h1>
+<p>This module provides the main interface to the pyseldonlib package.</p>
+<p>It includes the following classes and functions:
+- DeGrootModel
+- Deffuant_Model
+- Deffuant_Vector_Model
+- Inertial_Model
+- Activity_Driven_Model
+- Other_Settings
+- Network
+- run_simulation_from_config_file
+- run_simulation_from_options
+- parse_config_file</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Activity_Driven_Model">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyseldonlib.__init__.</span></span><span class="sig-name descname"><span class="pre">Activity_Driven_Model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_iterations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">homophily</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reciprocity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">K</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean_activities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean_weights</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_bots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bot_m</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bot_activity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bot_opinion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bot_homophily</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_reluctances</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reluctance_mean</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reluctance_sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reluctance_eps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariance_factor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng_seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agent_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyseldonlib.__init__.Other_Settings" title="pyseldonlib._othersettings.Other_Settings"><span class="pre">Other_Settings</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyseldonlib/ActivityDrivenModel.html#Activity_Driven_Model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyseldonlib.__init__.Activity_Driven_Model" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Base_Model</span></code></p>
+<p>Activity Driven Model base class for Simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>max_iterations</strong> (<em>int</em><em>, </em><em>default=None</em>) – The maximum number of iterations to run the simulation. If None, the simulation runs infinitely.</p></li>
+<li><p><strong>dt</strong> (<em>float</em><em>, </em><em>default=0.01</em>) – The time step for the simulation.</p></li>
+<li><p><strong>m</strong> (<em>int</em><em>, </em><em>default=10</em>) – Number of agents contacted, when the agent is active.</p></li>
+<li><p><strong>eps</strong> (<em>float</em><em>, </em><em>default=0.01</em>) – The minimum activity epsilon.</p></li>
+<li><p><strong>gamma</strong> (<em>float</em><em>, </em><em>default=2.1</em>) – Exponent of activity power law distribution of activities.</p></li>
+<li><p><strong>alpha</strong> (<em>float default=3.0</em>) – Controversialness of the issue, must be greater than 0.</p></li>
+<li><p><strong>homophily</strong> (<em>float</em><em>, </em><em>default=0.5</em>) – <p>The extent to which similar agents interact with similar other.
+Example: If 0.0, agents pick their interaction partners at random.</p>
+<blockquote>
+<div><p>If 1.0, agents interact only with agents of the same opinion.</p>
+</div></blockquote>
+</p></li>
+<li><p><strong>reciprocity</strong> (<em>float</em><em>, </em><em>default=0.5</em>) – <p>The extent to which agents reciprocate interactions.
+Example: If 0.0, agents do not reciprocate interactions.</p>
+<blockquote>
+<div><p>If 1.0, agents reciprocate all interactions.</p>
+</div></blockquote>
+</p></li>
+<li><p><strong>K</strong> (<em>float</em><em>, </em><em>default=3.0</em>) – Social interaction strength.</p></li>
+<li><p><strong>mean_activities</strong> (<em>bool</em><em>, </em><em>default=False</em>) – Whether use the mean value of the powerlaw distribution for the activities of all agents.</p></li>
+<li><p><strong>mean_weights</strong> (<em>bool</em><em>, </em><em>default=False</em>) – Whether use the meanfield approximation of the network edges, by default is False.</p></li>
+<li><p><strong>n_bots</strong> (<em>int</em><em>, </em><em>default=0</em>) – Number of bots in the simulation.</p></li>
+<li><p><strong>note::</strong> (<em>..</em>) – Bots are agents that are not influenced by the opinions of other agents, but they can influence the opinions of other agents. So they have fixed opinions and different parameters, the parameters are specified in the following lists.</p></li>
+<li><p><strong>bot_m</strong> (<em>list</em><em>[</em><em>int</em><em>]</em><em>, </em><em>default=</em><em>[</em><em>]</em>) – Value of m for the bots, If not specified, defaults to <cite>m</cite>.</p></li>
+<li><p><strong>bot_activity</strong> (<em>list</em><em>[</em><em>float</em><em>]</em><em>, </em><em>default=</em><em>[</em><em>]</em><em>,</em>) – The list of bot activities, If not specified, defaults to 0.</p></li>
+<li><p><strong>bot_opinion</strong> (<em>list</em><em>[</em><em>float</em><em>]</em><em>, </em><em>default=</em><em>[</em><em>]</em>) – The fixed opinions of the bots.</p></li>
+<li><p><strong>bot_homophily</strong> (<em>list</em><em>[</em><em>float</em><em>]</em><em>, </em><em>default=</em><em>[</em><em>]</em>) – The list of bot homophily, If not specified, defaults to <cite>homophily</cite>.</p></li>
+<li><p><strong>use_reluctances</strong> (<em>int</em><em>, </em><em>default=False</em>) – Whether use reluctances, by default is False and every agent has a reluctance of 1.</p></li>
+<li><p><strong>reluctance_mean</strong> (<em>float</em><em>, </em><em>default=1.0</em>) – Mean of distribution before drawing from a truncated normal distribution.</p></li>
+<li><p><strong>reluctance_sigma</strong> (<em>float</em><em>, </em><em>default=0.25</em>) – Width of normal distribution (before truncating).</p></li>
+<li><p><strong>reluctance_eps</strong> (<em>float</em><em>, </em><em>default=0.01</em>) – Minimum such that the normal distribution is truncated at this value.</p></li>
+<li><p><strong>covariance_factor</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Covariance Factor, defines the correlation between reluctances and activities.</p></li>
+<li><p><strong>rng_seed</strong> (<em>int</em><em>, </em><em>default=None</em>) – The seed for the random number generator. If not provided, a random seed is picked.</p></li>
+<li><p><strong>agent_file</strong> (<em>str</em><em>, </em><em>default=None</em>) – The file to read the agents from. If None, the agents are generated randomly.</p></li>
+<li><p><strong>network_file</strong> (<em>str</em><em>, </em><em>default=None</em>) – The file to read the network from. If None, the network is generated randomly</p></li>
+<li><p><strong>other_settings</strong> (<a class="reference internal" href="#pyseldonlib.__init__.Other_Settings" title="pyseldonlib.__init__.Other_Settings"><em>Other_Settings</em></a><em>, </em><em>default=None</em>) – The other settings for the simulation. If None, the default settings are used.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Activity_Driven_Model.Network">
+<span class="sig-name descname"><span class="pre">Network</span></span><a class="headerlink" href="#pyseldonlib.__init__.Activity_Driven_Model.Network" title="Link to this definition">#</a></dt>
+<dd><p>The network generated by the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyseldonlib.__init__.Network" title="pyseldonlib.__init__.Network">Network</a> (Object)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Activity_Driven_Model.Opinion">
+<span class="sig-name descname"><span class="pre">Opinion</span></span><a class="headerlink" href="#pyseldonlib.__init__.Activity_Driven_Model.Opinion" title="Link to this definition">#</a></dt>
+<dd><p>The opinions of the agents or nodes of the network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="id0">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Network</span></span><a class="headerlink" href="#id0" title="Link to this definition">#</a></dt>
+<dd><p>Access the network generated by the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The network generated by the simulation.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>seldoncore.Network</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Activity_Driven_Model.agent_activity">
+<span class="sig-name descname"><span class="pre">agent_activity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyseldonlib/ActivityDrivenModel.html#Activity_Driven_Model.agent_activity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyseldonlib.__init__.Activity_Driven_Model.agent_activity" title="Link to this definition">#</a></dt>
+<dd><p>Access the agents activity data from the simulated network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – The index of the agent to access. The index is 0-based. If not provided, all agents are returned.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Activity_Driven_Model.agent_opinion">
+<span class="sig-name descname"><span class="pre">agent_opinion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyseldonlib.__init__.Activity_Driven_Model.agent_opinion" title="Link to this definition">#</a></dt>
+<dd><p>Access the agents data from the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – The index of the agent to access. The index is 0-based. If not provided, all agents are returned.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Activity_Driven_Model.agent_reluctance">
+<span class="sig-name descname"><span class="pre">agent_reluctance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyseldonlib/ActivityDrivenModel.html#Activity_Driven_Model.agent_reluctance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyseldonlib.__init__.Activity_Driven_Model.agent_reluctance" title="Link to this definition">#</a></dt>
+<dd><p>Access the agents reluctance data from the simulated network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – The index of the agent to access. The index is 0-based. If not provided, all agents are returned.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Activity_Driven_Model.print_settings">
+<span class="sig-name descname"><span class="pre">print_settings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyseldonlib.__init__.Activity_Driven_Model.print_settings" title="Link to this definition">#</a></dt>
+<dd><p>Print the settings of the simulation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Activity_Driven_Model.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyseldonlib.__init__.Activity_Driven_Model.run" title="Link to this definition">#</a></dt>
+<dd><p>Run the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>output_dir</strong> (<em>str</em><em>, </em><em>default=&quot;./output&quot;</em>) – The directory to output the files to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Activity_Driven_Model.set_agent_activity">
+<span class="sig-name descname"><span class="pre">set_agent_activity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyseldonlib/ActivityDrivenModel.html#Activity_Driven_Model.set_agent_activity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyseldonlib.__init__.Activity_Driven_Model.set_agent_activity" title="Link to this definition">#</a></dt>
+<dd><p>Set the activity of a specific agent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – The index of the agent whose opinion is to be set.</p></li>
+<li><p><strong>activity</strong> (<em>float</em>) – The new activity value for the agent.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Activity_Driven_Model.set_agent_opinion">
+<span class="sig-name descname"><span class="pre">set_agent_opinion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opinion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyseldonlib.__init__.Activity_Driven_Model.set_agent_opinion" title="Link to this definition">#</a></dt>
+<dd><p>Set the opinion of a specific agent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – The index of the agent whose opinion is to be set.</p></li>
+<li><p><strong>opinion</strong> (<em>float</em>) – The new opinion value for the agent.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Activity_Driven_Model.set_agent_reluctance">
+<span class="sig-name descname"><span class="pre">set_agent_reluctance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reluctance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyseldonlib/ActivityDrivenModel.html#Activity_Driven_Model.set_agent_reluctance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyseldonlib.__init__.Activity_Driven_Model.set_agent_reluctance" title="Link to this definition">#</a></dt>
+<dd><p>Set the reluctance of a specific agent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – The index of the agent whose opinion is to be set.</p></li>
+<li><p><strong>reluctance</strong> (<em>float</em>) – The new reluctance value for the agent.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.DeGroot_Model">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyseldonlib.__init__.</span></span><span class="sig-name descname"><span class="pre">DeGroot_Model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_iterations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">convergence_tol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng_seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agent_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyseldonlib.__init__.Other_Settings" title="pyseldonlib._othersettings.Other_Settings"><span class="pre">Other_Settings</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyseldonlib/DeGrootModel.html#DeGroot_Model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyseldonlib.__init__.DeGroot_Model" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Base_Model</span></code></p>
+<p>DeGroot Model base class for Simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>max_iterations</strong> (<em>int</em><em>, </em><em>default=None</em>) – The maximum number of iterations to run the simulation. If None, the simulation runs infinitely.</p></li>
+<li><p><strong>convergence_tol</strong> (<em>float</em><em>, </em><em>default=1e-6</em>) – The tolerance for convergence of the simulation.</p></li>
+<li><p><strong>rng_seed</strong> (<em>int</em><em>, </em><em>default=None</em>) – The seed for the random number generator. If not provided, a random seed is picked.</p></li>
+<li><p><strong>agent_file</strong> (<em>str</em><em>, </em><em>default=None</em>) – The file to read the agents from. If None, the agents are generated randomly.</p></li>
+<li><p><strong>network_file</strong> (<em>str</em><em>, </em><em>default=None</em>) – The file to read the network from. If None, the network is generated randomly</p></li>
+<li><p><strong>other_settings</strong> (<a class="reference internal" href="#pyseldonlib.__init__.Other_Settings" title="pyseldonlib.__init__.Other_Settings"><em>Other_Settings</em></a><em>, </em><em>default=None</em>) – The other settings for the simulation. If None, the default settings are used.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.DeGroot_Model.Network">
+<span class="sig-name descname"><span class="pre">Network</span></span><a class="headerlink" href="#pyseldonlib.__init__.DeGroot_Model.Network" title="Link to this definition">#</a></dt>
+<dd><p>The network generated by the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyseldonlib.__init__.Network" title="pyseldonlib.__init__.Network">Network</a> (Object)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.DeGroot_Model.Opinion">
+<span class="sig-name descname"><span class="pre">Opinion</span></span><a class="headerlink" href="#pyseldonlib.__init__.DeGroot_Model.Opinion" title="Link to this definition">#</a></dt>
+<dd><p>The opinions of the agents or nodes of the network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">see</span> <span class="pre">also</span></span></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>seldoncore.Network</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="id1">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Network</span></span><a class="headerlink" href="#id1" title="Link to this definition">#</a></dt>
+<dd><p>Access the network generated by the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The network generated by the simulation.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>seldoncore.Network</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.DeGroot_Model.agent_opinion">
+<span class="sig-name descname"><span class="pre">agent_opinion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyseldonlib.__init__.DeGroot_Model.agent_opinion" title="Link to this definition">#</a></dt>
+<dd><p>Access the agents data from the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – The index of the agent to access. The index is 0-based. If not provided, all agents are returned.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.DeGroot_Model.print_settings">
+<span class="sig-name descname"><span class="pre">print_settings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyseldonlib.__init__.DeGroot_Model.print_settings" title="Link to this definition">#</a></dt>
+<dd><p>Print the settings of the simulation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.DeGroot_Model.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyseldonlib.__init__.DeGroot_Model.run" title="Link to this definition">#</a></dt>
+<dd><p>Run the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>output_dir</strong> (<em>str</em><em>, </em><em>default=&quot;./output&quot;</em>) – The directory to output the files to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.DeGroot_Model.set_agent_opinion">
+<span class="sig-name descname"><span class="pre">set_agent_opinion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opinion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyseldonlib.__init__.DeGroot_Model.set_agent_opinion" title="Link to this definition">#</a></dt>
+<dd><p>Set the opinion of a specific agent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – The index of the agent whose opinion is to be set.</p></li>
+<li><p><strong>opinion</strong> (<em>float</em>) – The new opinion value for the agent.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Deffuant_Model">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyseldonlib.__init__.</span></span><span class="sig-name descname"><span class="pre">Deffuant_Model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_iterations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">homophily_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_network</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng_seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agent_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyseldonlib.__init__.Other_Settings" title="pyseldonlib._othersettings.Other_Settings"><span class="pre">Other_Settings</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyseldonlib/DeffuantModel.html#Deffuant_Model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyseldonlib.__init__.Deffuant_Model" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Base_Model</span></code></p>
+<p>Deffuant Model base class for Simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>max_iterations</strong> (<em>int</em><em>, </em><em>default=None</em>) – The maximum number of iterations to run the simulation. If None, the simulation runs infinitely.</p></li>
+<li><p><strong>homophily_threshold</strong> (<em>float</em><em>, </em><em>default=0.2</em>) – The threshold for homophily. If the difference in opinions between two agents is less than this value, they interact.</p></li>
+<li><p><strong>mu</strong> (<em>float</em><em>, </em><em>default=0.5</em>) – The convergence rate of the agents.</p></li>
+<li><p><strong>use_network</strong> (<em>bool</em><em>, </em><em>default=False</em>) – For using a square lattice network. Will throw error if sqrt(n_agents) is not an integer.</p></li>
+<li><p><strong>rng_seed</strong> (<em>int</em><em>, </em><em>default=None</em>) – The seed for the random number generator. If not provided, a random seed is picked.</p></li>
+<li><p><strong>agent_file</strong> (<em>str</em><em>, </em><em>default=None</em>) – The file to read the agents from. If None, the agents are generated randomly.</p></li>
+<li><p><strong>network_file</strong> (<em>str</em><em>, </em><em>default=None</em>) – The file to read the network from. If None, the network is generated randomly</p></li>
+<li><p><strong>other_settings</strong> (<a class="reference internal" href="#pyseldonlib.__init__.Other_Settings" title="pyseldonlib.__init__.Other_Settings"><em>Other_Settings</em></a><em>, </em><em>default=None</em>) – The other settings for the simulation. If None, the default settings are used.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Deffuant_Model.Network">
+<span class="sig-name descname"><span class="pre">Network</span></span><a class="headerlink" href="#pyseldonlib.__init__.Deffuant_Model.Network" title="Link to this definition">#</a></dt>
+<dd><p>The network generated by the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyseldonlib.__init__.Network" title="pyseldonlib.__init__.Network">Network</a> (Object)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Deffuant_Model.Opinion">
+<span class="sig-name descname"><span class="pre">Opinion</span></span><a class="headerlink" href="#pyseldonlib.__init__.Deffuant_Model.Opinion" title="Link to this definition">#</a></dt>
+<dd><p>The opinions of the agents or nodes of the network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="id2">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Network</span></span><a class="headerlink" href="#id2" title="Link to this definition">#</a></dt>
+<dd><p>Access the network generated by the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The network generated by the simulation.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>seldoncore.Network</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Deffuant_Model.agent_opinion">
+<span class="sig-name descname"><span class="pre">agent_opinion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyseldonlib.__init__.Deffuant_Model.agent_opinion" title="Link to this definition">#</a></dt>
+<dd><p>Access the agents data from the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – The index of the agent to access. The index is 0-based. If not provided, all agents are returned.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Deffuant_Model.print_settings">
+<span class="sig-name descname"><span class="pre">print_settings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyseldonlib.__init__.Deffuant_Model.print_settings" title="Link to this definition">#</a></dt>
+<dd><p>Print the settings of the simulation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Deffuant_Model.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyseldonlib.__init__.Deffuant_Model.run" title="Link to this definition">#</a></dt>
+<dd><p>Run the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>output_dir</strong> (<em>str</em><em>, </em><em>default=&quot;./output&quot;</em>) – The directory to output the files to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Deffuant_Model.set_agent_opinion">
+<span class="sig-name descname"><span class="pre">set_agent_opinion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opinion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyseldonlib.__init__.Deffuant_Model.set_agent_opinion" title="Link to this definition">#</a></dt>
+<dd><p>Set the opinion of a specific agent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – The index of the agent whose opinion is to be set.</p></li>
+<li><p><strong>opinion</strong> (<em>float</em>) – The new opinion value for the agent.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Deffuant_Vector_Model">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyseldonlib.__init__.</span></span><span class="sig-name descname"><span class="pre">Deffuant_Vector_Model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_iterations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">homophily_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_network</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng_seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agent_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyseldonlib.__init__.Other_Settings" title="pyseldonlib._othersettings.Other_Settings"><span class="pre">Other_Settings</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyseldonlib/DeffuantVectorModel.html#Deffuant_Vector_Model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyseldonlib.__init__.Deffuant_Vector_Model" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Base_Model</span></code></p>
+<p>Deffuant Vector Model base class for Simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>max_iterations</strong> (<em>int</em><em>, </em><em>default=None</em>) – The maximum number of iterations to run the simulation. If None, the simulation runs infinitely.</p></li>
+<li><p><strong>homophily_threshold</strong> (<em>float</em><em>, </em><em>default=0.2</em>) – The threshold for homophily. If the difference in opinions between two agents is less than this value, they interact.</p></li>
+<li><p><strong>mu</strong> (<em>float</em><em>, </em><em>default=0.5</em>) – The convergence rate of the agents.</p></li>
+<li><p><strong>use_network</strong> (<em>bool</em><em>, </em><em>default=False</em>) – For using a square lattice network. Will throw if sqrt(n_agents) is not an integer.</p></li>
+<li><p><strong>dim</strong> (<em>int</em><em>, </em><em>default=1</em>) – For the multi-dimensional binary vector Deffuant model, define the number of dimensions in each opinion vector</p></li>
+<li><p><strong>rng_seed</strong> (<em>int</em><em>, </em><em>default=None</em>) – The seed for the random number generator. If not provided, a random seed is picked.</p></li>
+<li><p><strong>agent_file</strong> (<em>str</em><em>, </em><em>default=None</em>) – The file to read the agents from. If None, the agents are generated randomly.</p></li>
+<li><p><strong>network_file</strong> (<em>str</em><em>, </em><em>default=None</em>) – The file to read the network from. If None, the network is generated randomly</p></li>
+<li><p><strong>other_settings</strong> (<a class="reference internal" href="#pyseldonlib.__init__.Other_Settings" title="pyseldonlib.__init__.Other_Settings"><em>Other_Settings</em></a><em>, </em><em>default=None</em>) – The other settings for the simulation. If None, the default settings are used.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Deffuant_Vector_Model.Network">
+<span class="sig-name descname"><span class="pre">Network</span></span><a class="headerlink" href="#pyseldonlib.__init__.Deffuant_Vector_Model.Network" title="Link to this definition">#</a></dt>
+<dd><p>The network generated by the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyseldonlib.__init__.Network" title="pyseldonlib.__init__.Network">Network</a> (Object)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Deffuant_Vector_Model.Opinion">
+<span class="sig-name descname"><span class="pre">Opinion</span></span><a class="headerlink" href="#pyseldonlib.__init__.Deffuant_Vector_Model.Opinion" title="Link to this definition">#</a></dt>
+<dd><p>The opinions of the agents or nodes of the network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="id3">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Network</span></span><a class="headerlink" href="#id3" title="Link to this definition">#</a></dt>
+<dd><p>Access the network generated by the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The network generated by the simulation.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>seldoncore.Network</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Deffuant_Vector_Model.agent_opinion">
+<span class="sig-name descname"><span class="pre">agent_opinion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyseldonlib.__init__.Deffuant_Vector_Model.agent_opinion" title="Link to this definition">#</a></dt>
+<dd><p>Access the agents data from the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – The index of the agent to access. The index is 0-based. If not provided, all agents are returned.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Deffuant_Vector_Model.print_settings">
+<span class="sig-name descname"><span class="pre">print_settings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyseldonlib.__init__.Deffuant_Vector_Model.print_settings" title="Link to this definition">#</a></dt>
+<dd><p>Print the settings of the simulation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Deffuant_Vector_Model.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyseldonlib.__init__.Deffuant_Vector_Model.run" title="Link to this definition">#</a></dt>
+<dd><p>Run the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>output_dir</strong> (<em>str</em><em>, </em><em>default=&quot;./output&quot;</em>) – The directory to output the files to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Deffuant_Vector_Model.set_agent_opinion">
+<span class="sig-name descname"><span class="pre">set_agent_opinion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opinion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyseldonlib.__init__.Deffuant_Vector_Model.set_agent_opinion" title="Link to this definition">#</a></dt>
+<dd><p>Set the opinion of a specific agent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – The index of the agent whose opinion is to be set.</p></li>
+<li><p><strong>opinion</strong> (<em>float</em>) – The new opinion value for the agent.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Inertial_Model">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyseldonlib.__init__.</span></span><span class="sig-name descname"><span class="pre">Inertial_Model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_iterations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">homophily</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reciprocity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">K</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean_activities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean_weights</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_bots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bot_m</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bot_activity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bot_opinion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bot_homophily</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_reluctances</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reluctance_mean</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reluctance_sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reluctance_eps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariance_factor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">friction_coefficient</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng_seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agent_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyseldonlib.__init__.Other_Settings" title="pyseldonlib._othersettings.Other_Settings"><span class="pre">Other_Settings</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyseldonlib/InertialModel.html#Inertial_Model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyseldonlib.__init__.Inertial_Model" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="activitydriven.html#pyseldonlib.ActivityDrivenModel.Activity_Driven_Model" title="pyseldonlib.ActivityDrivenModel.Activity_Driven_Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Activity_Driven_Model</span></code></a></p>
+<p>Inertial Model base class for Simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>max_iterations</strong> (<em>int</em><em>, </em><em>default=None</em>) – The maximum number of iterations to run the simulation. If None, the simulation runs infinitely.</p></li>
+<li><p><strong>dt</strong> (<em>float</em><em>, </em><em>default=0.01</em>) – The time step for the simulation.</p></li>
+<li><p><strong>m</strong> (<em>int</em><em>, </em><em>default=10</em>) – Number of agents contacted, when the agent is active.</p></li>
+<li><p><strong>eps</strong> (<em>float</em><em>, </em><em>default=0.01</em>) – The minimum activity epsilon.</p></li>
+<li><p><strong>gamma</strong> (<em>float</em><em>, </em><em>default=2.1</em>) – Exponent of activity power law distribution of activities.</p></li>
+<li><p><strong>alpha</strong> (<em>float default=3.0</em>) – Controversialness of the issue, must be greater than 0.</p></li>
+<li><p><strong>homophily</strong> (<em>float</em><em>, </em><em>default=0.5</em>) – <p>The extent to which similar agents interact with similar other.
+Example: If 0.0, agents pick their interaction partners at random.</p>
+<blockquote>
+<div><p>If 1.0, agents interact only with agents of the same opinion.</p>
+</div></blockquote>
+</p></li>
+<li><p><strong>reciprocity</strong> (<em>float</em><em>, </em><em>default=0.5</em>) – <p>The extent to which agents reciprocate interactions.
+Example: If 0.0, agents do not reciprocate interactions.</p>
+<blockquote>
+<div><p>If 1.0, agents reciprocate all interactions.</p>
+</div></blockquote>
+</p></li>
+<li><p><strong>K</strong> (<em>float</em><em>, </em><em>default=3.0</em>) – Social interaction strength.</p></li>
+<li><p><strong>mean_activities</strong> (<em>bool</em><em>, </em><em>default=False</em>) – Whether use the mean value of the powerlaw distribution for the activities of all agents.</p></li>
+<li><p><strong>mean_weights</strong> (<em>bool</em><em>, </em><em>default=False</em>) – Whether use the meanfield approximation of the network edges, by default is False.</p></li>
+<li><p><strong>n_bots</strong> (<em>int</em><em>, </em><em>default=0</em>) – Number of bots in the simulation.</p></li>
+<li><p><strong>note::</strong> (<em>..</em>) – Bots are agents that are not influenced by the opinions of other agents, but they can influence the opinions of other agents. So they have fixed opinions and different parameters, the parameters are specified in the following lists.</p></li>
+<li><p><strong>bot_m</strong> (<em>list</em><em>[</em><em>int</em><em>]</em><em>, </em><em>default=</em><em>[</em><em>]</em>) – Value of m for the bots, If not specified, defaults to <cite>m</cite>.</p></li>
+<li><p><strong>bot_activity</strong> (<em>list</em><em>[</em><em>float</em><em>]</em><em>, </em><em>default=</em><em>[</em><em>]</em><em>,</em>) – The list of bot activities, If not specified, defaults to 0.</p></li>
+<li><p><strong>bot_opinion</strong> (<em>list</em><em>[</em><em>float</em><em>]</em><em>, </em><em>default=</em><em>[</em><em>]</em>) – The fixed opinions of the bots.</p></li>
+<li><p><strong>bot_homophily</strong> (<em>list</em><em>[</em><em>float</em><em>]</em><em>, </em><em>default=</em><em>[</em><em>]</em>) – The list of bot homophily, If not specified, defaults to <cite>homophily</cite>.</p></li>
+<li><p><strong>use_reluctances</strong> (<em>int</em><em>, </em><em>default=False</em>) – Whether use reluctances, by default is False and every agent has a reluctance of 1.</p></li>
+<li><p><strong>reluctance_mean</strong> (<em>float</em><em>, </em><em>default=1.0</em>) – Mean of distribution before drawing from a truncated normal distribution.</p></li>
+<li><p><strong>reluctance_sigma</strong> (<em>float</em><em>, </em><em>default=0.25</em>) – Width of normal distribution (before truncating).</p></li>
+<li><p><strong>reluctance_eps</strong> (<em>float</em><em>, </em><em>default=0.01</em>) – Minimum such that the normal distribution is truncated at this value.</p></li>
+<li><p><strong>covariance_factor</strong> (<em>float</em><em>, </em><em>default=0.0</em>) – Covariance Factor, defines the correlation between reluctances and activities.</p></li>
+<li><p><strong>rng_seed</strong> (<em>int</em><em>, </em><em>default=None</em>) – The seed for the random number generator. If not provided, a random seed is picked.</p></li>
+<li><p><strong>agent_file</strong> (<em>str</em><em>, </em><em>default=None</em>) – The file to read the agents from. If None, the agents are generated randomly.</p></li>
+<li><p><strong>network_file</strong> (<em>str</em><em>, </em><em>default=None</em>) – The file to read the network from. If None, the network is generated randomly</p></li>
+<li><p><strong>other_settings</strong> (<a class="reference internal" href="#pyseldonlib.__init__.Other_Settings" title="pyseldonlib.__init__.Other_Settings"><em>Other_Settings</em></a><em>, </em><em>default=None</em>) – The other settings for the simulation. If None, the default settings are used.</p></li>
+<li><p><strong>friction_coefficient</strong> (<em>float</em><em>, </em><em>default=1.0</em>) – The friction coefficient for the inertial model.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Inertial_Model.Network">
+<span class="sig-name descname"><span class="pre">Network</span></span><a class="headerlink" href="#pyseldonlib.__init__.Inertial_Model.Network" title="Link to this definition">#</a></dt>
+<dd><p>The network generated by the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyseldonlib.__init__.Network" title="pyseldonlib.__init__.Network">Network</a> (Object)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Inertial_Model.Opinion">
+<span class="sig-name descname"><span class="pre">Opinion</span></span><a class="headerlink" href="#pyseldonlib.__init__.Inertial_Model.Opinion" title="Link to this definition">#</a></dt>
+<dd><p>The opinions of the agents or nodes of the network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Inertial_Model.Activity">
+<span class="sig-name descname"><span class="pre">Activity</span></span><a class="headerlink" href="#pyseldonlib.__init__.Inertial_Model.Activity" title="Link to this definition">#</a></dt>
+<dd><p>The activity of the agents or nodes of the network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Inertial_Model.Reluctance">
+<span class="sig-name descname"><span class="pre">Reluctance</span></span><a class="headerlink" href="#pyseldonlib.__init__.Inertial_Model.Reluctance" title="Link to this definition">#</a></dt>
+<dd><p>The reluctance of the agents or nodes of the network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="id4">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Network</span></span><a class="headerlink" href="#id4" title="Link to this definition">#</a></dt>
+<dd><p>Access the network generated by the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The network generated by the simulation.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>seldoncore.Network</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Inertial_Model.agent_activity">
+<span class="sig-name descname"><span class="pre">agent_activity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyseldonlib.__init__.Inertial_Model.agent_activity" title="Link to this definition">#</a></dt>
+<dd><p>Access the agents activity data from the simulated network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – The index of the agent to access. The index is 0-based. If not provided, all agents are returned.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Inertial_Model.agent_opinion">
+<span class="sig-name descname"><span class="pre">agent_opinion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyseldonlib.__init__.Inertial_Model.agent_opinion" title="Link to this definition">#</a></dt>
+<dd><p>Access the agents data from the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – The index of the agent to access. The index is 0-based. If not provided, all agents are returned.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Inertial_Model.agent_reluctance">
+<span class="sig-name descname"><span class="pre">agent_reluctance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyseldonlib.__init__.Inertial_Model.agent_reluctance" title="Link to this definition">#</a></dt>
+<dd><p>Access the agents reluctance data from the simulated network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – The index of the agent to access. The index is 0-based. If not provided, all agents are returned.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Inertial_Model.agent_velocity">
+<span class="sig-name descname"><span class="pre">agent_velocity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyseldonlib/InertialModel.html#Inertial_Model.agent_velocity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyseldonlib.__init__.Inertial_Model.agent_velocity" title="Link to this definition">#</a></dt>
+<dd><p>Access the agents reluctance data from the simulated network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – The index of the agent to access. The index is 0-based. If not provided, all agents are returned.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Inertial_Model.print_settings">
+<span class="sig-name descname"><span class="pre">print_settings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyseldonlib.__init__.Inertial_Model.print_settings" title="Link to this definition">#</a></dt>
+<dd><p>Print the settings of the simulation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Inertial_Model.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyseldonlib.__init__.Inertial_Model.run" title="Link to this definition">#</a></dt>
+<dd><p>Run the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>output_dir</strong> (<em>str</em><em>, </em><em>default=&quot;./output&quot;</em>) – The directory to output the files to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Inertial_Model.set_agent_activity">
+<span class="sig-name descname"><span class="pre">set_agent_activity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyseldonlib.__init__.Inertial_Model.set_agent_activity" title="Link to this definition">#</a></dt>
+<dd><p>Set the activity of a specific agent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – The index of the agent whose opinion is to be set.</p></li>
+<li><p><strong>activity</strong> (<em>float</em>) – The new activity value for the agent.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Inertial_Model.set_agent_opinion">
+<span class="sig-name descname"><span class="pre">set_agent_opinion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opinion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyseldonlib.__init__.Inertial_Model.set_agent_opinion" title="Link to this definition">#</a></dt>
+<dd><p>Set the opinion of a specific agent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – The index of the agent whose opinion is to be set.</p></li>
+<li><p><strong>opinion</strong> (<em>float</em>) – The new opinion value for the agent.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Inertial_Model.set_agent_reluctance">
+<span class="sig-name descname"><span class="pre">set_agent_reluctance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reluctance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyseldonlib.__init__.Inertial_Model.set_agent_reluctance" title="Link to this definition">#</a></dt>
+<dd><p>Set the reluctance of a specific agent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – The index of the agent whose opinion is to be set.</p></li>
+<li><p><strong>reluctance</strong> (<em>float</em>) – The new reluctance value for the agent.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Inertial_Model.set_agent_velocity">
+<span class="sig-name descname"><span class="pre">set_agent_velocity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">velocity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyseldonlib/InertialModel.html#Inertial_Model.set_agent_velocity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyseldonlib.__init__.Inertial_Model.set_agent_velocity" title="Link to this definition">#</a></dt>
+<dd><p>Set the velocity of a specific agent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – The index of the agent whose opinion is to be set.</p></li>
+<li><p><strong>velocity</strong> (<em>float</em>) – The new velocity value for the agent.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Network">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyseldonlib.__init__.</span></span><span class="sig-name descname"><span class="pre">Network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_string</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_agents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neighbour_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Incoming'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyseldonlib/network.html#Network"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyseldonlib.__init__.Network" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py property">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Network.clear">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">clear</span></span><a class="headerlink" href="#pyseldonlib.__init__.Network.clear" title="Link to this definition">#</a></dt>
+<dd><p>Clears the network.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Network.get_direction">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_direction</span></span><a class="headerlink" href="#pyseldonlib.__init__.Network.get_direction" title="Link to this definition">#</a></dt>
+<dd><p>The direction of the network.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Network.get_neighbours">
+<span class="sig-name descname"><span class="pre">get_neighbours</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyseldonlib/network.html#Network.get_neighbours"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyseldonlib.__init__.Network.get_neighbours" title="Link to this definition">#</a></dt>
+<dd><p>The neighbours of the node/agent in the network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – The index of the agent.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Network.get_weights">
+<span class="sig-name descname"><span class="pre">get_weights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyseldonlib/network.html#Network.get_weights"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyseldonlib.__init__.Network.get_weights" title="Link to this definition">#</a></dt>
+<dd><p>The weights of the agent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – The index of the agent.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Network.n_agents">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n_agents</span></span><a class="headerlink" href="#pyseldonlib.__init__.Network.n_agents" title="Link to this definition">#</a></dt>
+<dd><p>The number of nodes/agents in the network.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Network.n_edges">
+<span class="sig-name descname"><span class="pre">n_edges</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyseldonlib/network.html#Network.n_edges"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyseldonlib.__init__.Network.n_edges" title="Link to this definition">#</a></dt>
+<dd><p>The number of edges going out/coming in at <cite>agent_idx</cite> in the network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>agent_idx</strong> (<em>int</em>) – The index of the agent. If not provided, the total number of edges in the network is returned.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Network.push_back_neighbour_and_weight">
+<span class="sig-name descname"><span class="pre">push_back_neighbour_and_weight</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent_idx_i</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agent_idx_j</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyseldonlib/network.html#Network.push_back_neighbour_and_weight"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyseldonlib.__init__.Network.push_back_neighbour_and_weight" title="Link to this definition">#</a></dt>
+<dd><p>Adds an edge between agent_idx_i and agent_idx_j with weight w</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>agent_idx_i</strong> (<em>int</em>) – The index of the agent.</p></li>
+<li><p><strong>agent_idx_j</strong> (<em>int</em>) – The index of the agent.</p></li>
+<li><p><strong>weight</strong> (<em>float</em>) – The weight of the agent.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Network.remove_double_counting">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">remove_double_counting</span></span><a class="headerlink" href="#pyseldonlib.__init__.Network.remove_double_counting" title="Link to this definition">#</a></dt>
+<dd><p>Sorts the neighbours by index and removes doubly counted edges by summing the weights of the corresponding edges.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Network.set_neighbours_and_weights">
+<span class="sig-name descname"><span class="pre">set_neighbours_and_weights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buffer_neighbours</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyseldonlib/network.html#Network.set_neighbours_and_weights"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyseldonlib.__init__.Network.set_neighbours_and_weights" title="Link to this definition">#</a></dt>
+<dd><p>Sets the neighbour indices and sets the weight to a constant value at agent_idx in the network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>agent_idx</strong> (<em>int</em>) – The index of the agent.</p></li>
+<li><p><strong>buffer_neighbours</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – The list of neighbours.</p></li>
+<li><p><strong>weight</strong> (<em>float</em>) – The weight of the agent.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Network.set_weights">
+<span class="sig-name descname"><span class="pre">set_weights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyseldonlib/network.html#Network.set_weights"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyseldonlib.__init__.Network.set_weights" title="Link to this definition">#</a></dt>
+<dd><p>Set the weights of the agent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – The index of the agent.</p></li>
+<li><p><strong>weights</strong> (<em>list</em><em>[</em><em>float</em><em>]</em>) – The weights of the agent.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Network.strongly_connected_components">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">strongly_connected_components</span></span><a class="headerlink" href="#pyseldonlib.__init__.Network.strongly_connected_components" title="Link to this definition">#</a></dt>
+<dd><p>The strongly connected components of the network.</p>
+<dl class="simple">
+<dt>Returns</dt><dd><p>list: The strongly connected components of the network.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Network.switch_direction_flag">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">switch_direction_flag</span></span><a class="headerlink" href="#pyseldonlib.__init__.Network.switch_direction_flag" title="Link to this definition">#</a></dt>
+<dd><p>Only switches the direction flag. This effectively transposes the network and, simultaneously, changes its representation.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Network.toggle_incoming_outgoing">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">toggle_incoming_outgoing</span></span><a class="headerlink" href="#pyseldonlib.__init__.Network.toggle_incoming_outgoing" title="Link to this definition">#</a></dt>
+<dd><p>Switches the direction flag <em>without</em> transposing the network (expensive)</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Network.transpose">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">transpose</span></span><a class="headerlink" href="#pyseldonlib.__init__.Network.transpose" title="Link to this definition">#</a></dt>
+<dd><p>Transposes the network, without switching the direction flag (expensive).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.Other_Settings">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyseldonlib.__init__.</span></span><span class="sig-name descname"><span class="pre">Other_Settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_output_agents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_output_network</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_progress</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_initial</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_numbering_from</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_agents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connections_per_agent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyseldonlib/_othersettings.html#Other_Settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyseldonlib.__init__.Other_Settings" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>All other settings for the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_output_agents</strong> (<em>int</em><em>, </em><em>default=None</em>) – Write out the agents every n iterations.</p></li>
+<li><p><strong>n_output_network</strong> (<em>int</em><em>, </em><em>default=None</em>) – Write out the network every n iterations.</p></li>
+<li><p><strong>print_progress</strong> (<em>bool</em><em>, </em><em>default=False</em>) – Print the progress of the simulation.</p></li>
+<li><p><strong>output_initial</strong> (<em>bool</em><em>, </em><em>default=True</em>) – Output initial opinions and network.</p></li>
+<li><p><strong>start_output</strong> (<em>int</em><em>, </em><em>default=1</em>) – Start printing opinion and/or network files from this iteration number.</p></li>
+<li><p><strong>start_numbering_from</strong> (<em>int</em><em>, </em><em>default=0</em>) – The initial step number, before the simulation runs, is this value. The first step would be (1+start_numbering_from).</p></li>
+<li><p><strong>number_of_agents</strong> (<em>int</em><em>, </em><em>default=200</em>) – The number of agents in the network.</p></li>
+<li><p><strong>connections_per_agent</strong> (<em>int</em><em>, </em><em>default=10</em>) – The number of connections per agent.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.parse_config_file">
+<span class="sig-prename descclassname"><span class="pre">pyseldonlib.__init__.</span></span><span class="sig-name descname"><span class="pre">parse_config_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyseldonlib/_run_simulation.html#parse_config_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyseldonlib.__init__.parse_config_file" title="Link to this definition">#</a></dt>
+<dd><p>Parse the toml file and create the simulation options object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<em>str</em>) – The path to the toml file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Simulation</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The simulation object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.run_simulation_from_config_file">
+<span class="sig-prename descclassname"><span class="pre">pyseldonlib.__init__.</span></span><span class="sig-name descname"><span class="pre">run_simulation_from_config_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agent_file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network_file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyseldonlib/_run_simulation.html#run_simulation_from_config_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyseldonlib.__init__.run_simulation_from_config_file" title="Link to this definition">#</a></dt>
+<dd><p>Run the simulation using the configuration(toml) file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config_file_path</strong> (<em>str</em>) – The path to the configuration(toml) file.</p></li>
+<li><p><strong>agent_file_path</strong> (<em>str</em><em>, </em><em>optional</em>) – The path to the agent file.</p></li>
+<li><p><strong>network_file_path</strong> (<em>str</em><em>, </em><em>optional</em>) – The path to the network file.</p></li>
+<li><p><strong>output_dir_path</strong> (<em>str</em><em>, </em><em>deafult=&quot;./output&quot;</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyseldonlib.__init__.run_simulation_from_options">
+<span class="sig-prename descclassname"><span class="pre">pyseldonlib.__init__.</span></span><span class="sig-name descname"><span class="pre">run_simulation_from_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agent_file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network_file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyseldonlib/_run_simulation.html#run_simulation_from_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyseldonlib.__init__.run_simulation_from_options" title="Link to this definition">#</a></dt>
+<dd><p>Run the simulation using the simulation options object.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The options object must be created using the SimulationOptions class.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>options</strong> (<em>object</em>) – The simulation options object.</p></li>
+<li><p><strong>agent_file_path</strong> (<em>str</em><em>, </em><em>optional</em>) – The path to the agent file.</p></li>
+<li><p><strong>network_file_path</strong> (<em>str</em><em>, </em><em>optional</em>) – The path to the network file.</p></li>
+<li><p><strong>output_dir_path</strong> (<em>str</em><em>, </em><em>optional</em>) – The path to the output directory.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="util.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">util</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../../examples/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Examples</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Activity_Driven_Model"><code class="docutils literal notranslate"><span class="pre">Activity_Driven_Model</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Activity_Driven_Model.Network"><code class="docutils literal notranslate"><span class="pre">Activity_Driven_Model.Network</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Activity_Driven_Model.Opinion"><code class="docutils literal notranslate"><span class="pre">Activity_Driven_Model.Opinion</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id0"><code class="docutils literal notranslate"><span class="pre">Activity_Driven_Model.Network</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Activity_Driven_Model.agent_activity"><code class="docutils literal notranslate"><span class="pre">Activity_Driven_Model.agent_activity()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Activity_Driven_Model.agent_opinion"><code class="docutils literal notranslate"><span class="pre">Activity_Driven_Model.agent_opinion()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Activity_Driven_Model.agent_reluctance"><code class="docutils literal notranslate"><span class="pre">Activity_Driven_Model.agent_reluctance()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Activity_Driven_Model.print_settings"><code class="docutils literal notranslate"><span class="pre">Activity_Driven_Model.print_settings()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Activity_Driven_Model.run"><code class="docutils literal notranslate"><span class="pre">Activity_Driven_Model.run()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Activity_Driven_Model.set_agent_activity"><code class="docutils literal notranslate"><span class="pre">Activity_Driven_Model.set_agent_activity()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Activity_Driven_Model.set_agent_opinion"><code class="docutils literal notranslate"><span class="pre">Activity_Driven_Model.set_agent_opinion()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Activity_Driven_Model.set_agent_reluctance"><code class="docutils literal notranslate"><span class="pre">Activity_Driven_Model.set_agent_reluctance()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.DeGroot_Model"><code class="docutils literal notranslate"><span class="pre">DeGroot_Model</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.DeGroot_Model.Network"><code class="docutils literal notranslate"><span class="pre">DeGroot_Model.Network</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.DeGroot_Model.Opinion"><code class="docutils literal notranslate"><span class="pre">DeGroot_Model.Opinion</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"><code class="docutils literal notranslate"><span class="pre">DeGroot_Model.Network</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.DeGroot_Model.agent_opinion"><code class="docutils literal notranslate"><span class="pre">DeGroot_Model.agent_opinion()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.DeGroot_Model.print_settings"><code class="docutils literal notranslate"><span class="pre">DeGroot_Model.print_settings()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.DeGroot_Model.run"><code class="docutils literal notranslate"><span class="pre">DeGroot_Model.run()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.DeGroot_Model.set_agent_opinion"><code class="docutils literal notranslate"><span class="pre">DeGroot_Model.set_agent_opinion()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Deffuant_Model"><code class="docutils literal notranslate"><span class="pre">Deffuant_Model</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Deffuant_Model.Network"><code class="docutils literal notranslate"><span class="pre">Deffuant_Model.Network</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Deffuant_Model.Opinion"><code class="docutils literal notranslate"><span class="pre">Deffuant_Model.Opinion</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2"><code class="docutils literal notranslate"><span class="pre">Deffuant_Model.Network</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Deffuant_Model.agent_opinion"><code class="docutils literal notranslate"><span class="pre">Deffuant_Model.agent_opinion()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Deffuant_Model.print_settings"><code class="docutils literal notranslate"><span class="pre">Deffuant_Model.print_settings()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Deffuant_Model.run"><code class="docutils literal notranslate"><span class="pre">Deffuant_Model.run()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Deffuant_Model.set_agent_opinion"><code class="docutils literal notranslate"><span class="pre">Deffuant_Model.set_agent_opinion()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Deffuant_Vector_Model"><code class="docutils literal notranslate"><span class="pre">Deffuant_Vector_Model</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Deffuant_Vector_Model.Network"><code class="docutils literal notranslate"><span class="pre">Deffuant_Vector_Model.Network</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Deffuant_Vector_Model.Opinion"><code class="docutils literal notranslate"><span class="pre">Deffuant_Vector_Model.Opinion</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3"><code class="docutils literal notranslate"><span class="pre">Deffuant_Vector_Model.Network</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Deffuant_Vector_Model.agent_opinion"><code class="docutils literal notranslate"><span class="pre">Deffuant_Vector_Model.agent_opinion()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Deffuant_Vector_Model.print_settings"><code class="docutils literal notranslate"><span class="pre">Deffuant_Vector_Model.print_settings()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Deffuant_Vector_Model.run"><code class="docutils literal notranslate"><span class="pre">Deffuant_Vector_Model.run()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Deffuant_Vector_Model.set_agent_opinion"><code class="docutils literal notranslate"><span class="pre">Deffuant_Vector_Model.set_agent_opinion()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Inertial_Model"><code class="docutils literal notranslate"><span class="pre">Inertial_Model</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Inertial_Model.Network"><code class="docutils literal notranslate"><span class="pre">Inertial_Model.Network</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Inertial_Model.Opinion"><code class="docutils literal notranslate"><span class="pre">Inertial_Model.Opinion</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Inertial_Model.Activity"><code class="docutils literal notranslate"><span class="pre">Inertial_Model.Activity</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Inertial_Model.Reluctance"><code class="docutils literal notranslate"><span class="pre">Inertial_Model.Reluctance</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4"><code class="docutils literal notranslate"><span class="pre">Inertial_Model.Network</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Inertial_Model.agent_activity"><code class="docutils literal notranslate"><span class="pre">Inertial_Model.agent_activity()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Inertial_Model.agent_opinion"><code class="docutils literal notranslate"><span class="pre">Inertial_Model.agent_opinion()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Inertial_Model.agent_reluctance"><code class="docutils literal notranslate"><span class="pre">Inertial_Model.agent_reluctance()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Inertial_Model.agent_velocity"><code class="docutils literal notranslate"><span class="pre">Inertial_Model.agent_velocity()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Inertial_Model.print_settings"><code class="docutils literal notranslate"><span class="pre">Inertial_Model.print_settings()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Inertial_Model.run"><code class="docutils literal notranslate"><span class="pre">Inertial_Model.run()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Inertial_Model.set_agent_activity"><code class="docutils literal notranslate"><span class="pre">Inertial_Model.set_agent_activity()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Inertial_Model.set_agent_opinion"><code class="docutils literal notranslate"><span class="pre">Inertial_Model.set_agent_opinion()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Inertial_Model.set_agent_reluctance"><code class="docutils literal notranslate"><span class="pre">Inertial_Model.set_agent_reluctance()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Inertial_Model.set_agent_velocity"><code class="docutils literal notranslate"><span class="pre">Inertial_Model.set_agent_velocity()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Network"><code class="docutils literal notranslate"><span class="pre">Network</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Network.clear"><code class="docutils literal notranslate"><span class="pre">Network.clear</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Network.get_direction"><code class="docutils literal notranslate"><span class="pre">Network.get_direction</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Network.get_neighbours"><code class="docutils literal notranslate"><span class="pre">Network.get_neighbours()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Network.get_weights"><code class="docutils literal notranslate"><span class="pre">Network.get_weights()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Network.n_agents"><code class="docutils literal notranslate"><span class="pre">Network.n_agents</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Network.n_edges"><code class="docutils literal notranslate"><span class="pre">Network.n_edges()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Network.push_back_neighbour_and_weight"><code class="docutils literal notranslate"><span class="pre">Network.push_back_neighbour_and_weight()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Network.remove_double_counting"><code class="docutils literal notranslate"><span class="pre">Network.remove_double_counting</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Network.set_neighbours_and_weights"><code class="docutils literal notranslate"><span class="pre">Network.set_neighbours_and_weights()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Network.set_weights"><code class="docutils literal notranslate"><span class="pre">Network.set_weights()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Network.strongly_connected_components"><code class="docutils literal notranslate"><span class="pre">Network.strongly_connected_components</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Network.switch_direction_flag"><code class="docutils literal notranslate"><span class="pre">Network.switch_direction_flag</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Network.toggle_incoming_outgoing"><code class="docutils literal notranslate"><span class="pre">Network.toggle_incoming_outgoing</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Network.transpose"><code class="docutils literal notranslate"><span class="pre">Network.transpose</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.Other_Settings"><code class="docutils literal notranslate"><span class="pre">Other_Settings</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.parse_config_file"><code class="docutils literal notranslate"><span class="pre">parse_config_file()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.run_simulation_from_config_file"><code class="docutils literal notranslate"><span class="pre">run_simulation_from_config_file()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pyseldonlib.__init__.run_simulation_from_options"><code class="docutils literal notranslate"><span class="pre">run_simulation_from_options()</span></code></a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../../_sources/source/reference/packagereference.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, PySeldon Developers.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.0.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
