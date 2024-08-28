@@ -9,7 +9,7 @@ This work is a part of Google Summer of Code 2024 under the Python Software Orga
 The DeGroot model is a model of social influence. It describes how agents in a network can reach a consensus by updating their opinions based on the opinions of their neighbors. The DeGroot model is a simple model of social influence that has been studied extensively in the literature. It is used to model a wide range of social phenomena, such as the spread of information, the formation of opinions, and the emergence of social norms.
 
 And here is the example of reaching consensus in a network using the DeGroot model.
-We will create a network of 20 agents with random opinions and random connections between them. We will then conduct the simulation. as can be seen in the notebook file [here](./examples/ouput_20_agents_10_connections_each/degrootmodel.ipynb).
+We will create a network of 20 agents with random opinions and random connections between them. We will then conduct the simulation. As can be seen in this file [here](./visualisations/ouput_20_agents_10_connections_each/degrootmodel.py).
 
 Initial opinions of the agents in the network in the range of [0,1] are shown below:
 ![initial opinions](https://github.com/User-DK/pyseldon/raw/main/visualisations/ouput_20_agents_10_connections_each/initial.png)
@@ -32,7 +32,7 @@ Create a new `micromamba` environment and activate it:
 micromamba create -f environment.yml
 micromamba activate pyseldonenv
 ```
-If you get problem with micromamba can look at the installation documentation [here](https://mamba.readthedocs.io/en/latest/installation/micromamba-installation.html)
+Look at the installation documentation [here](https://mamba.readthedocs.io/en/latest/installation/micromamba-installation.html)
 
 ### Build
 Set up the build directory with `meson`:
