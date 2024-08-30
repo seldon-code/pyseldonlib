@@ -1,6 +1,6 @@
-.. image:: ../res/PySeldon_1.svg
+.. image:: ../res/PySeldon.svg
    :align: left
-   :width: 800px
+   :width: 100%
    :alt: PySeldonlib
 
 PySeldonlib Documentation
